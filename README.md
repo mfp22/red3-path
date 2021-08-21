@@ -6,3 +6,4 @@ Voronoi One Way
 
 #### References, credits, links
 
+* [Paper.js Voronoi](http://paperjs.org/examples/voronoi)
