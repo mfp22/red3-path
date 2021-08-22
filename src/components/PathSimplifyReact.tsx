@@ -31,13 +31,20 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     });
 
     function buildPath() {
+        console.log('points', points);
+        console.log('points after', simplifyPath(points));
+
+        if (points.length > 1) {
+            return simplifyPath(points);
+        }
+
         return '';
     }
 
     return (
         <div>
             <svg {...bind()} width={200} height={200} className="bg-purple-300">
-                <path d={buildPath()} />
+                <path fill="none" stroke="red" d={buildPath()} />
             </svg>
         </div>
     );
