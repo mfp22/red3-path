@@ -11,15 +11,21 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const [points, setPoints] = React.useState<[number, number][]>([]);
 
     const bind = useDrag((event) => {
-        
+        //console.log('event', event);
+
+        if (event.event.type === 'pointerdown') {
+            console.log('pointerdown', event);
+        }
+
         if (event.dragging) {
             // console.log('pts', points);
-            console.log('down', event);
+            console.log('drag', event);
             let pt = event.xy;
             setPoints(prev => [...prev, pt]);
 
         }
-        else if (event.event.type === 'pointerup') {
+
+        if (event.event.type === 'pointerup') {
             console.log('up', event);
         }
     });
