@@ -14,15 +14,13 @@ const draw1 = () => {
         myPath.strokeWidth = 3;
     };
 
+    paper.view.onMouseUp = (event: paper.MouseEvent) => {
+        myPath.simplify(10);
+        myPath.selected = true;
+    };
+
     paper.view.onMouseDrag = (event: paper.MouseEvent) => {
-        let seg = myPath.add(event.point) as paper.Segment;
-        seg.selected = true;
-
-        if (myPath.segments.length > 20) {
-            myPath.simplify();
-
-            console.log('myPath', myPath);
-        }
+        myPath.add(event.point);
     };
 };
 
@@ -35,7 +33,7 @@ const VoronoiPaper: React.FC<VoronoiPaperProps> = () => {
     }, []);
     return (
         <div>
-            <canvas ref={canvasRef} className="bg-pink-300">B</canvas>
+            <canvas width={300} height={300} ref={canvasRef} className="bg-pink-300">B</canvas>
         </div>
     );
 };
