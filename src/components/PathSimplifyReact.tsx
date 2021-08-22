@@ -1,39 +1,41 @@
 import React, { useEffect, useRef } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import paper from 'paper';
+import simplifyPath from '@luncheon/simplify-svg-path';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
 }
 
-const draw1 = () => {
-    let myPath: paper.Path = new paper.Path();
-
-    paper.view.onMouseDown = (event: paper.MouseEvent) => {
-        myPath.strokeColor = new paper.Color("white");
-        myPath.strokeWidth = 3;
-    };
-
-    paper.view.onMouseUp = (event: paper.MouseEvent) => {
-        myPath.simplify(10);
-        myPath.selected = true;
-    };
-
-    paper.view.onMouseDrag = (event: paper.MouseEvent) => {
-        myPath.add(event.point);
-    };
-};
-
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
     useEffect(() => {
         if (!canvasRef.current) { return; }
-        paper.setup(canvasRef.current);
-        draw1();
     }, []);
+
+    function onMouseDown(event: React.MouseEvent) {
+        console.log('down');
+
+    }
+
+    function onMouseMove(event: React.MouseEvent) {
+        console.log('drag');
+    }
+
+    function onMouseUp(event: React.MouseEvent) {
+        //simplifyPath   
+        console.log('up');
+    }
+
     return (
         <div>
-            <canvas width={300} height={300} ref={canvasRef} className="bg-pink-300">B</canvas>
+            <canvas
+                ref={canvasRef} width={300} height={300}
+                className="bg-purple-300"
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
+                onMouseMove={onMouseMove}
+            >B</canvas>
         </div>
     );
 };
