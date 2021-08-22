@@ -15,12 +15,15 @@ const draw1 = () => {
     };
 
     paper.view.onMouseDrag = (event: paper.MouseEvent) => {
-        console.log('ev', event);
-        
-        myPath.add(event.point);
-    };
+        let seg = myPath.add(event.point) as paper.Segment;
+        seg.selected = true;
 
-    //paper.view.draw();
+        if (myPath.segments.length > 20) {
+            myPath.simplify();
+
+            console.log('myPath', myPath);
+        }
+    };
 };
 
 const VoronoiPaper: React.FC<VoronoiPaperProps> = () => {
