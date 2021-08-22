@@ -1,41 +1,38 @@
 import React, { useEffect, useRef } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import simplifyPath from '@luncheon/simplify-svg-path';
+import { useDrag } from 'react-use-gesture';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
 }
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [points, setPoints] = React.useState<[number, number][]>([]);
 
-    useEffect(() => {
-        if (!canvasRef.current) { return; }
-    }, []);
+    const bind = useDrag((event) => {
+        
+        if (event.dragging) {
+            // console.log('pts', points);
+            console.log('down', event);
+            let pt = event.xy;
+            setPoints(prev => [...prev, pt]);
 
-    function onMouseDown(event: React.MouseEvent) {
-        console.log('down');
+        }
+        else if (event.event.type === 'pointerup') {
+            console.log('up', event);
+        }
+    });
 
-    }
-
-    function onMouseMove(event: React.MouseEvent) {
-        console.log('drag');
-    }
-
-    function onMouseUp(event: React.MouseEvent) {
-        //simplifyPath   
-        console.log('up');
+    function buildPath() {
+        return '';
     }
 
     return (
         <div>
-            <canvas
-                ref={canvasRef} width={300} height={300}
-                className="bg-purple-300"
-                onMouseDown={onMouseDown}
-                onMouseUp={onMouseUp}
-                onMouseMove={onMouseMove}
-            >B</canvas>
+            <svg {...bind()} width={200} height={200} className="bg-purple-300">
+                <path d={buildPath()} />
+            </svg>
         </div>
     );
 };
