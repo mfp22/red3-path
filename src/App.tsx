@@ -4,28 +4,28 @@ import { Link, RouteComponentProps, Router } from '@reach/router';
 
 function PageA(props: RouteComponentProps) {
     return (
-        <div className="bg-yellow-500">A</div>
+        <div className="bg-pink-200">A</div>
     );
 }
 
 function PageB(props: RouteComponentProps) {
     return (
-        <div className="">B</div>
+        <div className="bg-pink-300">B</div>
     );
 }
 
 function App() {
     return (
-        <div className="bg-purple-200">
-            <header className="h-64 bg-gray-200 m-4">
+        <div className="h-screen flex flex-col bg-purple-200">
+            <header className="flex-none bg-gray-200 p-2">
                 <div className="">
-                    <ul className="h-24 space-x-2 flex items-center">
-                        <li className=""><Link className="p-2 rounded bg-gray-50 border border-gray-300 shadow" to="/">Home</Link></li>
-                        <li className=""><Link className="p-2 rounded bg-gray-50 border border-gray-300 shadow" to="b">Page B</Link></li>
+                    <ul className="space-x-2 flex items-center">
+                        <li className=""><Link className="p-2 block rounded bg-gray-50 border border-gray-400 shadow" to="/">Home</Link></li>
+                        <li className=""><Link className="p-2 block rounded bg-gray-50 border border-gray-400 shadow" to="b">Page B</Link></li>
                     </ul>
                 </div>
             </header>
-            <Router>
+            <Router className="flex-1 bg-green-400">
                 <PageA path="/" />
                 <PageB path="b" />
             </Router>
