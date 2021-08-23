@@ -80,9 +80,9 @@ function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.
 interface PathSimplifyReactProps extends RouteComponentProps {
 }
 
-function ToogleButton({ children, pressed, onClick }: { children: React.ReactNode; pressed: boolean; onClick: () => void; }) {
+function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string }) {
     return (
-        <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-500' : 'bg-red-200'}`} onClick={onClick}>
+        <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-200' : ''}`} onClick={onClick} title={title}>
             {children}
         </div>
     );
@@ -112,12 +112,12 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
-        <div className="relative text-gray-700">
+        <div className="relative text-gray-700 select-none">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
                 <path fill="none" stroke="orange" strokeWidth={3} d={path} />
-                <RenderRawPoints pts={points} />
-                <RenderPoints pts={controlPoints.points} />
-                <RenderCptsSquares cpts={controlPoints.controls} />
+                {showRaw && <RenderRawPoints pts={points} />}
+                {showPts && <RenderPoints pts={controlPoints.points} />}
+                {showCtr && <RenderCptsSquares cpts={controlPoints.controls} />}
             </svg>
 
             {/* Controls */}
@@ -136,7 +136,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
                 <div className="flex space-x-1">
-                    <ToogleButton pressed={showRaw} onClick={() => setShowRaw(prev => !prev)}>
+                    <ToogleButton pressed={showRaw} onClick={() => setShowRaw(prev => !prev)} title="show raw points">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M14 7.1a8.3 8.3 0 016.3 7.8m-16.7-.1A8.3 8.3 0 0110 7.1" />
                             <path d="M14 6.9a1 1 0 010 .2 2 2 0 01-4 0 2 2 0 010-.2 2 2 0 014 0z" />
@@ -144,13 +144,13 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                             <circle cx="20.4" cy="16.9" r="2" />
                         </svg>
                     </ToogleButton>
-                    <ToogleButton pressed={showPts} onClick={() => setShowPts(prev => !prev)}>
+                    <ToogleButton pressed={showPts} onClick={() => setShowPts(prev => !prev)} title="show smooth points">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M13.9 7.1a8.3 8.3 0 016.4 7.8m-16.6-.1a8.3 8.3 0 016.2-7.7" />
                             <path d="M1.6 15.1h4v4h-4zm16.8 0h4v4h-4zM9.9 4.9h4v4h-4z" />
                         </svg>
                     </ToogleButton>
-                    <ToogleButton pressed={showCtr} onClick={() => setShowCtr(prev => !prev)}>
+                    <ToogleButton pressed={showCtr} onClick={() => setShowCtr(prev => !prev)} title="show point handles">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M14 7.1a8.3 8.3 0 016.4 7.8m-16.7-.1A8.4 8.4 0 0110 7.1" />
                             <path d="M1.6 15.1h4v4h-4zm16.8 0h4v4h-4z" />

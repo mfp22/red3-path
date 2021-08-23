@@ -29,7 +29,7 @@ const PathSimplifyContext = createContext<PathSimplifyDatum>({
 
 const PathSimplifyProvider: React.FC = ({ children }) => {
     const [points, setPoints] = React.useState<[number, number][]>([]);
-    const [tolerance, setTolerance] = React.useState<number>(2.5);
+    const [tolerance, setTolerance] = React.useState<number>(12);
 
     const [showRaw, setShowRaw] = React.useState<boolean>(true);
     const [showPts, setShowPts] = React.useState<boolean>(true);
