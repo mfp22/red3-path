@@ -17,10 +17,10 @@ function getPathPoints(pathStr: string) {
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: "7", stroke: "red", fill: "orange", ...rest };
-    return (<g>
+    rest = { stroke: "blue", fill: "purple", ...rest };
+    return (<g {...rest}>
         {pts.map((pt, idx) => {
-            return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue">
+            return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} >
                 <title>{idx}: x:{pt[0]} y: {pt[1]}</title>
             </circle>;
         })}
@@ -107,14 +107,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="relative">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
                 <path fill="none" stroke="orange" strokeWidth={3} d={path} />
-
-                {/* <g>
-                    {points.map((pt, idx) => {
-                        return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue" />;
-                    })}
-                </g> */}
                 <RenderRawPoints pts={points} />
-
                 <RenderPoints pts={controlPoints.points} />
                 <RenderCptsSquares cpts={controlPoints.controls} />
             </svg>
