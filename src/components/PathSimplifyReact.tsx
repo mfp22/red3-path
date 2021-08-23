@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { Children, useCallback, useContext } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { useDrag } from 'react-use-gesture';
@@ -80,9 +80,17 @@ function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.
 interface PathSimplifyReactProps extends RouteComponentProps {
 }
 
+function ToogleButton({ children, pressed, onClick }: { children: React.ReactNode; pressed: boolean; onClick: () => void; }) {
+    return (
+        <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-500' : 'bg-red-200'}`} onClick={onClick}>
+            {children}
+        </div>
+    );
+}
+
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, setTolerance } = useContext(PathSimplifyContext);
+    const { points, setPoints, tolerance, setTolerance, showRaw, setShowRaw, showPts, setShowPts, showCtr, setShowCtr, } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
@@ -128,28 +136,28 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
                 <div className="flex space-x-1">
-                    <div className="w-8 h-8 border rounded">
+                    <ToogleButton pressed={showRaw} onClick={() => setShowRaw(prev => !prev)}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M14 7.1a8.3 8.3 0 016.3 7.8m-16.7-.1A8.3 8.3 0 0110 7.1" />
                             <path d="M14 6.9a1 1 0 010 .2 2 2 0 01-4 0 2 2 0 010-.2 2 2 0 014 0z" />
                             <circle cx="3.6" cy="16.9" r="2" />
                             <circle cx="20.4" cy="16.9" r="2" />
                         </svg>
-                    </div>
-                    <div className="w-8 h-8 border rounded">
+                    </ToogleButton>
+                    <ToogleButton pressed={showPts} onClick={() => setShowPts(prev => !prev)}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M13.9 7.1a8.3 8.3 0 016.4 7.8m-16.6-.1a8.3 8.3 0 016.2-7.7" />
                             <path d="M1.6 15.1h4v4h-4zm16.8 0h4v4h-4zM9.9 4.9h4v4h-4z" />
                         </svg>
-                    </div>
-                    <div className="w-8 h-8 border rounded">
+                    </ToogleButton>
+                    <ToogleButton pressed={showCtr} onClick={() => setShowCtr(prev => !prev)}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M14 7.1a8.3 8.3 0 016.4 7.8m-16.7-.1A8.4 8.4 0 0110 7.1" />
                             <path d="M1.6 15.1h4v4h-4zm16.8 0h4v4h-4z" />
                             <path d="M118.6 93.4v4h-4v-4zm-3.9 2.2h-.1z" transform="translate(-104.6 -88.5)" />
                             <path className="cls-3" d="M20.4 7.2h-6.5m-4 0H3.6" />
                         </svg>
-                    </div>
+                    </ToogleButton>
                     {/* Raw, Smooth points; Control point handles */}
                 </div>
             </div>
