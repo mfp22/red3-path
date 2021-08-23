@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { useDrag } from 'react-use-gesture';
 import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
+import debounce from '../utils/debounce';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
@@ -12,6 +13,10 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
     const { points, setPoints } = useContext(PathSimplifyContext);
+
+    const addPoint = useCallback(
+        debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 100), [],
+    );
 
     const bind = useDrag((event) => {
 
@@ -23,7 +28,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             // console.log('pts', points);
             console.log('drag', event);
             let pt = pointer(event.event, svgRef.current);
-            setPoints(prev => [...prev, pt]);
+            //setPoints(prev => [...prev, pt]);
+            addPoint(pt);
         }
 
         if (event.event.type === 'pointerup') {
