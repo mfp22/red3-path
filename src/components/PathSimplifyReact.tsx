@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { useDrag } from 'react-use-gesture';
 import { pointer } from '../utils/pointer';
+import { PathSimplifyContext } from '../store/PathSimplify';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
@@ -10,7 +11,11 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const [points, setPoints] = React.useState<[number, number][]>([]);
+
+
+    const { points, setPoints } = useContext(PathSimplifyContext);
+
+    //const [points, setPoints] = React.useState<[number, number][]>([]);
 
     const [path, setPath] = React.useState('');
 
@@ -26,7 +31,6 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             console.log('drag', event);
             let pt = pointer(event.event, svgRef.current);
             setPoints(prev => [...prev, pt]);
-
         }
 
         if (event.event.type === 'pointerup') {
@@ -41,6 +45,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     React.useEffect(() => {
         setPath(points.length > 1 ? simplifyPath(points) : '');
     }, [points]);
+
+    React.useEffect(() => {
+        console.log('mounted');
+    }, []);
 
     return (
         <div className="relative">

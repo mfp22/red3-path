@@ -5,6 +5,7 @@ import VoronoiPaper from './components/VoronoiPaper';
 import VoronoiReact from './components/VoronoiReact';
 import PathSimplifyPaper from './components/PathSimplifyPaper';
 import PathSimplifyReact from './components/PathSimplifyReact';
+import { PathSimplifyProvider } from './store/PathSimplify';
 
 function App() {
     return (
@@ -19,12 +20,14 @@ function App() {
                     </ul>
                 </div>
             </header>
-            <Router className="flex-1 bg-green-400">
-                {/* <VoronoiReact path="/" />
-                <VoronoiPaper path="b" /> */}
-                <PathSimplifyReact path="simplify-react" />
-                <PathSimplifyPaper path="simplify-paper" />
-            </Router>
+            <PathSimplifyProvider>
+                <Router className="flex-1 bg-green-400">
+                    {/* <VoronoiReact path="/" />
+                    <VoronoiPaper path="b" /> */}
+                    <PathSimplifyReact path="simplify-react" />
+                    <PathSimplifyPaper path="simplify-paper" />
+                </Router>
+            </PathSimplifyProvider>
         </div>
     );
 }
