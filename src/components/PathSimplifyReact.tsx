@@ -12,7 +12,7 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints } = useContext(PathSimplifyContext);
+    const { points, setPoints, tolerance, setTolerance } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(
         debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), [],
@@ -43,9 +43,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     const path = React.useMemo(() => {
         console.log('path calc');
-        
-        return points.length > 1 ? simplifyPath(points) : ''
-    }, [points]);
+
+        return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
+    }, [points, tolerance]);
     // const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
 
     return (
@@ -58,6 +58,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-1">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
+                <div className="">
+                    tolerance <input type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)} />
+                </div>
                 <div className="">Points: {points.length}</div>
             </div>
         </div>
