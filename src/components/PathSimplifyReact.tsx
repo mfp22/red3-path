@@ -14,6 +14,8 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 function pathControlPoints(pathStr: string) {
     let path = svgPath(pathStr).abs();
 
+    console.log('path', path)
+
     const ctrls: [number, number][] = [];
     path.iterate((segment: any[], index: number, x: number, y: number) => {
         ctrls.push([segment[1], segment[2]]);
@@ -46,7 +48,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     });
 
     const path = React.useMemo(() => {
-        console.log('path calc');
+        //console.log('path calc');
 
         return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
     }, [points, tolerance]);
@@ -59,13 +61,13 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="relative">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
-                <path fill="none" stroke="red" d={path} />
+                <path fill="none" stroke="red" strokeWidth={3} d={path} />
                 {points.map((pt, idx) => {
-                    return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} fill="none" stroke="blue" />;
+                    return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue" />;
                 })}
 
                 {controlPoints.map((pt, idx) => {
-                    return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="red" />;
+                    return <circle cx={pt[0]} cy={pt[1]} r={7} key={idx} fill="none" stroke="red" />;
                 })}
 
             </svg>
@@ -79,7 +81,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     />
                 </div>
                 <div className="">Points: {points.length}</div>
-                <div className="text-[.6rem]">{path}</div>
+                {/* <div className="text-[.6rem]">{path}</div> */}
             </div>
         </div>
     );
