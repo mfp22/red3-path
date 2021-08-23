@@ -114,6 +114,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="relative text-gray-700 select-none">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
+                <path fill="none" stroke="red" strokeWidth={5} d={path} />
                 <path fill="none" stroke="orange" strokeWidth={3} d={path} />
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showPts && <RenderPoints pts={controlPoints.points} />}
