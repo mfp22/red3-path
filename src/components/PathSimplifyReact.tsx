@@ -6,7 +6,7 @@ import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
 import svgPath from 'svgpath';
-import { ControlPoint, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
+import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
@@ -35,6 +35,20 @@ function pathCPts(pathStr: string) {
         handles: tuples.length > 1 ? getControlPoints(tuples) : [],
     };
     return points;
+}
+
+function RenderCpts({ cpts, ...rest }: { cpts: ControlPoint[] } & React.SVGAttributes<SVGElement>) {
+    rest = { r: "4", stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
+    return (<>
+        {cpts.map((cpt, index) =>
+            <React.Fragment key={index}>
+                <circle cx={cpt.cp.x} cy={cpt.cp.y} {...rest} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                    <title>Command {cpt.n}: {cpt.i}: x:{cpt.cp.x} y: {cpt.cp.y}</title>
+                </circle>
+                <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} {...rest} strokeDasharray="2 2" />
+            </React.Fragment>
+        )}
+    </>);
 }
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
@@ -83,10 +97,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
                 })}
 
-                {/* {controlPoints.map((pt, idx) => {
-                    return <circle cx={pt[0]} cy={pt[1]} r={7} key={idx} fill="none" stroke="red" />;
-                })}
- */}
+                <RenderCpts cpts={controlPoints.handles} />
+               
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
