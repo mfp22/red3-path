@@ -16,6 +16,22 @@ function getPathPoints(pathStr: string) {
     };
 }
 
+function RenderPoints({ pts, ...rest }: { pts: XY[] } & React.SVGAttributes<SVGElement>) {
+    rest = { r: "7", stroke: "red", fill: "orange", ...rest };
+    return (<>
+        {/* {pts.map((pt, idx) => {
+            return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
+        })} */}
+
+        {pts.map((xy, index) => <React.Fragment key={index}>
+            <circle cx={xy.x} cy={xy.y} {...rest}>
+                <title>{index}: x:{xy.x} y: {xy.y}</title>
+            </circle>
+            <text x={xy.x + 7} y={xy.y} fontSize="7" stroke="none" >{index}</text>
+        </React.Fragment>)}
+    </>);
+}
+
 function RenderCptsSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
     const enum C {
@@ -86,9 +102,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue" />;
                 })}
 
-                {controlPoints.points.map((pt, idx) => {
+                {/* {controlPoints.points.map((pt, idx) => {
                     return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
-                })}
+                })} */}
+                <RenderPoints pts={controlPoints.points} />
 
                 <RenderCptsSquares cpts={controlPoints.controls} />
             </svg>
