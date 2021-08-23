@@ -12,26 +12,14 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 }
 
 function pathControlPoints(pathStr: string) {
-    var commands = pathStr.split(/(?=[LMC])/);
+    let path = svgPath(pathStr).abs();
 
-    var pointArrays = commands.map(function (d) {
-        var pointsArray = d.slice(1, d.length).split(',');
-        var pairsArray: [number, number][] = [];
-        for (var i = 0; i < pointsArray.length; i += 2) {
-            pairsArray.push([+pointsArray[i], +pointsArray[i + 1]]);
-        }
-        return pairsArray;
+    const ctrls: [number, number][] = [];
+    path.iterate((segment: any[], index: number, x: number, y: number) => {
+        ctrls.push([segment[1], segment[2]]);
     });
 
-    return pointArrays;
-}
-
-function relToAbs(pathStr: string) {
-    let s = svgPath(pathStr).abs().toString();
-    console.log('path rel', pathStr);
-    console.log('path abs', s);
-    
-    return s;
+    return ctrls;
 }
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
@@ -65,7 +53,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     // const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
 
     const controlPoints = React.useMemo(() => {
-        return points.length > 1 ? pathControlPoints(relToAbs(path)) : [];
+        return points.length > 1 ? pathControlPoints(path) : [];
     }, [path]);
 
     return (
@@ -76,8 +64,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} fill="none" stroke="blue" />;
                 })}
 
-                {controlPoints.map((pts, idx) => {
-                    return pts.map(pt => <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="red" />);
+                {controlPoints.map((pt, idx) => {
+                    return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="red" />;
                 })}
 
             </svg>
