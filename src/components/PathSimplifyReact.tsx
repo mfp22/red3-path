@@ -56,10 +56,14 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} fill="none" stroke="blue" />;
                 })}
             </svg>
-            <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-1">
+            <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
-                <div className="">
-                    tolerance <input type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)} />
+                <div className="flex items-center space-x-2">
+                    <div className="">Tolerance:</div>
+                    <input 
+                        className="w-[4rem]" type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)}
+                        min={0} max={30} step={0.01}
+                    />
                 </div>
                 <div className="">Points: {points.length}</div>
             </div>
