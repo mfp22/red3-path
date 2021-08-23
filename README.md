@@ -1,9 +1,9 @@
 #### About
 
-Voronoi One Way
+Curve path simplification
 
 #### Roadmap
 
 #### References, credits, links
 
-* [Paper.js Voronoi](http://paperjs.org/examples/voronoi)
+
