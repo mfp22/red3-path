@@ -6,76 +6,57 @@ import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
-import { css } from '@stitches/react';
+import { withDigits } from '../utils/numbers';
 
-interface PathSimplifyReactProps extends RouteComponentProps {
-
-}
-
-function pathCPts(pathStr: string) {
+function getPathPoints(pathStr: string) {
     const tuples = pathToAbsolute(parsePathString(pathStr));
-    const points: {
-        points: XY[],
-        handles: ControlPoint[],
-    } = {
+    return {
         points: tuples.length > 1 ? getPoints(tuples) : [],
-        handles: tuples.length > 1 ? getControlPoints(tuples) : [],
+        controls: tuples.length > 1 ? getControlPoints(tuples) : [],
     };
-    return points;
 }
-
-const cptsStyles = css({
-    stroke: "maroon",
-    strokeWidth: '1',
-});
 
 function RenderCpts({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: "4", fill: "tomato", ...rest };
-    return (<>
-        {cpts.map((cpt, index) =>
-            <React.Fragment key={index}>
-                <circle className={cptsStyles()} cx={cpt.cp.x} cy={cpt.cp.y} {...rest} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
-                    <title>Command {cpt.n}: {cpt.i}: x:{cpt.cp.x} y: {cpt.cp.y}</title>
-                </circle>
-                <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} {...rest} strokeDasharray="2 2" />
-            </React.Fragment>
-        )}
-    </>);
+    rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
+    return (
+        <g {...rest}>
+            {cpts.map((cpt, index) =>
+                <React.Fragment key={index}>
+                    <circle cx={cpt.cp.x} cy={cpt.cp.y} r="4" fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                        <title>Command {cpt.n}: {cpt.i}: x:{withDigits(cpt.cp.x)} y: {withDigits(cpt.cp.y)}</title>
+                    </circle>
+                    <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
+                </React.Fragment>
+            )}
+        </g>
+    );
+}
+
+interface PathSimplifyReactProps extends RouteComponentProps {
 }
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
     const { points, setPoints, tolerance, setTolerance } = useContext(PathSimplifyContext);
 
-    const addPoint = useCallback(
-        debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), [],
-    );
+    const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
     const bind = useDrag((event) => {
         //if (event.event.type === 'pointerdown') {}
 
         if (event.dragging && event.buttons === 1) {
-            let pt = pointer(event.event, svgRef.current);
-            addPoint(pt);
+            addPoint(pointer(event.event, svgRef.current));
         }
 
-        if (event.event.type === 'pointerup') {
-            if (points.length > 1) {
-                setPoints(prev => [...prev]);
-            }
-        }
+        // if (event.event.type === 'pointerup') {
+        //     if (points.length > 1) {
+        //         setPoints(prev => [...prev]);
+        //     }
+        // }
     });
 
-    const path = React.useMemo(() => {
-        //console.log('path calc');
-
-        return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
-    }, [points, tolerance]);
-    // const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
-
-    const controlPoints = React.useMemo(() => {
-        return pathCPts(path);
-    }, [path]);
+    const path = React.useMemo(() => points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '', [points, tolerance]);
+    const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
         <div className="relative">
@@ -89,8 +70,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
                 })}
 
-                <RenderCpts cpts={controlPoints.handles} />
-
+                <RenderCpts cpts={controlPoints.controls} />
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
