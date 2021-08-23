@@ -5,13 +5,14 @@ import { useDrag } from 'react-use-gesture';
 import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
+import svgPath from 'svgpath';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
 }
 
-function pathControlPoints(str: string) {
-    var commands = str.split(/(?=[LMC])/);
+function pathControlPoints(pathStr: string) {
+    var commands = pathStr.split(/(?=[LMC])/);
 
     var pointArrays = commands.map(function (d) {
         var pointsArray = d.slice(1, d.length).split(',');
@@ -23,6 +24,14 @@ function pathControlPoints(str: string) {
     });
 
     return pointArrays;
+}
+
+function relToAbs(pathStr: string) {
+    let s = svgPath(pathStr).abs().toString();
+    console.log('path rel', pathStr);
+    console.log('path abs', s);
+    
+    return s;
 }
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
@@ -56,7 +65,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     // const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
 
     const controlPoints = React.useMemo(() => {
-        return points.length > 1 ? pathControlPoints(path) : [];
+        return points.length > 1 ? pathControlPoints(relToAbs(path)) : [];
     }, [path]);
 
     return (
