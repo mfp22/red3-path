@@ -20,7 +20,7 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
     return (<g {...rest}>
         {pts.map((pt, idx) => {
             return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} >
-                <title>{idx}: x:{pt[0]} y: {pt[1]}</title>
+                <title>Index: {idx} Location: {withDigits(pt[0], 0)} x {withDigits(pt[1], 0)}</title>
             </circle>;
         })}
 
@@ -33,19 +33,19 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
     </g>);
 }
 
-function RenderPoints({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: "7", stroke: "red", fill: "orange", ...rest };
+function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
+    rest = { r: "7", stroke: "red", fill: "#ffa50080", ...rest }; // orange 50%
     return (<g>
         {pts.map((xy, index) => <React.Fragment key={index}>
             <circle cx={xy.x} cy={xy.y} {...rest}>
-                <title>{index}: x:{xy.x} y: {xy.y}</title>
+                <title>Index: {index}: Location: {withDigits(xy.x, 0)} x {withDigits(xy.y, 0)}</title>
             </circle>
             <text x={xy.x + 7} y={xy.y} fontSize="7" stroke="none" >{index}</text>
         </React.Fragment>)}
     </g>);
 }
 
-function RenderCptsSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
+function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
     const enum C {
         width = 8
@@ -62,7 +62,7 @@ function RenderCptsSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.
     </g>);
 }
 
-function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
+function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
     return (<g {...rest}>
         {cpts.map((cpt, index) =>
@@ -79,7 +79,7 @@ function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.
 interface PathSimplifyReactProps {
 }
 
-function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string }) {
+function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string; }) {
     return (
         <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-200' : 'shadow'}`} onClick={onClick} title={title}>
             {children}
@@ -116,8 +116,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <path fill="none" stroke="red" strokeWidth={5} d={path} />
                 <path fill="none" stroke="orange" strokeWidth={3} d={path} />
                 {showRaw && <RenderRawPoints pts={points} />}
-                {showPts && <RenderPoints pts={controlPoints.points} />}
-                {showCtr && <RenderCptsSquares cpts={controlPoints.controls} />}
+                {showPts && <RenderCpts pts={controlPoints.points} />}
+                {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
             </svg>
 
             {/* Controls */}
@@ -128,7 +128,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     <div className="flex items-center space-x-2">
                         <div className="">Tolerance:</div>
                         <input
-                            className="w-32" type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)}
+                            className="w-32" type="range" value={tolerance} onChange={(event) => setTolerance(+withDigits(+event.target.value, 0))}
                             min={0} max={100} step={0.01}
                         />
                         <div className="w-12">{tolerance}</div>
@@ -158,7 +158,6 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                             <path className="cls-3" d="M20.4 7.2h-6.5m-4 0H3.6" />
                         </svg>
                     </ToogleButton>
-                    {/* Raw, Smooth points; Control point handles */}
                 </div>
             </div>
         </div>
