@@ -11,22 +11,15 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-
-
     const { points, setPoints } = useContext(PathSimplifyContext);
 
-    //const [points, setPoints] = React.useState<[number, number][]>([]);
-
-    const [path, setPath] = React.useState('');
-
     const bind = useDrag((event) => {
-        //console.log('event', event);
 
         if (event.event.type === 'pointerdown') {
             console.log('pointerdown', event);
         }
 
-        if (event.dragging) {
+        if (event.dragging && event.buttons === 1) {
             // console.log('pts', points);
             console.log('drag', event);
             let pt = pointer(event.event, svgRef.current);
@@ -34,21 +27,13 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         }
 
         if (event.event.type === 'pointerup') {
-
             // if (points.length > 1) {
             //     setPath(simplifyPath(points));
             // }
-
         }
     });
 
-    React.useEffect(() => {
-        setPath(points.length > 1 ? simplifyPath(points) : '');
-    }, [points]);
-
-    React.useEffect(() => {
-        console.log('mounted');
-    }, []);
+    const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
 
     return (
         <div className="relative">
@@ -58,8 +43,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} fill="none" stroke="blue" />;
                 })}
             </svg>
-            <div className="absolute bottom-0">
-                <button className="ml-2 mb-2 p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
+            <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-1">
+                <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
+                <div className="">Points: {points.length}</div>
             </div>
         </div>
     );
