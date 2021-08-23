@@ -10,6 +10,21 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 
 }
 
+function pathControlPoints(str: string) {
+    var commands = str.split(/(?=[LMC])/);
+
+    var pointArrays = commands.map(function (d) {
+        var pointsArray = d.slice(1, d.length).split(',');
+        var pairsArray: [number, number][] = [];
+        for (var i = 0; i < pointsArray.length; i += 2) {
+            pairsArray.push([+pointsArray[i], +pointsArray[i + 1]]);
+        }
+        return pairsArray;
+    });
+
+    return pointArrays;
+}
+
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
     const { points, setPoints, tolerance, setTolerance } = useContext(PathSimplifyContext);
@@ -19,23 +34,15 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     );
 
     const bind = useDrag((event) => {
-
-        if (event.event.type === 'pointerdown') {
-            //console.log('pointerdown', event);
-        }
+        //if (event.event.type === 'pointerdown') {}
 
         if (event.dragging && event.buttons === 1) {
-            // console.log('pts', points);
-            //console.log('drag', event);
             let pt = pointer(event.event, svgRef.current);
-            //setPoints(prev => [...prev, pt]);
             addPoint(pt);
         }
 
         if (event.event.type === 'pointerup') {
             if (points.length > 1) {
-                //setPath(simplifyPath(points));
-                console.log('up');
                 setPoints(prev => [...prev]);
             }
         }
@@ -48,6 +55,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     }, [points, tolerance]);
     // const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
 
+    const controlPoints = React.useMemo(() => {
+        return points.length > 1 ? pathControlPoints(path) : [];
+    }, [path]);
+
     return (
         <div className="relative">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
@@ -55,12 +66,17 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 {points.map((pt, idx) => {
                     return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} fill="none" stroke="blue" />;
                 })}
+
+                {controlPoints.map((pts, idx) => {
+                    return pts.map(pt => <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="red" />)
+                })}
+
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
                 <div className="flex items-center space-x-2">
                     <div className="">Tolerance:</div>
-                    <input 
+                    <input
                         className="w-[4rem]" type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)}
                         min={0} max={30} step={0.01}
                     />
