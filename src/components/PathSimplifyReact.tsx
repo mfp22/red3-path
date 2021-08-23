@@ -31,8 +31,8 @@ function pathCPts(pathStr: string) {
         points: XY[],
         handles: ControlPoint[],
     } = {
-        points: getPoints(tuples),
-        handles: getControlPoints(tuples),
+        points: tuples.length > 1 ? getPoints(tuples) : [],
+        handles: tuples.length > 1 ? getControlPoints(tuples) : [],
     };
     return points;
 }
@@ -90,14 +90,17 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
-                <div className="flex items-center space-x-2">
-                    <div className="">Tolerance:</div>
-                    <input
-                        className="w-[4rem]" type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)}
-                        min={0} max={30} step={0.01}
-                    />
+                <div className="pb-1 flex flex-col text-sm">
+                    <div className="flex items-center space-x-2">
+                        <div className="">Tolerance:</div>
+                        <input
+                            className="w-32" type="range" value={tolerance} onChange={(event) => setTolerance(+event.target.value)}
+                            min={0} max={100} step={0.01}
+                        />
+                        <div className="w-12">{tolerance}</div>
+                    </div>
+                    <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
-                <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
             </div>
         </div>
     );
