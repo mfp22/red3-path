@@ -5,24 +5,10 @@ import { useDrag } from 'react-use-gesture';
 import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
-import svgPath from 'svgpath';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
-}
-
-function pathControlPoints(pathStr: string) {
-    let path = svgPath(pathStr).abs();
-
-    console.log('path', path);
-
-    const ctrls: [number, number][] = [];
-    path.iterate((segment: any[], index: number, x: number, y: number) => {
-        ctrls.push([segment[1], segment[2]]);
-    });
-
-    return ctrls;
 }
 
 function pathCPts(pathStr: string) {
