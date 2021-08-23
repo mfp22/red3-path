@@ -15,31 +15,38 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const { points, setPoints } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(
-        debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 100), [],
+        debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), [],
     );
 
     const bind = useDrag((event) => {
 
         if (event.event.type === 'pointerdown') {
-            console.log('pointerdown', event);
+            //console.log('pointerdown', event);
         }
 
         if (event.dragging && event.buttons === 1) {
             // console.log('pts', points);
-            console.log('drag', event);
+            //console.log('drag', event);
             let pt = pointer(event.event, svgRef.current);
             //setPoints(prev => [...prev, pt]);
             addPoint(pt);
         }
 
         if (event.event.type === 'pointerup') {
-            // if (points.length > 1) {
-            //     setPath(simplifyPath(points));
-            // }
+            if (points.length > 1) {
+                //setPath(simplifyPath(points));
+                console.log('up');
+                setPoints(prev => [...prev]);
+            }
         }
     });
 
-    const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
+    const path = React.useMemo(() => {
+        console.log('path calc');
+        
+        return points.length > 1 ? simplifyPath(points) : ''
+    }, [points]);
+    // const path = React.useMemo(() => points.length > 1 ? simplifyPath(points) : '', [points]);
 
     return (
         <div className="relative">
