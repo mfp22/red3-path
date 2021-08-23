@@ -7,6 +7,12 @@ import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { withDigits } from '../utils/numbers';
 
+function getPath(points: [number, number][], tolerance: number) {
+    console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0],0), +withDigits(pt[1], 0)]))}`);
+    
+    return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
+}
+
 function getPathPoints(pathStr: string) {
     const tuples = pathToAbsolute(parsePathString(pathStr));
     return {
@@ -107,7 +113,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         // }
     });
 
-    const path = React.useMemo(() => points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '', [points, tolerance]);
+    const path = React.useMemo(() => getPath(points, tolerance), [points, tolerance]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
