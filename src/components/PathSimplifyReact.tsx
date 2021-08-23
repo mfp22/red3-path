@@ -1,5 +1,4 @@
-import React, { Children, useCallback, useContext } from 'react';
-import { RouteComponentProps } from '@reach/router';
+import React, { useCallback, useContext } from 'react';
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { useDrag } from 'react-use-gesture';
 import { pointer } from '../utils/pointer';
@@ -77,7 +76,7 @@ function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.
     </g>);
 }
 
-interface PathSimplifyReactProps extends RouteComponentProps {
+interface PathSimplifyReactProps {
 }
 
 function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string }) {
