@@ -82,7 +82,7 @@ interface PathSimplifyReactProps extends RouteComponentProps {
 
 function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string }) {
     return (
-        <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-200' : ''}`} onClick={onClick} title={title}>
+        <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-200' : 'shadow'}`} onClick={onClick} title={title}>
             {children}
         </div>
     );
