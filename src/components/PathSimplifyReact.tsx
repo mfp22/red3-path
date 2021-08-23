@@ -6,6 +6,7 @@ import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
+import { css } from '@stitches/react';
 
 interface PathSimplifyReactProps extends RouteComponentProps {
 
@@ -23,12 +24,17 @@ function pathCPts(pathStr: string) {
     return points;
 }
 
-function RenderCpts({ cpts, ...rest }: { cpts: ControlPoint[] } & React.SVGAttributes<SVGElement>) {
-    rest = { r: "4", stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
+const cptsStyles = css({
+    stroke: "maroon",
+    strokeWidth: '1',
+});
+
+function RenderCpts({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
+    rest = { r: "4", fill: "tomato", ...rest };
     return (<>
         {cpts.map((cpt, index) =>
             <React.Fragment key={index}>
-                <circle cx={cpt.cp.x} cy={cpt.cp.y} {...rest} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                <circle className={cptsStyles()} cx={cpt.cp.x} cy={cpt.cp.y} {...rest} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
                     <title>Command {cpt.n}: {cpt.i}: x:{cpt.cp.x} y: {cpt.cp.y}</title>
                 </circle>
                 <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} {...rest} strokeDasharray="2 2" />
@@ -84,7 +90,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 })}
 
                 <RenderCpts cpts={controlPoints.handles} />
-               
+
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
