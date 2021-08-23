@@ -2,12 +2,12 @@ import React, { createContext } from 'react';
 
 interface PathSimplifyDatum {
     points: [number, number][];
-    //setPoints: React.Dispatch<React.SetStateAction<[number, number][]>>,
+    setPoints: React.Dispatch<React.SetStateAction<[number, number][]>>,
 }
 
 const PathSimplifyContext = createContext<PathSimplifyDatum>({
     points: [],
-    //setPoints: () => { },
+    setPoints: () => {},
 });
 
 const PathSimplifyProvider: React.FC = ({ children }) => {
