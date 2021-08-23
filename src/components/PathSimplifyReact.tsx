@@ -16,7 +16,26 @@ function getPathPoints(pathStr: string) {
     };
 }
 
-function RenderCpts({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
+function RenderCptsSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
+    rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
+    const enum C {
+        width = 8
+    }
+    return (
+        <g {...rest}>
+            {cpts.map((cpt, index) =>
+                <React.Fragment key={index}>
+                    <rect x={cpt.cp.x - C.width / 2} y={cpt.cp.y - C.width / 2} width={C.width} height={C.width} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
+                    </rect>
+                    <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
+                </React.Fragment>
+            )}
+        </g>
+    );
+}
+
+function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
     return (
         <g {...rest}>
@@ -62,6 +81,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="relative">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
                 <path fill="none" stroke="red" strokeWidth={3} d={path} />
+                
                 {points.map((pt, idx) => {
                     return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue" />;
                 })}
@@ -70,7 +90,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
                 })}
 
-                <RenderCpts cpts={controlPoints.controls} />
+                <RenderCptsSquares cpts={controlPoints.controls} />
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
