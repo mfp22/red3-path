@@ -16,20 +16,34 @@ function getPathPoints(pathStr: string) {
     };
 }
 
-function RenderPoints({ pts, ...rest }: { pts: XY[] } & React.SVGAttributes<SVGElement>) {
+function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
     rest = { r: "7", stroke: "red", fill: "orange", ...rest };
-    return (<>
-        {/* {pts.map((pt, idx) => {
-            return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
-        })} */}
+    return (<g>
+        {pts.map((pt, idx) => {
+            return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue">
+                <title>{idx}: x:{pt[0]} y: {pt[1]}</title>
+            </circle>;
+        })}
 
+        {/* {pts.map((xy, index) => <React.Fragment key={index}>
+            <circle cx={xy.x} cy={xy.y} {...rest}>
+                <title>{index}: x:{xy.x} y: {xy.y}</title>
+            </circle>
+            <text x={xy.x + 7} y={xy.y} fontSize="7" stroke="none" >{index}</text>
+        </React.Fragment>)} */}
+    </g>);
+}
+
+function RenderPoints({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
+    rest = { r: "7", stroke: "red", fill: "orange", ...rest };
+    return (<g>
         {pts.map((xy, index) => <React.Fragment key={index}>
             <circle cx={xy.x} cy={xy.y} {...rest}>
                 <title>{index}: x:{xy.x} y: {xy.y}</title>
             </circle>
             <text x={xy.x + 7} y={xy.y} fontSize="7" stroke="none" >{index}</text>
         </React.Fragment>)}
-    </>);
+    </g>);
 }
 
 function RenderCptsSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
@@ -37,34 +51,30 @@ function RenderCptsSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.
     const enum C {
         width = 8
     }
-    return (
-        <g {...rest}>
-            {cpts.map((cpt, index) =>
-                <React.Fragment key={index}>
-                    <rect x={cpt.cp.x - C.width / 2} y={cpt.cp.y - C.width / 2} width={C.width} height={C.width} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
-                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
-                    </rect>
-                    <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
-                </React.Fragment>
-            )}
-        </g>
-    );
+    return (<g {...rest}>
+        {cpts.map((cpt, index) =>
+            <React.Fragment key={index}>
+                <rect x={cpt.cp.x - C.width / 2} y={cpt.cp.y - C.width / 2} width={C.width} height={C.width} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                    <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
+                </rect>
+                <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
+            </React.Fragment>
+        )}
+    </g>);
 }
 
 function RenderCptsCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
-    return (
-        <g {...rest}>
-            {cpts.map((cpt, index) =>
-                <React.Fragment key={index}>
-                    <circle cx={cpt.cp.x} cy={cpt.cp.y} r="4" fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
-                        <title>Command {cpt.n}: {cpt.i}: x:{withDigits(cpt.cp.x)} y: {withDigits(cpt.cp.y)}</title>
-                    </circle>
-                    <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
-                </React.Fragment>
-            )}
-        </g>
-    );
+    return (<g {...rest}>
+        {cpts.map((cpt, index) =>
+            <React.Fragment key={index}>
+                <circle cx={cpt.cp.x} cy={cpt.cp.y} r="4" fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                    <title>Command {cpt.n}: {cpt.i}: x:{withDigits(cpt.cp.x)} y: {withDigits(cpt.cp.y)}</title>
+                </circle>
+                <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
+            </React.Fragment>
+        )}
+    </g>);
 }
 
 interface PathSimplifyReactProps extends RouteComponentProps {
@@ -96,17 +106,16 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="relative">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
-                <path fill="none" stroke="red" strokeWidth={3} d={path} />
-                
-                {points.map((pt, idx) => {
-                    return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue" />;
-                })}
+                <path fill="none" stroke="orange" strokeWidth={3} d={path} />
 
-                {/* {controlPoints.points.map((pt, idx) => {
-                    return <circle cx={pt.x} cy={pt.y} r={7} key={idx} fill="#f008" stroke="red" />;
-                })} */}
+                {/* <g>
+                    {points.map((pt, idx) => {
+                        return <circle cx={pt[0]} cy={pt[1]} r={5} key={idx} fill="none" stroke="blue" />;
+                    })}
+                </g> */}
+                <RenderRawPoints pts={points} />
+
                 <RenderPoints pts={controlPoints.points} />
-
                 <RenderCptsSquares cpts={controlPoints.controls} />
             </svg>
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
