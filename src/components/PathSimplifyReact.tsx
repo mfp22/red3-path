@@ -7,7 +7,7 @@ import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { withDigits } from '../utils/numbers';
 import ToogleButtons from './ToogleButtons';
-import { Slider } from './Slider';
+// import { Slider } from './Slider';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -144,10 +144,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         />
                         <div className="w-12">{tolerance}</div>
                     </div>
-                    
-                    <div className="h-4">
+
+                    {/* <div className="h-4">
                         <Slider type="range"/> 
-                    </div>
+                    </div> */}
 
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
