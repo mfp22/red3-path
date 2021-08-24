@@ -6,6 +6,7 @@ import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { withDigits } from '../utils/numbers';
+import ToogleButtons from './ToogleButtons';
 
 function getPath(points: [number, number][], tolerance: number) {
     console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -93,22 +94,9 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 interface PathSimplifyReactProps {
 }
 
-function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string; }) {
-    return (
-        <div
-            className={`w-8 h-8 border rounded ${pressed ? 'saturate-200 bg-purple-300 border-purple-700' : 'border-purple-900 opacity-75'}`}
-            style={{ boxShadow: pressed ? '#00000010 1px 1px 2px 2px inset, #ffffff10 -2px -2px 2px 2px inset' : '#00000018 1px 1px 0px 1px' }}
-            onClick={onClick}
-            title={title}
-        >
-            {children}
-        </div>
-    );
-}
-
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, setTolerance, showRaw, setShowRaw, showPts, setShowPts, showCtr, setShowCtr, } = useContext(PathSimplifyContext);
+    const { points, setPoints, tolerance, setTolerance, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
@@ -146,6 +134,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
                 {/* Tolerance range and Points stats */}
                 <div className="pb-1 flex flex-col text-sm">
+                    {/* Tolerance */}
                     <div className="flex items-center space-x-2">
                         <div className="">Tolerance:</div>
                         <input
@@ -154,32 +143,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         />
                         <div className="w-12">{tolerance}</div>
                     </div>
+
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
-                <div className="flex space-x-1">
-                    <ToogleButton pressed={showRaw} onClick={() => setShowRaw(prev => !prev)} title="show raw points">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M14 7.1a8.3 8.3 0 016.3 7.8m-16.7-.1A8.3 8.3 0 0110 7.1" />
-                            <path d="M14 6.9a1 1 0 010 .2 2 2 0 01-4 0 2 2 0 010-.2 2 2 0 014 0z" />
-                            <circle cx="3.6" cy="16.9" r="2" />
-                            <circle cx="20.4" cy="16.9" r="2" />
-                        </svg>
-                    </ToogleButton>
-                    <ToogleButton pressed={showPts} onClick={() => setShowPts(prev => !prev)} title="show smooth points">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M13.9 7.1a8.3 8.3 0 016.4 7.8m-16.6-.1a8.3 8.3 0 016.2-7.7" />
-                            <path d="M1.6 15.1h4v4h-4zm16.8 0h4v4h-4zM9.9 4.9h4v4h-4z" />
-                        </svg>
-                    </ToogleButton>
-                    <ToogleButton pressed={showCtr} onClick={() => setShowCtr(prev => !prev)} title="show point handles">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M14 7.1a8.3 8.3 0 016.4 7.8m-16.7-.1A8.4 8.4 0 0110 7.1" />
-                            <path d="M1.6 15.1h4v4h-4zm16.8 0h4v4h-4z" />
-                            <path d="M118.6 93.4v4h-4v-4zm-3.9 2.2h-.1z" transform="translate(-104.6 -88.5)" />
-                            <path className="cls-3" d="M20.4 7.2h-6.5m-4 0H3.6" />
-                        </svg>
-                    </ToogleButton>
-                </div>
+                <ToogleButtons />
             </div>
         </div>
     );
