@@ -8,8 +8,8 @@ import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pat
 import { withDigits } from '../utils/numbers';
 
 function getPath(points: [number, number][], tolerance: number) {
-    console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0],0), +withDigits(pt[1], 0)]))}`);
-    
+    console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
+
     return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
 }
 
@@ -87,7 +87,12 @@ interface PathSimplifyReactProps {
 
 function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string; }) {
     return (
-        <div className={`w-8 h-8 border rounded ${pressed ? 'bg-red-200' : 'shadow'}`} onClick={onClick} title={title}>
+        <div
+            className={`w-8 h-8 border rounded ${pressed ? 'saturate-200 bg-purple-300 shadow-inner' : 'opacity-75 shadow'}`}
+            style={{ boxShadow: pressed ? '#00000010 1px 1px 2px 2px inset, #ffffff10 -2px -2px 2px 2px inset' : 'none' }}
+            onClick={onClick}
+            title={title}
+        >
             {children}
         </div>
     );
