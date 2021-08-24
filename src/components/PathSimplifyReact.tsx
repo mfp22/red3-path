@@ -22,12 +22,14 @@ function getPathPoints(pathStr: string) {
 }
 
 const enum SIZES {
-    rRaw = 4,
-    rCpt = 7,
-    wHandle = 8,
-    rHandle = 4,
-    handleTextOfsX = 7,
-    handleTextOfsY = 0,
+    rRaw = 5,               // raw points radius
+    rCpt = 13,              // smooth points radius
+    wHandle = 8,            // square control points width
+    rHandle = 4,            // circle control points radius
+    handleTextOfsX = 15,    // control point x text offset
+    handleTextOfsY = 0,     // control point y text offset
+    wLineLower = 11,        // lower line width
+    wLineUpper = 7,         // upper line width
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
@@ -130,8 +132,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="relative text-gray-700 select-none">
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
-                <path fill="none" stroke="red" strokeWidth={5} d={path} />
-                <path fill="none" stroke="orange" strokeWidth={3} d={path} />
+                <path fill="none" stroke="red" strokeWidth={SIZES.wLineLower} d={path} />
+                <path fill="none" stroke="orange" strokeWidth={SIZES.wLineUpper} d={path} />
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
@@ -146,7 +148,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         <div className="">Tolerance:</div>
                         <input
                             className="w-32" type="range" value={tolerance} onChange={(event) => setTolerance(+withDigits(+event.target.value, 0))}
-                            min={0} max={100} step={0.01}
+                            min={0} max={400} step={0.01}
                         />
                         <div className="w-12">{tolerance}</div>
                     </div>
