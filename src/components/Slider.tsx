@@ -2,14 +2,14 @@ import { styled } from '@stitches/react';
 
 export const Slider = styled('input', {
     //'input[type = "range"].ui - slider': {
-        $$rangehandlecolor: "#ffffff",      // !default
-        $$rangehandlecolorhover: "#907aff54",       // !default
-        $$rangehandlesize: "'12px'", // def 16px        // !default
-        $$rangehandleradius: "25%", // def 50%
+        $$rangeHandleColor: "#ffffff",      // !default
+        $$rangeHandleColorhover: "#907aff54",       // !default
+        $$rangeHandleSize: "'12px'", // def 16px        // !default
+        $$rangeHandleRadius: "25%", // def 50%
 
-        $$rangetrackcolor: "#6c48f04d",     // !default
-        $$rangetrackheight: "1px", // def 2px       // !default
-        $$rangetrackbordercolor: "rgba(108, 72, 240, 0.5)",     // !default
+        $$rangeTrackColor: "#6c48f04d",     // !default
+        $$rangeTrackHeight: "1px", // def 2px       // !default
+        $$rangeTrackBorderColor: "rgba(108, 72, 240, 0.5)",     // !default
 
         WebkitAppearance: "none",
         width: "100%", //$$range-label-width: 60px !default; width: calc(100% - (#{$$range-label-width + 10px}));
@@ -42,7 +42,7 @@ export const Slider = styled('input', {
         '&::-moz-range-thumb': {
             width: "$$rangeHandleSize",
             height: "$$rangeHandleSize",
-            border: ["0", "1px solid $$rangeTrackColor"],
+            border: "0",
             borderRadius: "$$rangeHandleRadius",
             background: "$$rangeHandleColor",
             cursor: "pointer",
