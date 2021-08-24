@@ -21,11 +21,20 @@ function getPathPoints(pathStr: string) {
     };
 }
 
+const enum SIZES {
+    rRaw = 4,
+    rCpt = 7,
+    wHandle = 8,
+    rHandle = 4,
+    handleTextOfsX = 7,
+    handleTextOfsY = 0,
+}
+
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "blue", fill: "purple", ...rest };
     return (<g {...rest}>
         {pts.map((pt, idx) => {
-            return <circle cx={pt[0]} cy={pt[1]} r={2} key={idx} >
+            return <circle cx={pt[0]} cy={pt[1]} r={SIZES.rRaw} key={idx} >
                 <title>Index: {idx} Location: {withDigits(pt[0], 0)} x {withDigits(pt[1], 0)}</title>
             </circle>;
         })}
@@ -40,26 +49,23 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
 }
 
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: "7", stroke: "red", fill: "#ffa50080", ...rest }; // orange 50%
+    rest = { r: SIZES.rCpt, stroke: "red", fill: "#ffa50080", ...rest }; // orange 50%
     return (<g>
         {pts.map((xy, index) => <React.Fragment key={index}>
             <circle cx={xy.x} cy={xy.y} {...rest}>
                 <title>Index: {index}: Location: {withDigits(xy.x, 0)} x {withDigits(xy.y, 0)}</title>
             </circle>
-            <text x={xy.x + 7} y={xy.y} fontSize="7" stroke="none" >{index}</text>
+            <text x={xy.x + SIZES.handleTextOfsX} y={xy.y + SIZES.handleTextOfsY} fontSize="7" stroke="none" >{index}</text>
         </React.Fragment>)}
     </g>);
 }
 
 function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
     rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
-    const enum C {
-        width = 8
-    }
     return (<g {...rest}>
         {cpts.map((cpt, index) =>
             <React.Fragment key={index}>
-                <rect x={cpt.cp.x - C.width / 2} y={cpt.cp.y - C.width / 2} width={C.width} height={C.width} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                <rect x={cpt.cp.x - SIZES.wHandle / 2} y={cpt.cp.y - SIZES.wHandle / 2} width={SIZES.wHandle} height={SIZES.wHandle} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
                     <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
                 </rect>
                 <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
@@ -73,7 +79,7 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     return (<g {...rest}>
         {cpts.map((cpt, index) =>
             <React.Fragment key={index}>
-                <circle cx={cpt.cp.x} cy={cpt.cp.y} r="4" fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
+                <circle cx={cpt.cp.x} cy={cpt.cp.y} r={SIZES.rHandle} fill={cpt.t === CpType.computed ? 'none' : rest.fill}>
                     <title>Command {cpt.n}: {cpt.i}: x:{withDigits(cpt.cp.x)} y: {withDigits(cpt.cp.y)}</title>
                 </circle>
                 <line x1={cpt.pt.x} y1={cpt.pt.y} x2={cpt.cp.x} y2={cpt.cp.y} strokeDasharray="2 2" />
