@@ -34,16 +34,28 @@ export const Slider = styled('input', {
             border: `1px solid ${__rangeTrackColor}`,
             borderBottom: `1px solid ${__rangeTrackBorderColor}`,
             borderRight: `1px solid ${__rangeTrackBorderColor}`,
-            '&:hover': {
-                background: __rangeHandleColorHover,
-                transform: "scale(1.2)",
-                border: "1px solid white"
-            }
+
+            // '&:hover': {
+            //     background: __rangeHandleColorHover,
+            //     transform: "scale(1.2)",
+            //     border: "1px solid white"
+            // },
         },
+        '&::-webkit-slider-thumb:hover': {
+            background: __rangeHandleColorHover,
+            transform: "scale(1.2)",
+            border: "1px solid white"
+        },
+        // '&:hover::-webkit-slider-thumb': {
+        //     background: __rangeHandleColorHover,
+        //     transform: "scale(1.2)",
+        //     border: "1px solid white"
+        // },
+
         '&::-moz-range-thumb': {
             width: __rangeHandleSize,
             height: __rangeHandleSize,
-            border: "0",
+            //border: "0",
             borderRadius: __rangeHandleRadius,
             background: __rangeHandleColor,
             cursor: "pointer",
@@ -53,7 +65,7 @@ export const Slider = styled('input', {
             '&:hover': {
                 background: __rangeHandleColorHover,
                 border: "1px solid white"
-            }
+            },
         },
     //}
 });

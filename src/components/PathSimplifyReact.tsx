@@ -10,7 +10,7 @@ import ToogleButtons from './ToogleButtons';
 import { Slider } from './Slider';
 
 function getPath(points: [number, number][], tolerance: number) {
-    console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
+    //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
 
     return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
 }
@@ -144,7 +144,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         />
                         <div className="w-12">{tolerance}</div>
                     </div>
-                    <Slider type="range"/> 
+                    
+                    <div className="h-4">
+                        <Slider type="range"/> 
+                    </div>
 
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
