@@ -25,7 +25,7 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
     rest = { stroke: "blue", fill: "purple", ...rest };
     return (<g {...rest}>
         {pts.map((pt, idx) => {
-            return <circle cx={pt[0]} cy={pt[1]} r={3} key={idx} >
+            return <circle cx={pt[0]} cy={pt[1]} r={2} key={idx} >
                 <title>Index: {idx} Location: {withDigits(pt[0], 0)} x {withDigits(pt[1], 0)}</title>
             </circle>;
         })}
@@ -88,8 +88,8 @@ interface PathSimplifyReactProps {
 function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string; }) {
     return (
         <div
-            className={`w-8 h-8 border rounded ${pressed ? 'saturate-200 bg-purple-300 shadow-inner' : 'opacity-75 shadow'}`}
-            style={{ boxShadow: pressed ? '#00000010 1px 1px 2px 2px inset, #ffffff10 -2px -2px 2px 2px inset' : 'none' }}
+            className={`w-8 h-8 border rounded ${pressed ? 'saturate-200 bg-purple-300 border-purple-700' : 'border-purple-900 opacity-75'}`}
+            style={{ boxShadow: pressed ? '#00000010 1px 1px 2px 2px inset, #ffffff10 -2px -2px 2px 2px inset' : '#00000018 1px 1px 0px 1px' }}
             onClick={onClick}
             title={title}
         >
