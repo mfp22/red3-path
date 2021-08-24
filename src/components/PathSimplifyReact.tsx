@@ -8,6 +8,7 @@ import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pat
 import { withDigits } from '../utils/numbers';
 import ToogleButtons from './ToogleButtons';
 // import { Slider } from './Slider';
+import * as UISlider from './UISlider';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -148,6 +149,23 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     {/* <div className="h-4">
                         <Slider type="range"/> 
                     </div> */}
+
+                    <div className="">
+                        <UISlider.SliderRoot
+                            min={0}
+                            max={400}
+                            step={0.1}
+                            value={[tolerance]}
+                            onValueChange={(value: number[]) => {
+                                setTolerance(+withDigits(value[0], 0));
+                            }}
+                        >
+                            <UISlider.SliderTrack>
+                                <UISlider.SliderRange />
+                            </UISlider.SliderTrack>
+                            <UISlider.SliderThumb />
+                        </UISlider.SliderRoot>
+                    </div>
 
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
