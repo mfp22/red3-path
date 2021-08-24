@@ -130,8 +130,10 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
-        <div className="relative text-gray-700 select-none">
-            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300">
+        <div className="relative text-gray-700 select-none 
+            resize overflow-hidden bg-red-300"
+        >
+            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300 w-full h-full">
                 <path fill="none" stroke="red" strokeWidth={SIZES.wLineLower} d={path} />
                 <path fill="none" stroke="orange" strokeWidth={SIZES.wLineUpper} d={path} />
                 {showRaw && <RenderRawPoints pts={points} />}
