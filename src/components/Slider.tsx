@@ -2,7 +2,7 @@ import { styled } from '@stitches/react';
 
 const __rangeHandleColor = "#ffffff";      // !default
 const __rangeHandleColorHover = "#907aff54";       // !default
-const __rangeHandleSize = "'12px'"; // def 16px        // !default
+const __rangeHandleSize = "12px"; // def 16px        // !default
 const __rangeHandleRadius = "25%"; // def 50%
 
 const __rangeTrackColor = "#6c48f04d";     // !default
@@ -21,9 +21,10 @@ export const Slider = styled('input', {
         margin: "0",
         cursor: "pointer",
 
-        // Range Handle
+        // Range Thumb
         '&::-webkit-slider-thumb': {
             WebkitAppearance: "none",
+
             width: __rangeHandleSize,
             height: __rangeHandleSize,
             borderRadius: __rangeHandleRadius,
