@@ -1,5 +1,5 @@
 body {
-    background-image: linear-gradient(to right, gray, gray),
-        url("./assets/background.jpg") /*http://higeom.math.msu.su/history/delone_r.html*/;
+    background-image: linear-gradient(to right, #f4f4f4, #f4f4f4),
+        url("./assets/background-bw.jpg") /*http://higeom.math.msu.su/history/delone_r.html*/;
     background-blend-mode: multiply;
 }
