@@ -31,8 +31,7 @@ const stitchesConfig = createCss({
             elevation1: "hsl($elevation1HSL / 100%)",
             elevation2: "hsl($elevation2HSL / 100%)",
             popOut: "hsl($elevation2HSL / 66%)",
-            cardGradient:
-                "radial-gradient(71.72% 56.77% at 0% 0%, rgba(255, 196, 82, 0.1) 0%, rgba(255, 196, 82, 0) 100%), hsl(210, 11%, 15%)",
+            cardGradient: "radial-gradient(71.72% 56.77% at 0% 0%, rgba(255, 196, 82, 0.1) 0%, rgba(255, 196, 82, 0) 100%), hsl(210, 11%, 15%)",
         },
         space: {
             8: "8px",
