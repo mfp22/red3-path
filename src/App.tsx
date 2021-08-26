@@ -6,7 +6,7 @@ import PathSimplifyReact from './components/PathSimplifyReact';
 function App() {
     return (
         <PathSimplifyProvider>
-            <div className="h-screen flex flex-col bg-purple-200">
+            <div className="h-screen flex flex-col"> {/* bg-purple-200 */}
                 <header className="flex-none bg-gray-200 p-2">
                     <div className="">
                         <div className="space-x-2 flex items-center">
