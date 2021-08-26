@@ -22,5 +22,11 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [pluginCustomCSSProps()],
+    plugins: [
+        pluginCustomCSSProps(),
+        function ({ theme }) {
+            // console.log(`3--------------theme------------------`, arguments);
+            console.log(`4--------------theme------------------${JSON.stringify(theme('colors'))}`);
+        },
+    ],
 };
