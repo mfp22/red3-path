@@ -134,7 +134,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="relative text-gray-700 select-none 
             resize overflow-hidden bg-red-300"
         >
-            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-primary-300 w-full h-full">
+            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-primary-300 w-full h-full border-8 border-primary-600 border-opacity-50">
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
                 {showRaw && <RenderRawPoints pts={points} />}
@@ -163,7 +163,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         <Slider type="range"/> 
                     </div> */}
 
-                    <div className="">
+                    {/* <div className="">
                         <UISlider.SliderRoot
                             min={0}
                             max={400}
@@ -178,7 +178,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                             </UISlider.SliderTrack>
                             <UISlider.SliderThumb />
                         </UISlider.SliderRoot>
-                    </div>
+                    </div> */}
 
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>

@@ -6,11 +6,12 @@ import PathSimplifyReact from './components/PathSimplifyReact';
 function App() {
     return (
         <PathSimplifyProvider>
-            <div className="h-screen flex flex-col"> {/* bg-purple-200 */}
-                <header className="flex-none bg-gray-200 p-2">
+            <div className="h-screen flex flex-col">
+                <header className="flex-none p-2 shadow-md">
                     <div className="">
                         <div className="space-x-2 flex items-center">
-                            <div className="block p-2 rounded bg-gray-50 border border-gray-400 shadow">Path simplify</div>
+                            <div className="block p-2 rounded text-gray-100 bg-primary-700 saturate-50 border border-primary-400 shadow">Simplify points</div>
+                            <div className="block p-2 rounded text-gray-100 bg-primary-700 saturate-50 border border-primary-400 shadow">Simplify path</div>
                         </div>
                     </div>
                 </header>
