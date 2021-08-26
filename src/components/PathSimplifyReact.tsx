@@ -7,9 +7,7 @@ import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
-// import { Slider } from './Slider';
-import * as UISlider from './UISlider';
-import { Slider2 } from './UISlider';
+import { Slider } from './UISlider';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -153,9 +151,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     {/* Tolerance */}
                     <div className="flex items-center space-x-2">
                         <div className="">Tolerance:</div>
-
                         <div className="w-32 h-3">
-                            <Slider2
+                            <Slider
                                 min={0}
                                 max={400}
                                 step={0.1}
@@ -165,36 +162,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                                 }}
                             />
                         </div>
-
-                        {/* <input
-                            className="w-32" type="range" value={tolerance} onChange={(event) => setTolerance(+withDigits(+event.target.value, 0))}
-                            min={0} max={400} step={0.01}
-                        /> */}
-
                         <div className="w-12">{tolerance}</div>
                     </div>
-
-                    {/* <div className="h-4">
-                        <Slider type="range"/> 
-                    </div> */}
-
-
-                    {/* <div className="">
-                        <UISlider.SliderRoot
-                            min={0}
-                            max={400}
-                            step={0.1}
-                            value={[tolerance]}
-                            onValueChange={(value: number[]) => {
-                                setTolerance(+withDigits(value[0], 0));
-                            }}
-                        >
-                            <UISlider.SliderTrack>
-                                <UISlider.SliderRange />
-                            </UISlider.SliderTrack>
-                            <UISlider.SliderThumb />
-                        </UISlider.SliderRoot>
-                    </div> */}
 
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>

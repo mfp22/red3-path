@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Slider from '@radix-ui/react-slider';
+import * as RadixSlider from '@radix-ui/react-slider'; // https://www.radix-ui.com/docs/primitives/components/slider
 
 import { CSS, styled } from '../stitches.config';
 import { SliderOwnProps, SliderPrimitive } from '@radix-ui/react-slider';
@@ -8,7 +8,7 @@ const defaultStyles = {
     boxSizing: 'border-box',
 } as CSS;
 
-export const SliderRoot = styled(Slider.Root, {
+export const SliderRoot = styled(RadixSlider.Root, {
     ...defaultStyles,
     display: 'flex',
     position: 'relative',
@@ -19,7 +19,7 @@ export const SliderRoot = styled(Slider.Root, {
     height: '1em',
 });
 
-export const SliderTrack = styled(Slider.Track, {
+export const SliderTrack = styled(RadixSlider.Track, {
     ...defaultStyles,
     background: '#ffffff40',
     position: 'relative',
@@ -29,7 +29,7 @@ export const SliderTrack = styled(Slider.Track, {
 });
 
 
-export const SliderRange = styled(Slider.Range, {
+export const SliderRange = styled(RadixSlider.Range, {
     ...defaultStyles,
     position: 'absolute',
     background: 'var(--tm-primary-500)',
@@ -38,7 +38,7 @@ export const SliderRange = styled(Slider.Range, {
     height: '100%',
 });
 
-export const SliderThumb = styled(Slider.Thumb, {
+export const SliderThumb = styled(RadixSlider.Thumb, {
     ...defaultStyles,
     display: 'flex',
     width: 18,
@@ -51,8 +51,8 @@ export const SliderThumb = styled(Slider.Thumb, {
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
-export const Slider2: SliderPrimitive = React.forwardRef<HTMLSpanElement, SliderOwnProps>((props, forwardedRef) => {
-    const value = props.value || props.defaultValue || []; // https://www.radix-ui.com/docs/primitives/components/slider
+export const Slider: SliderPrimitive = React.forwardRef<HTMLSpanElement, SliderOwnProps>((props, forwardedRef) => {
+    const value = props.value || props.defaultValue || [];
     return (
         <SliderRoot {...props} ref={forwardedRef}>
             <SliderTrack>
