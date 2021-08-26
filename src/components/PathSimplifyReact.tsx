@@ -12,7 +12,7 @@ import * as UISlider from './UISlider';
 import { Slider2 } from './UISlider';
 
 function getPath(points: [number, number][], tolerance: number) {
-    //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
+    console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
 
     return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
 }
