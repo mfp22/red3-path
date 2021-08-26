@@ -1,11 +1,5 @@
 const colors = require('tailwindcss/colors');
-// const plugin = require('tailwindcss/plugin');
-
-// const pluginCustomCSSProps = plugin.withOptions(() => {
-//     return function() {
-//         console.log(`3--------------theme------------------`); 
-//     };
-// });
+const pluginCustomCSSProps = require('./pluginCustomCSSProps');
 
 module.exports = {
     mode: 'jit',
@@ -24,5 +18,5 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [pluginCustomCSSProps()],
 };
