@@ -1,8 +1,7 @@
 const plugin = require('tailwindcss/plugin');
 
-/*
-3--------------theme------------------ [Arguments] {
-  '0': {
+/* plugin function arguments
+{
     addVariant: [Function: addVariant],
     postcss: <ref *1> [Function: postcss] {
       plugin: [Function: plugin],
@@ -38,38 +37,12 @@ const plugin = require('tailwindcss/plugin');
     addBase: [Function: addBase],
     addComponents: [Function: addComponents],
     addUtilities: [Function: addUtilities],
-    matchUtilities: [Function: matchUtilities]  }
-}
-*/
-
-/*
-4--------------theme------------------ 
-{
-  transparent: 'transparent',
-  current: 'currentColor',
-  black: '#000',
-  white: '#fff',
-  purple: {
-    '50': '#f5f3ff',
-    '100': '#ede9fe',
-    '200': '#ddd6fe',
-    '300': '#c4b5fd',
-    '400': '#a78bfa',
-    '500': '#8b5cf6',
-    '600': '#7c3aed',
-    '700': '#6d28d9',
-    '800': '#5b21b6',
-    '900': '#4c1d95'
-  },
-  ...
+    matchUtilities: [Function: matchUtilities]
 }
 */
 
 const pluginCustomCSSProps = plugin.withOptions(() => {
     return function ({theme, addBase}) {
-        // console.log(`3--------------theme------------------`, arguments);
-        //console.log(`77--------------theme------------------`, theme('colors'));
-        //console.log(`5--------------base------------------${addBase}`);
         // addBase({
         //     ':root': {
         //         '--maxzz': 'red'
