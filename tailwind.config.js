@@ -42,10 +42,10 @@ const colors = require('tailwindcss/colors');
 }
 */
 
-function buildColorsToBridge(allColors, groupName) {
+function buildColorsToBridge(allColors, groupName, groupNameOut) {
     const colorGroup = allColors[groupName];
     const bridge = Object.fromEntries(
-        Object.keys(colorGroup).map((colorKey) => [ `--tm-${groupName}-${colorKey}`, colorGroup[colorKey], ])
+        Object.keys(colorGroup).map((colorKey) => [ `--tm-${groupNameOut || groupName}-${colorKey}`, colorGroup[colorKey], ])
     );
     return bridge;
 }
@@ -57,11 +57,12 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                purple: colors.sky, // override all
-                indigo: {
-                    light: colors.purple[800],
-                    dark: 'red',
-                },
+                //purple: colors.sky, // override all
+                primary: colors.sky,
+                // indigo: {
+                //     light: colors.purple[800],
+                //     dark: 'red',
+                // },
             },
         },
     },
@@ -70,10 +71,12 @@ module.exports = {
     },
     plugins: [
         function ({ theme, addBase }) {
-            const bridge = buildColorsToBridge(theme('colors'), 'purple');
+            const bridge = buildColorsToBridge(theme('colors'), 'purple', 'primary');
 
             addBase({
-                ':root': bridge,
+                ':root': {
+                    ...bridge
+                },
             });
 
             //console.log(bridge);
