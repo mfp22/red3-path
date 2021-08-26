@@ -29,20 +29,20 @@ const enum SIZES {
     rCpt = 13,              // smooth point radius
     wHandle = 8,            // square control point width
     rHandle = 4,            // circle control point radius
-    handleTextOfsX = rCpt + 2,    // control point x text offset
+    handleTextOfsX = rCpt + 3,    // control point x text offset
     handleTextOfsY = 0,     // control point y text offset
-    wLineLower = 4,         // lower line width
+    wLineLower = 5,         // lower line width
     wLineUpper = 2,         // upper line width
 }
 
 const enum COLORS {
     sRaw = 'blue',          // raw point stroke
-    fRaw = 'purple',        // raw point fill
+    fRaw = '#0085ff',       // raw point fill
     sCpt = 'red',           // smooth point stroke
-    fCpt = '#ffa50080',     // smooth point fill
+    fCpt = '#ffa500',       // smooth point fill
     sHandle = 'maroon',     // circle control point handle stroke
     fHandle = 'tomato',     // circle control point handle fill
-    slineLower = '#0978ad', // lower line stroke
+    slineLower = '#ff8422', // lower line stroke
     slineUpper = '#ffdb00', // upper line stroke
 }
 
@@ -135,9 +135,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             resize overflow-hidden bg-red-300"
         >
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-primary-300 w-full h-full">
-                {showRaw && <RenderRawPoints pts={points} />}
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
+                {showRaw && <RenderRawPoints pts={points} />}
                 <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
                 <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
             </svg>
