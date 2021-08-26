@@ -49,13 +49,11 @@ export const SliderThumb = styled(Slider.Thumb, {
 export const Slider2: SliderPrimitive = React.forwardRef<HTMLSpanElement, SliderOwnProps>((props, forwardedRef) => {
     const value = props.value || props.defaultValue  || []; // https://www.radix-ui.com/docs/primitives/components/slider
     return (
-        <Slider.Slider {...props} ref={forwardedRef}>
-            <Slider.Track>
-                <Slider.Range />
-            </Slider.Track>
-            {value.map((_, i) => (
-                <SliderThumb key={i} />
-            ))}
-        </Slider.Slider>
+        <SliderRoot {...props} ref={forwardedRef}>
+            <SliderTrack>
+                <SliderRange />
+            </SliderTrack>
+            {value.map((_, i) => <SliderThumb key={i} />)}
+        </SliderRoot>
     );
 });
