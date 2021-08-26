@@ -6,7 +6,7 @@ import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { withDigits } from '../utils/numbers';
-import ToogleButtons from './ToogleButtons';
+import ToggleButtons from './ToggleButtons';
 // import { Slider } from './Slider';
 import * as UISlider from './UISlider';
 
@@ -25,18 +25,29 @@ function getPathPoints(pathStr: string) {
 }
 
 const enum SIZES {
-    rRaw = 5,               // raw points radius
-    rCpt = 13,              // smooth points radius
-    wHandle = 8,            // square control points width
-    rHandle = 4,            // circle control points radius
-    handleTextOfsX = 15,    // control point x text offset
+    rRaw = 5,               // raw point radius
+    rCpt = 13,              // smooth point radius
+    wHandle = 8,            // square control point width
+    rHandle = 4,            // circle control point radius
+    handleTextOfsX = rCpt + 2,    // control point x text offset
     handleTextOfsY = 0,     // control point y text offset
-    wLineLower = 11,        // lower line width
-    wLineUpper = 7,         // upper line width
+    wLineLower = 4,         // lower line width
+    wLineUpper = 2,         // upper line width
+}
+
+const enum COLORS {
+    sRaw = 'blue',          // raw point stroke
+    fRaw = 'purple',        // raw point fill
+    sCpt = 'red',           // smooth point stroke
+    fCpt = '#ffa50080',     // smooth point fill
+    sHandle = 'maroon',     // circle control point handle stroke
+    fHandle = 'tomato',     // circle control point handle fill
+    slineLower = '#0978ad', // lower line stroke
+    slineUpper = '#ffdb00', // upper line stroke
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: "blue", fill: "purple", ...rest };
+    rest = { stroke: COLORS.sRaw, fill: COLORS.fRaw, ...rest };
     return (<g {...rest}>
         {pts.map((pt, idx) => {
             return <circle cx={pt[0]} cy={pt[1]} r={SIZES.rRaw} key={idx} >
@@ -54,7 +65,7 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
 }
 
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: SIZES.rCpt, stroke: "red", fill: "#ffa50080", ...rest }; // orange 50%
+    rest = { r: SIZES.rCpt, stroke: COLORS.sCpt, fill: COLORS.fCpt, ...rest }; // orange 50%
     return (<g>
         {pts.map((xy, index) => <React.Fragment key={index}>
             <circle cx={xy.x} cy={xy.y} {...rest}>
@@ -66,7 +77,7 @@ function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGEl
 }
 
 function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
+    rest = { stroke: COLORS.sHandle, fill: COLORS.fHandle, strokeWidth: '1', ...rest };
     return (<g {...rest}>
         {cpts.map((cpt, index) =>
             <React.Fragment key={index}>
@@ -80,7 +91,7 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 }
 
 function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: "maroon", strokeWidth: '1', fill: "tomato", ...rest };
+    rest = { stroke: COLORS.sHandle, fill: COLORS.fHandle, strokeWidth: '1', ...rest };
     return (<g {...rest}>
         {cpts.map((cpt, index) =>
             <React.Fragment key={index}>
@@ -123,19 +134,19 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="relative text-gray-700 select-none 
             resize overflow-hidden bg-red-300"
         >
-            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-purple-300 w-full h-full">
-                <path fill="none" stroke="red" strokeWidth={SIZES.wLineLower} d={path} />
-                <path fill="none" stroke="orange" strokeWidth={SIZES.wLineUpper} d={path} />
+            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-primary-300 w-full h-full">
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
+                <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
+                <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
             </svg>
 
             {/* Controls */}
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
                 {/* Tolerance range and Points stats */}
-                <div className="pb-1 flex flex-col text-sm bg-indigo-light"
+                <div className="pb-1 flex flex-col text-sm"
                 style={{backgroundColor: 'var(--tm-primary-300, green)'}}
                 >
                     {/* Tolerance */}
@@ -171,7 +182,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
                     <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                 </div>
-                <ToogleButtons />
+                <ToggleButtons />
             </div>
         </div>
     );
