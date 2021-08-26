@@ -8,8 +8,12 @@ module.exports = {
         extend: {
             colors: {
                 indigo: {
-                    light: 'red',
-                    dark: colors.blue[500],
+                    //light: colors.purple[300],
+                    light: function a() {
+                        console.log('--------------theme------------------', arguments, this)
+                        return 'red'
+                    },
+                    dark: 'red',
                 }
             }
         },
