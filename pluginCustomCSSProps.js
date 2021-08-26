@@ -68,13 +68,13 @@ const plugin = require('tailwindcss/plugin');
 const pluginCustomCSSProps = plugin.withOptions(() => {
     return function ({theme, addBase}) {
         // console.log(`3--------------theme------------------`, arguments);
-        //console.log(`4--------------theme------------------`, theme('colors'));
+        //console.log(`77--------------theme------------------`, theme('colors'));
         //console.log(`5--------------base------------------${addBase}`);
-        addBase({
-            ':root': {
-                '--maxzz': 'red'
-            }
-        });
+        // addBase({
+        //     ':root': {
+        //         '--maxzz': 'red'
+        //     }
+        // });
     };
 });
 

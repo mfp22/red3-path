@@ -135,7 +135,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
                 {/* Tolerance range and Points stats */}
-                <div className="pb-1 flex flex-col text-sm bg-indigo-light">
+                <div className="pb-1 flex flex-col text-sm bg-indigo-light"
+                style={{backgroundColor: 'var(--tm-purple-300, green)'}}
+                >
                     {/* Tolerance */}
                     <div className="flex items-center space-x-2">
                         <div className="">Tolerance:</div>
