@@ -33,6 +33,7 @@ export const SliderRange = styled(Slider.Range, {
     ...defaultStyles,
     position: 'absolute',
     background: 'var(--tm-primary-500)',
+    outline: '1px solid #00000050',
     borderRadius: '3px',
     height: '100%',
 });
@@ -45,7 +46,7 @@ export const SliderThumb = styled(Slider.Thumb, {
     background: 'var(--tm-primary-500)',
     borderRadius: '50%',
     cursor: 'pointer',
-    outline: '1px solid #00000080',
+    outline: '1px solid #00000050',
     '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
