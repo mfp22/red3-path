@@ -130,12 +130,11 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
-        <div className="
-            grid
-            grid-cols-1 lg:grid-cols-3
-            gap-4
-            text-gray-700 select-none"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-700 select-none">
+            <div className="col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
+                <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
+            </div>
+
             <svg
                 ref={svgRef} {...bind()} width={500} height={500}
                 className="col-span-1 lg:col-span-2 w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
@@ -149,7 +148,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
             {/* Controls */}
             {/* <div className=""> */}
-            <div className="p-4 space-y-2 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
+            <div className="lg:min-w-[20rem] p-4 space-y-2 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance range and Points stats */}
 
                 {/* Tolerance */}
@@ -160,8 +159,6 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     </div>
                     <div className="">{tolerance}</div>
                 </div>
-
-                <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
 
                 <div className="flex justify-between">
                     <ToggleButtons />
