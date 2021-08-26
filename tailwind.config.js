@@ -10,7 +10,7 @@ module.exports = {
                 indigo: {
                     //light: colors.purple[300],
                     light: function a() {
-                        console.log('--------------theme------------------', arguments, this)
+                        console.log(`3--------------theme------------------${JSON.stringify(Object.keys(this.global))}`) //${JSON.stringify(arguments)}
                         return 'red'
                     },
                     dark: 'red',
