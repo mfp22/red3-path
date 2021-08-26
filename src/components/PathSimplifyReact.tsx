@@ -9,6 +9,7 @@ import { withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
 // import { Slider } from './Slider';
 import * as UISlider from './UISlider';
+import { Slider2 } from './UISlider';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -147,7 +148,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
                 {/* Tolerance range and Points stats */}
                 <div className="pb-1 flex flex-col text-sm"
-                style={{backgroundColor: 'var(--tm-primary-300, green)'}}
+                    style={{ backgroundColor: 'var(--tm-primary-300, green)' }}
                 >
                     {/* Tolerance */}
                     <div className="flex items-center space-x-2">
@@ -162,6 +163,17 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     {/* <div className="h-4">
                         <Slider type="range"/> 
                     </div> */}
+
+                    <Slider2
+                        min={0}
+                        max={400}
+                        step={0.1}
+                        value={[tolerance]}
+                        onValueChange={(value: number[]) => {
+                            setTolerance(+withDigits(value[0], 0));
+                        }}
+
+                    />
 
                     {/* <div className="">
                         <UISlider.SliderRoot

@@ -1,6 +1,8 @@
+import React from 'react';
 import * as Slider from "@radix-ui/react-slider";
 
 import { CSS, styled } from "../stitches.config";
+import { SliderOwnProps, SliderPrimitive } from '@radix-ui/react-slider';
 
 const defaultStyles = {
     boxSizing: "border-box",
@@ -42,4 +44,18 @@ export const SliderThumb = styled(Slider.Thumb, {
     height: 24,
     background: "$text100",
     borderRadius: "$full",
+});
+
+export const Slider2: SliderPrimitive = React.forwardRef<HTMLSpanElement, SliderOwnProps>((props, forwardedRef) => {
+    const value = props.value || props.defaultValue  || []; // https://www.radix-ui.com/docs/primitives/components/slider
+    return (
+        <Slider.Slider {...props} ref={forwardedRef}>
+            <Slider.Track>
+                <Slider.Range />
+            </Slider.Track>
+            {value.map((_, i) => (
+                <SliderThumb key={i} />
+            ))}
+        </Slider.Slider>
+    );
 });
