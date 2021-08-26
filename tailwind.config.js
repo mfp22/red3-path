@@ -71,7 +71,7 @@ module.exports = {
     },
     plugins: [
         function ({ theme, addBase }) {
-            const bridge = buildColorsToBridge(theme('colors'), 'purple', 'primary');
+            const bridge = buildColorsToBridge(theme('colors'), 'primary', 'primary');
 
             addBase({
                 ':root': {
