@@ -4,7 +4,7 @@ import { PathSimplifyContext } from '../store/PathSimplify';
 function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string; }) {
     return (
         <div
-            className={`w-8 h-8 border rounded ${pressed ? 'saturate-200 bg-primary-300 border-primary-700' : 'border-primary-900 opacity-75'}`}
+            className={`w-8 h-8 active:scale-[.97] border rounded ${pressed ? 'saturate-200 bg-primary-300 border-primary-700' : 'border-primary-900 opacity-75'}`}
             style={{ boxShadow: pressed ? '#00000010 1px 1px 2px 2px inset, #ffffff10 -2px -2px 2px 2px inset' : '#00000018 1px 1px 0px 1px' }}
             onClick={onClick}
             title={title}

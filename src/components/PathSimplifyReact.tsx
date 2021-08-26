@@ -149,7 +149,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
             {/* Controls */}
             {/* <div className=""> */}
-            <div className="p-4 space-y-2 bg-primary-300 text-sm">
+            <div className="p-4 space-y-2 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance range and Points stats */}
 
                 {/* Tolerance */}
@@ -165,7 +165,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
                 <div className="flex justify-between">
                     <ToggleButtons />
-                    <button className="p-1 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
+                    <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])}>Clear</button>
                 </div>
             </div>
             {/* </div> */}

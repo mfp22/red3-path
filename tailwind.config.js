@@ -57,8 +57,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                //purple: colors.sky, // override all
-                primary: colors.sky,
+                primary: colors.sky, // override all
                 // indigo: {
                 //     light: colors.purple[800],
                 //     dark: 'red',
