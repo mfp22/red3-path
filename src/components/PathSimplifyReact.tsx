@@ -130,9 +130,15 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
-        <div className="relative text-gray-700 select-none"
+        <div className="
+            grid
+            grid-cols-1 lg:grid-cols-3
+            text-gray-700 select-none"
         >
-            <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-primary-300 w-full h-full border-8 border-primary-600 border-opacity-50">
+            <svg
+                ref={svgRef} {...bind()} width={500} height={500}
+                className="col-span-1 lg:col-span-2 w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
+            >
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
                 {showRaw && <RenderRawPoints pts={points} />}
@@ -141,27 +147,28 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </svg>
 
             {/* Controls */}
-            <div className="mt-4 flex items-center space-x-4 bg-primary-300">
-                <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
-                {/* Tolerance range and Points stats */}
-                <div className="pb-1 flex flex-col text-sm"
-                    style={{ backgroundColor: 'var(--tm-primary-300, green)' }}
-                >
-                    {/* Tolerance */}
-                    <div className="flex items-center space-x-2">
-                        <div className="">Tolerance:</div>
-                        <div className="w-32 h-3">
-                            <Slider min={0} max={400} step={0.1}
-                                value={[tolerance]}
-                                onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))}
-                            />
+            <div className="">
+                <div className="flex items-center space-x-4 bg-primary-300">
+                    <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
+                    {/* Tolerance range and Points stats */}
+                    <div className="pb-1 flex flex-col text-sm"
+                        style={{ backgroundColor: 'var(--tm-primary-300, green)' }}
+                    >
+                        {/* Tolerance */}
+                        <div className="flex items-center space-x-2">
+                            <div className="">Tolerance:</div>
+                            <div className="w-32 h-3">
+                                <Slider min={0} max={400} step={0.1}
+                                    value={[tolerance]}
+                                    onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))}
+                                />
+                            </div>
+                            <div className="w-12">{tolerance}</div>
                         </div>
-                        <div className="w-12">{tolerance}</div>
+                        <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
                     </div>
-
-                    <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
+                    <ToggleButtons />
                 </div>
-                <ToggleButtons />
             </div>
         </div>
     );
