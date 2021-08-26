@@ -9,7 +9,8 @@ module.exports = {
         extend: {
             colors: {
                 indigo: {
-                    light: colors.purple[300],
+                    light: colors.purple[800],
+                    //light: colors.purple[300],
                     // light: function a() {
                     //     console.log(`3--------------theme------------------${JSON.stringify(arguments)}`)
                     //     return 'red'
@@ -23,10 +24,17 @@ module.exports = {
         extend: {},
     },
     plugins: [
+
         pluginCustomCSSProps(),
-        function ({ theme }) {
+        function ({ theme, addBase }) {
+            addBase({
+                ':root': {
+                    '--maxzz3': 'rebeccapurple'
+                }
+            });
+    
             // console.log(`3--------------theme------------------`, arguments);
-            console.log(`4--------------theme------------------${JSON.stringify(theme('colors'))}`);
+            //console.log(`4--------------theme------------------${JSON.stringify(theme('colors'))}`);
             /*
                 {"transparent":"transparent","current":"currentColor","black":"#000","white":"#fff",
                 "gray":{"50":"#f9fafb","100":"#f3f4f6","200":"#e5e7eb","300":"#d1d5db","400":"#9ca3af","500":"#6b7280","600":"#4b5563","700":"#374151","800":"#1f2937","900":"#111827"},
