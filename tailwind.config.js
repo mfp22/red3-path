@@ -1,5 +1,4 @@
 const colors = require('tailwindcss/colors');
-const pluginCustomCSSProps = require('./pluginCustomCSSProps');
 
 /* Tailwind original colors
 {
@@ -58,7 +57,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                purple: colors.lightBlue, // override all
+                purple: colors.sky, // override all
                 indigo: {
                     light: colors.purple[800],
                     dark: 'red',
@@ -70,7 +69,6 @@ module.exports = {
         extend: {},
     },
     plugins: [
-        pluginCustomCSSProps(),
         function ({ theme, addBase }) {
             const bridge = buildColorsToBridge(theme('colors'), 'purple');
 
