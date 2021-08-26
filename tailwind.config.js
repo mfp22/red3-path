@@ -1,4 +1,11 @@
 const colors = require('tailwindcss/colors');
+// const plugin = require('tailwindcss/plugin');
+
+// const pluginCustomCSSProps = plugin.withOptions(() => {
+//     return function() {
+//         console.log(`3--------------theme------------------`); 
+//     };
+// });
 
 module.exports = {
     mode: 'jit',
@@ -8,14 +15,10 @@ module.exports = {
         extend: {
             colors: {
                 indigo: {
-                    //light: colors.purple[300],
-                    light: function a() {
-                        console.log(`3--------------theme------------------${JSON.stringify(Object.keys(this.global))}`) //${JSON.stringify(arguments)}
-                        return 'red'
-                    },
+                    light: colors.purple[300],
                     dark: 'red',
-                }
-            }
+                },
+            },
         },
     },
     variants: {
