@@ -7,7 +7,7 @@ import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
-import { Slider } from './UISlider';
+import Slider from './ui/Slider';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -130,8 +130,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     return (
-        <div className="relative text-gray-700 select-none 
-            resize overflow-hidden bg-red-300"
+        <div className="relative text-gray-700 select-none"
         >
             <svg ref={svgRef} {...bind()} width={500} height={500} className="bg-primary-300 w-full h-full border-8 border-primary-600 border-opacity-50">
                 {showPts && <RenderCpts pts={controlPoints.points} />}
@@ -142,7 +141,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </svg>
 
             {/* Controls */}
-            <div className="ml-2 mb-2 absolute bottom-0 flex items-center space-x-4">
+            <div className="mt-4 flex items-center space-x-4 bg-primary-300">
                 <button className="p-2 border border=gray-400 rounded shadow" onClick={() => setPoints([])}>Clear</button>
                 {/* Tolerance range and Points stats */}
                 <div className="pb-1 flex flex-col text-sm"
@@ -152,14 +151,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     <div className="flex items-center space-x-2">
                         <div className="">Tolerance:</div>
                         <div className="w-32 h-3">
-                            <Slider
-                                min={0}
-                                max={400}
-                                step={0.1}
+                            <Slider min={0} max={400} step={0.1}
                                 value={[tolerance]}
-                                onValueChange={(value: number[]) => {
-                                    setTolerance(+withDigits(value[0], 0));
-                                }}
+                                onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))}
                             />
                         </div>
                         <div className="w-12">{tolerance}</div>

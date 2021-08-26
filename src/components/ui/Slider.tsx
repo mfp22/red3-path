@@ -1,14 +1,12 @@
 import React from 'react';
 import * as RadixSlider from '@radix-ui/react-slider'; // https://www.radix-ui.com/docs/primitives/components/slider
-
-import { CSS, styled } from '../stitches.config';
-import { SliderOwnProps, SliderPrimitive } from '@radix-ui/react-slider';
+import { CSS, styled } from '../../stitches.config';
 
 const defaultStyles = {
     boxSizing: 'border-box',
 } as CSS;
 
-export const SliderRoot = styled(RadixSlider.Root, {
+const SliderRoot = styled(RadixSlider.Root, {
     ...defaultStyles,
     display: 'flex',
     position: 'relative',
@@ -19,7 +17,7 @@ export const SliderRoot = styled(RadixSlider.Root, {
     height: '1em',
 });
 
-export const SliderTrack = styled(RadixSlider.Track, {
+const SliderTrack = styled(RadixSlider.Track, {
     ...defaultStyles,
     background: '#ffffff40',
     position: 'relative',
@@ -29,7 +27,7 @@ export const SliderTrack = styled(RadixSlider.Track, {
 });
 
 
-export const SliderRange = styled(RadixSlider.Range, {
+const SliderRange = styled(RadixSlider.Range, {
     ...defaultStyles,
     position: 'absolute',
     background: 'var(--tm-primary-500)',
@@ -38,7 +36,7 @@ export const SliderRange = styled(RadixSlider.Range, {
     height: '100%',
 });
 
-export const SliderThumb = styled(RadixSlider.Thumb, {
+const SliderThumb = styled(RadixSlider.Thumb, {
     ...defaultStyles,
     display: 'flex',
     width: 18,
@@ -51,7 +49,7 @@ export const SliderThumb = styled(RadixSlider.Thumb, {
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
-export const Slider: SliderPrimitive = React.forwardRef<HTMLSpanElement, SliderOwnProps>((props, forwardedRef) => {
+const Slider: RadixSlider.SliderPrimitive = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
     return (
         <SliderRoot {...props} ref={forwardedRef}>
@@ -62,3 +60,5 @@ export const Slider: SliderPrimitive = React.forwardRef<HTMLSpanElement, SliderO
         </SliderRoot>
     );
 });
+
+export default Slider;
