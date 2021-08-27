@@ -51,12 +51,15 @@ const SliderThumb = styled(RadixSlider.Thumb, {
 
 const Slider: RadixSlider.SliderPrimitive = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
+    const { 'area-label': areaLabel, ...rest } = props;
+    console.log('props', props);
+
     return (
-        <SliderRoot {...props} ref={forwardedRef}>
+        <SliderRoot {...rest} ref={forwardedRef}>
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
-            {value.map((_, i) => <SliderThumb key={i} />)}
+            {value.map((_, i) => <SliderThumb aria-label={areaLabel} key={i} />)}
         </SliderRoot>
     );
 });
