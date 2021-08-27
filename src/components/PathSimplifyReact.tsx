@@ -161,9 +161,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 {/* Tolerance */}
                 <div className="flex items-center space-x-2">
                     <div className="">Tolerance:</div>
-                    <div className="flex-1 h-3">
-                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} />
-                    </div>
+                    <label className="flex-1 h-3" aria-label="Tolerance control">
+                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} aria-label="Tolerance control"/>
+                    </label>
                     <div className="">{tolerance}</div>
                 </div>
 
