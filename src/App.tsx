@@ -15,7 +15,7 @@ function App() {
                         </div>
                     </div>
                 </header>
-                <div className="flex justify-center text-2xl text-primary-900"><p className="text-center">Draw a line on the canvas and use the tolerance slider to see the result of the interpolation.</p></div>
+                <div className="hidden md:flex justify-center text-2xl text-primary-900"><p className="text-center">Draw a line on the canvas and use the tolerance slider to see the result of the interpolation.</p></div>
                 <div className="flex-1 lg:max-w-5xl mx-auto flex items-center justify-center">
                     <PathSimplifyReact />
                 </div>
