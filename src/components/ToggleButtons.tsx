@@ -18,17 +18,17 @@ const ToggleButtons: React.FC = () => {
     const { showLine, setShowLine, showRaw, setShowRaw, showPts, setShowPts, showCtr, setShowCtr, } = useContext(PathSimplifyContext);
     return (
         <div className="flex space-x-1">
-            <ToogleButton pressed={showLine} onClick={() => setShowLine(prev => !prev)} title="Show curve">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M3.9 17a8 8 0 01-.2-2 8.3 8.3 0 0116.6 0 8 8 0 01-.2 2"/>
-                </svg>
-            </ToogleButton>
             <ToogleButton pressed={showRaw} onClick={() => setShowRaw(prev => !prev)} title="Show raw points">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M14 7.1a8.3 8.3 0 016.3 7.8m-16.7-.1A8.3 8.3 0 0110 7.1" />
+                    {/* <path d="M14 7.1a8.3 8.3 0 016.3 7.8m-16.7-.1A8.3 8.3 0 0110 7.1" /> */}
                     <path d="M14 6.9a1 1 0 010 .2 2 2 0 01-4 0 2 2 0 010-.2 2 2 0 014 0z" />
                     <circle cx="3.6" cy="16.9" r="2" />
                     <circle cx="20.4" cy="16.9" r="2" />
+                </svg>
+            </ToogleButton>
+            <ToogleButton pressed={showLine} onClick={() => setShowLine(prev => !prev)} title="Show curve">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3.9 17a8 8 0 01-.2-2 8.3 8.3 0 0116.6 0 8 8 0 01-.2 2"/>
                 </svg>
             </ToogleButton>
             <ToogleButton pressed={showPts} onClick={() => setShowPts(prev => !prev)} title="Show smooth curve points">
