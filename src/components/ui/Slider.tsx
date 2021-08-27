@@ -1,5 +1,6 @@
 import React from 'react';
 import * as RadixSlider from '@radix-ui/react-slider'; // https://www.radix-ui.com/docs/primitives/components/slider
+import * as Polymorphic from "@radix-ui/react-polymorphic";
 import { CSS, styled } from '../../stitches.config';
 
 const defaultStyles = {
@@ -50,16 +51,18 @@ const SliderThumb = styled(RadixSlider.Thumb, {
 });
 
 type SliderOwnPropsPlus = RadixSlider.SliderOwnProps & {
-    ariaLabel: string;
+    ariaLabel?: string;
 }
 
-type AA = RadixSlider.SliderPrimitive;
+type AA = Polymorphic.ForwardRefComponent<'span', SliderOwnPropsPlus>;
 
-let a: ForwardRefComponent<'span', SliderOwnPropsPlus> = {}
+//let a: Polymorphic.ForwardRefComponent<'span', SliderOwnPropsPlus> = {}
 
-const Slider: AA = React.forwardRef<HTMLSpanElement, AA>((props, forwardedRef) => {
+const Slider = React.forwardRef<HTMLSpanElement, SliderOwnPropsPlus>((props, forwardedRef) => {
+//const Slider: RadixSlider.SliderPrimitive = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps>((props, forwardedRef) => {
+//const Slider: AA = React.forwardRef<HTMLSpanElement, AA>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
-    const { 'area-label': areaLabel, ...rest } = props;
+    const { 'ariaLabel': areaLabel, ...rest } = props;
     console.log('props', props);
 
     return (
