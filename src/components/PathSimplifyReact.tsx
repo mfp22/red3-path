@@ -5,7 +5,7 @@ import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
-import { withDigits } from '../utils/numbers';
+import { clamp, withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
 import Slider from './ui/Slider';
 
@@ -116,7 +116,11 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         //if (event.event.type === 'pointerdown') {}
 
         if (event.dragging && event.buttons === 1) {
-            addPoint(pointer(event.event, svgRef.current));
+            // let pt = pointer(event, ref.current).map(coord => +withDigits(coord, 0)) as [number, number];
+            let pt = pointer(event.event, svgRef.current);
+            pt[0] = clamp(pt[0], SIZES.rCpt, svgWidth - SIZES.rCpt);
+            pt[1] = clamp(pt[1], SIZES.rCpt, svgHeight - SIZES.rCpt)
+            addPoint(pt);
         }
 
         // if (event.event.type === 'pointerup') {
@@ -129,16 +133,18 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const path = React.useMemo(() => getPath(points, tolerance), [points, tolerance]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
+    const svgWidth = 500;
+    const svgHeight = 500;
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
             <div className="col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
                 <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
             </div>
-
-            <svg
-                ref={svgRef} {...bind()} width={500} height={500}
-                className="col-span-1 lg:col-span-2 w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
+{/* width={500} height={500} */}
+            <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+                className="col-span-1 lg:col-span-2 min-w-[500px] w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
             >
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
@@ -150,7 +156,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </svg>
 
             {/* Controls */}
-            <div className="lg:min-w-[20rem] p-4 space-y-2 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
+            <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance */}
                 <div className="flex items-center space-x-2">
                     <div className="">Tolerance:</div>
