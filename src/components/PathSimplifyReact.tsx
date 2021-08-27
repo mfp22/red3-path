@@ -108,7 +108,7 @@ interface PathSimplifyReactProps {
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, setTolerance, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
+    const { points, setPoints, tolerance, setTolerance, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
@@ -131,6 +131,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-700 select-none">
+            {/* Tolerance range and Points stats */}
             <div className="col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
                 <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
             </div>
@@ -142,15 +143,14 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
                 {showRaw && <RenderRawPoints pts={points} />}
-                <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
-                <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
+                {showLine && <>
+                    <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
+                    <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
+                </>}
             </svg>
 
             {/* Controls */}
-            {/* <div className=""> */}
             <div className="lg:min-w-[20rem] p-4 space-y-2 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
-                {/* Tolerance range and Points stats */}
-
                 {/* Tolerance */}
                 <div className="flex items-center space-x-2">
                     <div className="">Tolerance:</div>
@@ -162,10 +162,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
                 <div className="flex justify-between">
                     <ToggleButtons />
-                    <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])}>Clear</button>
+                    <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])} title="Clear canvas points">Clear</button>
                 </div>
             </div>
-            {/* </div> */}
         </div>
     );
 };
