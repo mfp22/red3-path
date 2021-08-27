@@ -49,7 +49,15 @@ const SliderThumb = styled(RadixSlider.Thumb, {
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
-const Slider: RadixSlider.SliderPrimitive = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps>((props, forwardedRef) => {
+type SliderOwnPropsPlus = RadixSlider.SliderOwnProps & {
+    ariaLabel: string;
+}
+
+type AA = RadixSlider.SliderPrimitive;
+
+let a: ForwardRefComponent<'span', SliderOwnPropsPlus> = {}
+
+const Slider: AA = React.forwardRef<HTMLSpanElement, AA>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
     const { 'area-label': areaLabel, ...rest } = props;
     console.log('props', props);
