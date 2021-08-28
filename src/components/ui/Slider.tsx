@@ -46,9 +46,9 @@ const SliderThumb = styled(RadixSlider.Thumb, {
     borderRadius: '50%',
     cursor: 'pointer',
     outline: '1px solid #00000050',
-    '--active': 0,
+    '--active': '0',
     '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
-    '&:active': { '--active': 1 },
+    '&:active': { '--active': '1' },
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
@@ -60,6 +60,7 @@ const SliderBalloon = styled('div', {
     //padding: '8px 3px 0',
     width: '32px',
     height: '62px',
+    //transform: translateY(calc(var(--active) * 5px)) scale(calc((var(--active) * 100%)));
     //transform: 'translateY(calc(var(--active) * -40px)) scale(var(--active)) translateY(calc(var(--active) * 40px))',
     //transform: 'translateY(calc(var(--active) * -40px))',
     //transform: 'scale(var(--active))',
