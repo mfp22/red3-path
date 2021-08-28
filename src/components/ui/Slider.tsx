@@ -63,29 +63,30 @@ const SliderBalloon = styled('div', {
     //transform: 'translateY(calc(var(--active) * -40px)) scale(var(--active)) translateY(calc(var(--active) * 40px))',
     //transform: 'translateY(calc(var(--active) * -40px))',
     //transform: 'scale(var(--active))',
-    //transform: 'translateY(calc(var(--active) * -5px)) scale(var(--active))',
+    transform: 'translateY(calc(var(--active) * -5px)) scale(var(--active))',
     //opacity: 'calc(var(--active) * .5)',
     //opacity: 'var(--active)',
     transition: 'all .2s ease',
     transformOrigin: '50% 90%',
 
     //fontSize: 'calc(100% - 2 / 5 * 0.2em)',
-    fontSize: 'calc(.9em)',
+    fontSize: '.8em',
+    //fontWeight: 'bold',
     textAlign: 'center',
-    color: 'var(--tm-primary-100)',
+    color: 'var(--tm-primary-50)',
 
     willChange: 'transform',
     pointerEvents: 'none',
     overflow: 'hidden',
 });
 
-function BallonSVG() {
+function BallonSVG({ value }: { value: number; }) {
     return (
         <div className="relative">
             <svg className="absolute inset-0" fill="var(--tm-primary-500)" stroke="#00000050">
                 <path d="M16,44.89S7,37.62,4.7,35.32a16,16,0,1,1,22.6,0C25,37.62,16,44.89,16,44.89Z" />
             </svg>
-            <div className="relative w-full top-3 left-[-1px]">124</div>
+            <div className="relative w-full top-3 left-[-1px]">{value}</div>
         </div>
     );
 };
@@ -98,11 +99,13 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
-            {value.map((_, i) => <SliderThumb key={i} aria-label={ariaLabel}>
-                <SliderBalloon>
-                    <BallonSVG />
-                </SliderBalloon>
-            </SliderThumb>)}
+            {value.map((_, i) => (
+                <SliderThumb key={i} aria-label={ariaLabel}>
+                    <SliderBalloon>
+                        <BallonSVG value={_} />
+                    </SliderBalloon>
+                </SliderThumb>
+            ))}
         </SliderRoot>
     );
 });
