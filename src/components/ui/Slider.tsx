@@ -70,10 +70,15 @@ const SliderBalloon = styled('div', {
 function BallonSVG() {
     return (
         <svg width="32" height="62" fill="var(--tm-primary-500)" stroke="#00000050">
-            <path d="M27.3 27.3C25 29.6 17 35.8 17 43v3c0 3 2.5 5 3.2 5.8a6 6 0 1 1-8.5 0C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7A16 16 0 0 1 16 0a16 16 0 0 1 11.3 27.3z" />
+            {/* <path d="M27.3 27.3C25 29.6 17 35.8 17 43v3c0 3 2.5 5 3.2 5.8a6 6 0 1 1-8.5 0C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7A16 16 0 0 1 16 0a16 16 0 0 1 11.3 27.3z" /> */}
+            <path d="M15,54V51c0-7.2-8-13.4-10.3-15.7a16,16,0,1,1,22.6,0C25,37.62,17,43.82,17,51v3" />
         </svg>
     );
 };
+
+/*
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.95 62"><defs><style>.cls-1{fill:#e6e6e6;}.cls-2{fill:none;stroke:#000;}</style></defs><rect class="cls-1" x="0.47" width="32" height="62"/><path class="cls-2" d="M198.72,97.82v-3c0-7.2-8-13.4-10.3-15.7a16,16,0,1,1,22.6,0c-2.3,2.3-10.3,8.5-10.3,15.7v3" transform="translate(-183.24 -43.82)"/></svg>
+*/
 
 const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { ariaLabel?: string; }>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
@@ -84,7 +89,6 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
                 <SliderRange />
             </SliderTrack>
             {value.map((_, i) => <SliderThumb key={i} aria-label={ariaLabel}>
-                {/* <div className="w-32 h-32 bg-red-500 hidden active:block scale-[.2] active:scale-1"></div> */}
                 <SliderBalloon>
                     <BallonSVG />
                 </SliderBalloon>
