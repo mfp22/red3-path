@@ -56,12 +56,11 @@ const SliderBalloon = styled('div', {
     position: 'absolute',
     left: 0,
     //top: 0,
-    bottom: '3px',
+    bottom: '7px',
     width: '32px',
     height: '62px',
     //padding: '8px 3px 0',
     margin: '0 0 0 -7px',
-    //backgroundColor: 'red',
     transform: 'scale(var(--active))',
     transition: 'transform .2s ease',
     transformOrigin: '50% 90%',
@@ -70,8 +69,7 @@ const SliderBalloon = styled('div', {
 function BallonSVG() {
     return (
         <svg width="32" height="62" fill="var(--tm-primary-500)" stroke="#00000050">
-            {/* <path d="M27.3 27.3C25 29.6 17 35.8 17 43v3c0 3 2.5 5 3.2 5.8a6 6 0 1 1-8.5 0C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7A16 16 0 0 1 16 0a16 16 0 0 1 11.3 27.3z" /> */}
-            <path d="M15,54V51c0-7.2-8-13.4-10.3-15.7a16,16,0,1,1,22.6,0C25,37.62,17,43.82,17,51v3" />
+            <path d="M16,51c0-7.2-9-13.4-11.3-15.7a16,16,0,1,1,22.6,0C25,37.62,16,43.82,16,51Z" />
         </svg>
     );
 };
