@@ -103,6 +103,14 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     </g>);
 }
 
+function Result({pointsSrc, pointsDst}: {pointsSrc: [number, number][], pointsDst: XY[]}) {
+    return (
+        <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
+            <div className="">Points: {pointsSrc.length} -&gt; {pointsDst.length}</div>
+        </div>
+    );
+}
+
 interface PathSimplifyReactProps {
 }
 
@@ -139,9 +147,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
-            <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
-                <div className="">Points: {points.length} -&gt; {controlPoints.points.length}</div>
-            </div>
+            <Result pointsSrc={points} pointsDst={controlPoints.points} />
 
             {/* Canvas */}
             <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
@@ -162,7 +168,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <div className="flex items-center space-x-2">
                     <div className="">Tolerance:</div>
                     <div className="flex-1 h-3">
-                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} ariaLabel="Tolerance control"/>
+                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
                     </div>
                     <div className="">{tolerance}</div>
                 </div>
