@@ -55,28 +55,40 @@ const SliderThumb = styled(RadixSlider.Thumb, {
 const SliderBalloon = styled('div', {
     position: 'absolute',
     left: 0,
-    //top: 0,
-    bottom: '7px',
+    bottom: '5px',
+    margin: '0 0 0 -7px',
+    //padding: '8px 3px 0',
     width: '32px',
     height: '62px',
-    //padding: '8px 3px 0',
-    margin: '0 0 0 -7px',
-    transform: 'scale(var(--active))',
-    transition: 'transform .2s ease',
+    //transform: 'translateY(calc(var(--active) * -40px)) scale(var(--active)) translateY(calc(var(--active) * 40px))',
+    //transform: 'translateY(calc(var(--active) * -40px))',
+    //transform: 'scale(var(--active))',
+    //transform: 'translateY(calc(var(--active) * -5px)) scale(var(--active))',
+    //opacity: 'calc(var(--active) * .5)',
+    //opacity: 'var(--active)',
+    transition: 'all .2s ease',
     transformOrigin: '50% 90%',
+
+    //fontSize: 'calc(100% - 2 / 5 * 0.2em)',
+    fontSize: 'calc(.9em)',
+    textAlign: 'center',
+    color: 'var(--tm-primary-100)',
+
+    willChange: 'transform',
+    pointerEvents: 'none',
+    overflow: 'hidden',
 });
 
 function BallonSVG() {
     return (
-        <svg width="32" height="62" fill="var(--tm-primary-500)" stroke="#00000050">
-            <path d="M16,51c0-7.2-9-13.4-11.3-15.7a16,16,0,1,1,22.6,0C25,37.62,16,43.82,16,51Z" />
-        </svg>
+        <div className="relative">
+            <svg className="absolute inset-0" fill="var(--tm-primary-500)" stroke="#00000050">
+                <path d="M16,44.89S7,37.62,4.7,35.32a16,16,0,1,1,22.6,0C25,37.62,16,44.89,16,44.89Z" />
+            </svg>
+            <div className="relative w-full top-3 left-[-1px]">124</div>
+        </div>
     );
 };
-
-/*
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.95 62"><defs><style>.cls-1{fill:#e6e6e6;}.cls-2{fill:none;stroke:#000;}</style></defs><rect class="cls-1" x="0.47" width="32" height="62"/><path class="cls-2" d="M198.72,97.82v-3c0-7.2-8-13.4-10.3-15.7a16,16,0,1,1,22.6,0c-2.3,2.3-10.3,8.5-10.3,15.7v3" transform="translate(-183.24 -43.82)"/></svg>
-*/
 
 const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { ariaLabel?: string; }>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
