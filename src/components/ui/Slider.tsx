@@ -57,7 +57,9 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
-            {value.map((_, i) => <SliderThumb key={i} aria-label={ariaLabel} />)}
+            {value.map((_, i) => <SliderThumb key={i} aria-label={ariaLabel}>
+            <div className="w-32 h-32 bg-red-500 hidden active:block scale-[.2] active:scale-1"></div>
+            </SliderThumb>)}
         </SliderRoot>
     );
 });
