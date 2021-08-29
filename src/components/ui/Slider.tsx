@@ -48,7 +48,8 @@ const SliderThumb = styled(RadixSlider.Thumb, {
     outline: '1px solid #00000050',
     '--active': '0',
     '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
-    '&:active': { '--active': '1' },
+    //'&:active': { '--active': '1' },
+    '&:active': { '--active': '1', backgroundColor: 'red' },
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
@@ -95,8 +96,12 @@ function BallonSVG({ value }: { value: number; }) {
 const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { ariaLabel?: string; }>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
     const { ariaLabel, ...rest } = props;
+    
+    const s = React.useRef<any>(null);
+    console.log(forwardedRef);
+
     return (
-        <SliderRoot {...rest} ref={forwardedRef}>
+        <SliderRoot {...rest} ref={forwardedRef} ref={s}>
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
