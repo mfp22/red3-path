@@ -48,9 +48,8 @@ const SliderThumb = styled(RadixSlider.Thumb, {
     cursor: 'pointer',
     outline: '1px solid #00000050',
     //'--active': '0',
-    '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
     //'&:active': { '--active': '1' },
-    //'&:active': { '--active': '1', backgroundColor: 'red' },
+    '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
@@ -59,22 +58,14 @@ const SliderBalloon = styled('div', {
     left: 0,
     bottom: '5px',
     margin: '0 0 0 -7px',
-    //padding: '8px 3px 0',
     width: '32px',
     height: '62px',
-    //transform: translateY(calc(var(--active) * 5px)) scale(calc((var(--active) * 100%)));
-    //transform: 'translateY(calc(var(--active) * -40px)) scale(var(--active)) translateY(calc(var(--active) * 40px))',
-    //transform: 'translateY(calc(var(--active) * -40px))',
-    //transform: 'scale(var(--active))',
-    transform: 'translateY(calc(var(--active, 0) * -5px)) scale(var(--active, 0))',
-    //opacity: 'calc(var(--active) * .5)',
-    //opacity: 'var(--active)',
     transition: 'all .2s ease',
     transformOrigin: '50% 90%',
+    transform: 'translateY(calc(var(--active, 0) * -5px)) scale(var(--active, 0))',
+    opacity: 'var(--active)',
 
-    //fontSize: 'calc(100% - 2 / 5 * 0.2em)',
     fontSize: '.8em',
-    //fontWeight: 'bold',
     textAlign: 'center',
     color: 'var(--tm-primary-50)',
 
@@ -101,23 +92,15 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
     const sliderRef = React.useRef<HTMLSpanElement | null>(null);
     React.useImperativeHandle(forwardedRef, () => sliderRef.current!);
 
-    const bind = useDrag((event) => {
+    const bind = useDrag(({ event: { type } }) => {
         if (sliderRef.current) {
-            if (event.event.type === 'pointerdown') {
-                // (event.event.target as HTMLSpanElement).style.setProperty('--active', '1');
+            if (type === 'pointerdown') {
                 sliderRef.current.style.setProperty('--active', '1');
-            }
-            else
-            if (event.event.type === 'pointerup') {
+            } else if (type === 'pointerup') {
                 sliderRef.current.style.setProperty('--active', '0');
             }
-            console.log('event', event.event.target, event);
         }
-    }, 
-    //{ domTarget: sliderRef.current }
-    );
-
-    //console.log(forwardedRef, sliderRef);
+    });
 
     return (
         <SliderRoot {...bind()} {...rest} ref={sliderRef}>
