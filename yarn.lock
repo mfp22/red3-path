@@ -779,11 +779,6 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-gelerator@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/gelerator/-/gelerator-3.0.0.tgz#9e6e76e0576d58f2632587f1e29495d921e8ca24"
-  integrity sha512-OyNvfNn7Odtl/5xUa2mD3hkoltWSm8Fn7Q8uBMDjoUXkodEXO/+CTqC7b4iglcP61P+Fue1AAl2+/rIcqErPzQ==
-
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
@@ -1042,13 +1037,6 @@ normalize-range@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=
-
-number-flip@^1.1.10:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/number-flip/-/number-flip-1.1.10.tgz#6ce855ff6e83f36b0b83a89fd6d58891cf2714c2"
-  integrity sha512-slYANqeXZspH1lGxFL4WMdPtlk5Sgk1rVRTmhJXGaQl23/mT+Mdf9UB56vjhl51Uj7GsM9H50jFkTvh3sKnOXA==
-  dependencies:
-    gelerator "^3.0.0"
 
 object-assign@^4.1.1:
   version "4.1.1"

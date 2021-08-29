@@ -8,7 +8,6 @@ import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pat
 import { clamp, withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
 import Slider from './ui/Slider';
-import { Flip } from "number-flip";
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -104,32 +103,13 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     </g>);
 }
 
-function Result({ pointsSrc, pointsDst }: { pointsSrc: [number, number][], pointsDst: XY[]; }) {
-    const srcRef = React.useRef<HTMLDivElement>(null);
-    React.useEffect(() => {
-        new Flip({
-            node: srcRef.current,
-            //from: pointsSrc.length - 10,
-            to: pointsSrc.length,
-            separator: ","
-          });
-     }, [pointsSrc.length]);
+function Result({pointsSrc, pointsDst}: {pointsSrc: [number, number][], pointsDst: XY[]}) {
     return (
         <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
-            <div className="">Points:
-                <div ref={srcRef} className="">{pointsSrc.length}</div>
-                -&gt; {pointsDst.length}</div>
+            <div className="">Points: {pointsSrc.length} -&gt; {pointsDst.length}</div>
         </div>
     );
 }
-
-// function Result({pointsSrc, pointsDst}: {pointsSrc: [number, number][], pointsDst: XY[]}) {
-//     return (
-//         <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
-//             <div className="">Points: {pointsSrc.length} -&gt; {pointsDst.length}</div>
-//         </div>
-//     );
-// }
 
 interface PathSimplifyReactProps {
 }
