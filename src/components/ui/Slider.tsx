@@ -60,10 +60,11 @@ const SliderBalloon = styled('div', {
     margin: '0 0 0 -7px',
     width: '32px',
     height: '62px',
-    transition: 'all .2s ease',
+    transition: 'transform .2s ease',
+    //transition: 'transform .2s ease, opacity 4.2s ease',
     transformOrigin: '50% 90%',
     transform: 'translateY(calc(var(--active, 0) * -5px)) scale(var(--active, 0))',
-    opacity: 'var(--active)',
+    //opacity: 'var(--active)',
 
     fontSize: '.8em',
     textAlign: 'center',
@@ -94,11 +95,8 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
 
     const bind = useDrag(({ event: { type } }) => {
         if (sliderRef.current) {
-            if (type === 'pointerdown') {
-                sliderRef.current.style.setProperty('--active', '1');
-            } else if (type === 'pointerup') {
-                sliderRef.current.style.setProperty('--active', '0');
-            }
+            const set = type === 'pointerdown' ? 1 : type === 'pointerup' ? 0 : 2 
+            set < 2 && (sliderRef.current.style.setProperty('--active', `${set}`));
         }
     });
 
