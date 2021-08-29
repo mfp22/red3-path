@@ -97,11 +97,13 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
     const value = props.value || props.defaultValue || [];
     const { ariaLabel, ...rest } = props;
     
-    const s = React.useRef<any>(null);
-    console.log(forwardedRef);
+    const sliderRef = React.useRef<any>(null);
+    React.useImperativeHandle(forwardedRef, () => sliderRef.current)
+    
+    //console.log(forwardedRef, sliderRef);
 
     return (
-        <SliderRoot {...rest} ref={forwardedRef} ref={s}>
+        <SliderRoot {...rest} ref={sliderRef}>
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
