@@ -1,6 +1,7 @@
 import React from 'react';
 import * as RadixSlider from '@radix-ui/react-slider'; // https://www.radix-ui.com/docs/primitives/components/slider
 import { CSS, styled } from '../../stitches.config';
+import { useDrag } from 'react-use-gesture';
 
 const defaultStyles = {
     boxSizing: 'border-box',
@@ -49,7 +50,7 @@ const SliderThumb = styled(RadixSlider.Thumb, {
     '--active': '0',
     '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
     //'&:active': { '--active': '1' },
-    '&:active': { '--active': '1', backgroundColor: 'red' },
+    //'&:active': { '--active': '1', backgroundColor: 'red' },
     '&:focus': { boxShadow: '0 0 0 5px #0000001c' },
 });
 
@@ -96,14 +97,27 @@ function BallonSVG({ value }: { value: number; }) {
 const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { ariaLabel?: string; }>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
     const { ariaLabel, ...rest } = props;
-    
+
     const sliderRef = React.useRef<any>(null);
-    React.useImperativeHandle(forwardedRef, () => sliderRef.current)
-    
+    React.useImperativeHandle(forwardedRef, () => sliderRef.current);
+
+    const bind = useDrag((event) => {
+        if (event.event.target) {
+            if (event.event.type === 'pointerdown') {
+                (event.event.target as HTMLSpanElement).style.setProperty('--active', '1');
+            }
+            else
+            if (event.event.type === 'pointerup') {
+                (event.event.target as HTMLSpanElement).style.setProperty('--active', '0');
+            }
+            console.log('event', event);
+        }
+    });
+
     //console.log(forwardedRef, sliderRef);
 
     return (
-        <SliderRoot {...rest} ref={sliderRef}>
+        <SliderRoot {...bind()} {...rest} ref={sliderRef}>
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
