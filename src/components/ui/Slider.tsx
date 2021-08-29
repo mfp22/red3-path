@@ -98,21 +98,24 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
     const value = props.value || props.defaultValue || [];
     const { ariaLabel, ...rest } = props;
 
-    const sliderRef = React.useRef<any>(null);
-    React.useImperativeHandle(forwardedRef, () => sliderRef.current);
+    const sliderRef = React.useRef<HTMLSpanElement | null>(null);
+    React.useImperativeHandle(forwardedRef, () => sliderRef.current!);
 
     const bind = useDrag((event) => {
-        if (event.event.target) {
+        if (sliderRef.current) {
             if (event.event.type === 'pointerdown') {
-                (event.event.target as HTMLSpanElement).style.setProperty('--active', '1');
+                // (event.event.target as HTMLSpanElement).style.setProperty('--active', '1');
+                sliderRef.current.style.setProperty('--active', '1');
             }
             else
             if (event.event.type === 'pointerup') {
-                (event.event.target as HTMLSpanElement).style.setProperty('--active', '0');
+                sliderRef.current.style.setProperty('--active', '0');
             }
-            console.log('event', event);
+            console.log('event', event.event.target, event);
         }
-    });
+    }, 
+    //{ domTarget: sliderRef.current }
+    );
 
     //console.log(forwardedRef, sliderRef);
 
