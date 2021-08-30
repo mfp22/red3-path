@@ -106,10 +106,14 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 function Result({ pointsSrc, pointsDst }: { pointsSrc: [number, number][], pointsDst: XY[]; }) {
     return (
         <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
-            <div className="grid" style={{gridTemplateColumns: '1fr auto 1fr'}}>
-                <div className="col-span-full justify-self-center">Points:</div>
-                <div className="">{pointsSrc.length}</div>
-                <div className="">-&gt;</div>
+            <div className="grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
+                <div className="col-span-full justify-self-center -mt-8 px-4 bg-primary-700">Points:</div>
+                <div className="text-right">{pointsSrc.length}</div>
+                <div className="self-center">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </div>
                 <div className="">{pointsDst.length}</div>
             </div>
         </div>
