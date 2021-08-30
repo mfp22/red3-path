@@ -111,7 +111,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: [number, number][], point
                 <div className="text-right font-mono text-2xl">{pointsSrc.length}</div>
                 <div className="self-center">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                 </div>
                 <div className="font-mono text-2xl">{pointsDst.length}</div>
