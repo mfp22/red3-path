@@ -68,7 +68,7 @@ export default function Flip({ value }: { value: number; }) {
                     <span data-view="flip">Tick</span>
                 </div>
             </div>
-            111
+            {/* 111 */}
         </div>
     );
 }

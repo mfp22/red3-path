@@ -15,6 +15,7 @@
         "@luncheon/simplify-svg-path": "^0.1.4",
         "@pqina/flip": "^1.7.7",
         "@radix-ui/react-slider": "^0.0.17",
+        "@react-spring/web": "^9.2.4",
         "@stitches/react": "^0.2.5",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
