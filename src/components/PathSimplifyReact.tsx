@@ -9,6 +9,7 @@ import { clamp, withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
 import Slider from './ui/Slider';
 import Flip from './ui/Flip';
+import { FlipCard } from './ui/FlipCounter';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -121,6 +122,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: [number, number][], point
                 {/* <div className="font-mono text-2xl"><Flip value={pointsDst.length}/></div> */}
                 <div className="text-5xl"><Flip value={pointsDst.length}/></div>
             </div>
+            <FlipCard children={pointsDst.length} />
         </div>
     );
 }
