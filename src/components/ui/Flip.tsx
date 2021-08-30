@@ -39,23 +39,36 @@ export default function Flip({ value }: { value: number; }) {
     const _tickRef = React.useRef<HTMLDivElement>(null);
     const _tickInstance = React.useRef<any>(null);
 
-    _tickInstance.current && (_tickInstance.current.value = value);
-
     React.useEffect(() => {
+        console.log('mount', {ref: _tickRef.current, inst: _tickInstance.current});
+        
+        if (!_tickRef.current) {
+            return;
+        }
         _tickInstance.current = Tick.DOM.create(_tickRef.current, {
             value: value
         });
 
+        const closure = _tickRef.current;
+
         return () => {
-            Tick.DOM.destroy(_tickRef.current);
+            console.log('unmount', {ref: _tickRef.current, clos: closure, inst: _tickInstance.current});
+            Tick.DOM.destroy(closure);
         };
     }, []);
 
+    React.useEffect(() => {
+        _tickInstance.current && (_tickInstance.current.value = value);
+    }, [value]);
+
     return (
-        <div ref={_tickRef} className="tick">
-            <div className="flex" data-repeat="true" aria-hidden="true">
-                <span data-view="flip">Tick</span>
+        <div className="">
+            <div ref={_tickRef} className="tick">
+                <div className="flex" data-repeat="true" aria-hidden="true">
+                    <span data-view="flip">Tick</span>
+                </div>
             </div>
+            111
         </div>
     );
 }
