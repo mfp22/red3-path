@@ -103,13 +103,26 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     </g>);
 }
 
-function Result({pointsSrc, pointsDst}: {pointsSrc: [number, number][], pointsDst: XY[]}) {
+function Result({ pointsSrc, pointsDst }: { pointsSrc: [number, number][], pointsDst: XY[]; }) {
     return (
         <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
-            <div className="">Points: {pointsSrc.length} -&gt; {pointsDst.length}</div>
+            <div className="grid" style={{gridTemplateColumns: '1fr auto 1fr'}}>
+                <div className="col-span-full justify-self-center">Points:</div>
+                <div className="">{pointsSrc.length}</div>
+                <div className="">-&gt;</div>
+                <div className="">{pointsDst.length}</div>
+            </div>
         </div>
     );
 }
+
+// function Result({pointsSrc, pointsDst}: {pointsSrc: [number, number][], pointsDst: XY[]}) {
+//     return (
+//         <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
+//             <div className="">Points: {pointsSrc.length} -&gt; {pointsDst.length}</div>
+//         </div>
+//     );
+// }
 
 interface PathSimplifyReactProps {
 }
