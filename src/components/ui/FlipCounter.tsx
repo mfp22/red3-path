@@ -15,7 +15,7 @@ const Container = styled('div', {
     display: 'grid',
     gridTemplateRows: '80px 80px',
     gridTemplateColumns: '140px',
-    gridTemplateAreas: 'top bottom',
+    gridTemplateAreas: '"top" "bottom"',
 });
 
 // Static
