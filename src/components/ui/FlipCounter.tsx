@@ -2,104 +2,124 @@ import * as React from "react";
 import { styled } from "../../stitches.config";
 import { animated, useSpring, config } from "@react-spring/web";
 
-const usePrevious = (currentValue: number) => {
+const Container = styled('div', {
+    position: 'relative',
+
+    width: '140px',
+    height: '160px',
+    perspectiveOrigin: '50% 50%',
+    perspective: '300px',
+    backgroundColor: 'white',
+    fontFamily: 'monospace',
+
+    display: 'grid',
+    gridTemplateRows: '80px 80px',
+    gridTemplateColumns: '140px',
+    gridTemplateAreas: 'top bottom',
+});
+
+// Static
+
+const StaticCardTop = styled('div', {
+    gridArea: 'top',
+    // + different span transform
+
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    border: '1px solid gray',
+    backgroundColor: 'white',
+
+    display: 'flex',
+    justifyContent: 'center',
+
+    '& span': {
+        fontSize: '80px', transform: 'translateY(40%)'
+    }
+});
+
+const StaticCardBottom = styled('div', {
+    gridArea: 'bottom',
+    // + different span transform
+
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    border: '1px solid gray',
+    backgroundColor: 'white',
+
+    display: 'flex',
+    justifyContent: 'center',
+
+    '& span': {
+        fontSize: '80px', transform: 'translateY(-60%)'
+    }
+});
+
+// Animated
+
+const AnimatedCardFront = styled(animated.div, {
+    top: '0',
+    transformOrigin: 'center bottom',
+    transformStyle: 'preserve-3d',
+    // + different span transform
+
+    position: 'absolute',
+    left: '0',
+    width: '100%',
+    height: '80px',
+    overflow: 'hidden',
+    backfaceVisibility: 'hidden',
+    transform: 'rotateX(0deg)',
+    border: '1px solid gray',
+    backgroundColor: 'white',
+
+    display: 'flex',
+    justifyContent: 'center',
+
+    '& span': {
+        fontSize: '80px',
+        transform: 'translateY(40%)'
+    }
+});
+
+const AnimatedCardBack = styled(animated.div, {
+    top: '80px',
+    transformOrigin: 'center top',
+    // + different span transform
+
+    position: 'absolute',
+    left: '0',
+    width: '100%',
+    height: '80px',
+    overflow: 'hidden',
+    backfaceVisibility: 'hidden',
+    transform: 'rotateX(180deg)',
+    border: '1px solid gray',
+    backgroundColor: 'white',
+
+    display: 'flex',
+    justifyContent: 'center',
+
+    '& span': {
+        fontSize: '80px',
+        transform: 'translateY(-60%)'
+    }
+});
+
+// Main
+
+function usePrevious(currentValue: number) {
     const previousValue = React.useRef(0);
     React.useEffect(() => {
         previousValue.current = currentValue;
     }, [currentValue]);
     return previousValue.current;
-};
+}
 
-const Container = styled("div", {
-    display: "grid",
-    position: "relative",
-    gridTemplateColumns: "140px",
-    gridTemplateRows: "80px 80px",
-    gridTemplateAreas: '"top" "bottom"',
-    width: "140px",
-    height: "160px",
-    perspectiveOrigin: "50% 50%",
-    perspective: "300px",
-    backgroundColor: "white",
-    fontFamily: "monospace"
-});
-
-const StaticCardTop = styled("div", {
-    display: "flex",
-    position: "relative",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    gridArea: "top",
-    overflow: "hidden",
-    border: "1px solid gray",
-    backgroundColor: "white",
-    '& span': {
-        fontSize: "80px", transform: "translateY(40%)"
-    }
-});
-
-const StaticCardBottom = styled("div", {
-    display: "flex",
-    position: "relative",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    gridArea: "bottom",
-    overflow: "hidden",
-    border: "1px solid gray",
-    backgroundColor: "white",
-    '& span': {
-        fontSize: "80px", transform: "translateY(-60%)"
-    }
-});
-
-const AnimatedCardFront = styled(animated.div, {
-    display: "flex",
-    position: "absolute",
-    justifyContent: "center",
-    top: "0",
-    left: "0",
-    backgroundColor: "white",
-    width: "100%",
-    height: "80px",
-    overflow: "hidden",
-    transformOrigin: "center bottom",
-    backfaceVisibility: "hidden",
-    transformStyle: "preserve-3d",
-    transform: "rotateX(0deg)",
-    border: "1px solid gray",
-    '& span': {
-        fontSize: "80px",
-        transform: "translateY(40%)"
-    }
-});
-
-const AnimatedCardBack = styled(animated.div, {
-    display: "flex",
-    position: "absolute",
-    justifyContent: "center",
-    top: "80px",
-    left: "0",
-    backgroundColor: "white",
-    width: "100%",
-    height: "80px",
-    overflow: "hidden",
-    transform: "rotateX(180deg)",
-    transformOrigin: "center top",
-    backfaceVisibility: "hidden",
-    border: "1px solid gray",
-    '& span': {
-        fontSize: "80px",
-        transform: "translateY(-60%)"
-    }
-});
-
-type Props = {
-    children: number;
-};
-
-export const FlipCard: React.FC<Props> = ({ children }) => {
+export function FlipCard({ children }: { children: number; }) {
     const [currentNumber, setCurrentNumber] = React.useState(0);
     const previousNumber = usePrevious(currentNumber);
 
@@ -140,4 +160,4 @@ export const FlipCard: React.FC<Props> = ({ children }) => {
             </AnimatedCardBack>
         </Container>
     );
-};
+}
