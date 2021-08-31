@@ -140,7 +140,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
-            <Result pointsSrc={points} pointsDst={controlPoints.points} />
+            <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} />
 
             {/* Canvas */}
             <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
