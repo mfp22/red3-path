@@ -1,8 +1,5 @@
 .tick {
     box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     cursor: default;
     position: relative;
@@ -24,59 +21,32 @@
 .tick [data-layout~="pad"] > * {
     margin: 0.25em;
 }
+
+
 .tick [data-layout~="horizontal"] {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     flex-direction: row;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
 }
 .tick [data-layout~="horizontal"][data-layout~="baseline"] {
-    -webkit-box-align: baseline;
-    -webkit-align-items: baseline;
-    -ms-flex-align: baseline;
     align-items: baseline;
 }
 .tick [data-layout~="horizontal"][data-layout~="center"] {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
 }
 .tick [data-layout~="horizontal"][data-layout~="right"] {
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    -ms-flex-pack: end;
     justify-content: flex-end;
 }
 .tick [data-layout~="horizontal"][data-layout~="left"] {
-    -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
     justify-content: flex-start;
 }
 .tick [data-layout~="horizontal"][data-layout~="stretch"],
 .tick [data-layout~="horizontal"][data-layout~="fill"] {
-    -webkit-align-content: stretch;
-    -ms-flex-line-pack: stretch;
     align-content: stretch;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
 }
 .tick [data-layout~="horizontal"][data-layout~="stretch"] > *,
 .tick [data-layout~="horizontal"][data-layout~="fill"] > * {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 0 0;
-    -ms-flex: 1 0 0px;
     flex: 1 0 0;
 }
 .tick [data-layout~="horizontal"][data-layout~="stretch"] > *,
@@ -84,72 +54,37 @@
     width: 100%;
 }
 .tick [data-layout~="horizontal"][data-layout~="multi-line"] {
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 .tick [data-layout~="horizontal"][data-layout~="fit"] {
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
     display: inline-flex;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    -webkit-align-content: center;
-    -ms-flex-line-pack: center;
     align-content: center;
     white-space: nowrap;
-    -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
     justify-content: flex-start;
 }
+
+
 .tick [data-layout~="vertical"] {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
 }
 .tick [data-layout~="vertical"][data-layout~="top"] {
-    -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
     justify-content: flex-start;
 }
 .tick [data-layout~="vertical"][data-layout~="bottom"] {
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    -ms-flex-pack: end;
     justify-content: flex-end;
     min-height: 100%;
 }
 .tick [data-layout~="vertical"][data-layout~="middle"] {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
     min-height: 100%;
 }
 .tick [data-layout~="vertical"][data-layout~="left"] {
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-    -ms-flex-align: start;
     align-items: flex-start;
 }
 .tick [data-layout~="vertical"][data-layout~="right"] {
-    -webkit-box-align: end;
-    -webkit-align-items: flex-end;
-    -ms-flex-align: end;
     align-items: flex-end;
 }
 .tick [data-layout~="vertical"][data-layout~="center"] {
@@ -157,22 +92,18 @@
 }
 .tick [data-layout~="vertical"][data-layout~="stretch"],
 .tick [data-layout~="vertical"][data-layout~="fill"] {
-    -webkit-box-align: stretch;
-    -webkit-align-items: stretch;
-    -ms-flex-align: stretch;
     align-items: stretch;
     min-height: 100%;
 }
 .tick [data-layout~="vertical"][data-layout~="stretch"] > *,
 .tick [data-layout~="vertical"][data-layout~="fill"] > * {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 0 0;
-    -ms-flex: 1 0 0px;
     flex: 1 0 0;
 }
 .tick [data-layout~="vertical"] > * + * {
     margin-top: 0.5em;
 }
+
+
 .tick [data-layout~="overlay"] {
     position: relative;
 }
@@ -197,17 +128,8 @@
     bottom: 0;
 }
 .tick [data-layout~="overlay"] > [data-overlay="center"] {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
     position: absolute;
     left: 0;
@@ -217,9 +139,7 @@
 }
 
 /* 
-  
   // Default Visual Style
-  
   
   .tick-text[data-style*='transition'] {
       // prevents width changes when animating between empty space and characters
@@ -229,7 +149,6 @@
   
   // flipper
   .tick-flip {
-  
       // distance from other possible flippers
       margin-left:.0625em;
       margin-right:.0625em;
@@ -278,15 +197,16 @@
   .tick-meter canvas {
   
   }
-   */
+*/
 
 /*
    * @pqina/flip v1.7.7 - A Beautifully Animated Flip Clock
    * Copyright (c) 2020 PQINA - https://pqina.nl/flip/
    */
+
 /**
-   * Layout
-   */
+ * Layout
+ */
 .tick-flip {
     position: relative;
     text-align: center;
@@ -301,6 +221,7 @@
     text-indent: inherit;
 }
 
+
 .tick-flip-front {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -311,10 +232,12 @@
     border-top-right-radius: 0;
 }
 
+
 .tick-flip-spacer {
     display: block;
     visibility: hidden;
 }
+
 
 .tick-flip-shadow {
     position: absolute;
@@ -343,15 +266,14 @@
     background-color: transparent;
     border-radius: 0;
     opacity: 0;
-    -webkit-transform-origin: 0 100%;
     transform-origin: 0 100%;
     box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5), 0 0.125em 0.5em rgba(0, 0, 0, 0.75);
     z-index: 0;
 }
 
 /**
-   * Card
-   */
+ * Card
+ */
 .tick-flip-card {
     position: absolute;
     z-index: 1;
@@ -359,7 +281,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    -webkit-perspective: 4em;
     perspective: 4em;
 }
 
@@ -369,9 +290,7 @@
     left: 0;
     width: 100%;
     height: 51%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 
@@ -399,7 +318,6 @@
 }
 
 .tick-flip-panel-front {
-    -webkit-transform-origin: center bottom;
     transform-origin: center bottom;
     top: 0;
     z-index: 2;
@@ -407,7 +325,6 @@
 }
 
 .tick-flip-panel-back {
-    -webkit-transform-origin: center top;
     transform-origin: center top;
     top: 50%;
     z-index: 1;
@@ -421,7 +338,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.3) 1px, rgba(0, 0, 0, 0.15) 1px, transparent 30%);
     background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 1px, rgba(0, 0, 0, 0.15) 1px, transparent 30%);
 }
 
@@ -451,17 +367,15 @@
 }
 
 .tick-flip-panel-front-shadow {
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
     background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
 }
 
 .tick-flip-panel-back-shadow {
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
 }
 
+
 .tick-flip-panel-back-highlight {
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.3));
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.3));
 }
 
