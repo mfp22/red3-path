@@ -34,14 +34,12 @@ export default typeof window !== 'undefined' ? (function () {
      * @returns {null}
      */
     var addExtensions = function addExtensions(type, extensions) {
-
         // type does not exist
         if (!Extensions[type]) {
             return null;
         }
 
         for (var name in extensions) {
-
             if (!extensions.hasOwnProperty(name)) {
                 continue;
             }
@@ -265,11 +263,8 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var timeDuration = function timeDuration(milliseconds, components) {
-
         return components.map(function (key) {
-
             var requiredMilliseconds = TimeUnit[key];
-
             var count = Math.max(0, Math.floor(milliseconds / requiredMilliseconds));
 
             milliseconds = milliseconds % requiredMilliseconds;
@@ -280,7 +275,6 @@ export default typeof window !== 'undefined' ? (function () {
 
     // makes use of time duration for everything expect years and months
     var dateDiff = function dateDiff(a, b, components) {
-
         // do calculations
         var diff = b - a;
         var swapped = false;
@@ -312,7 +306,6 @@ export default typeof window !== 'undefined' ? (function () {
         var presentsMonths = components.includes('M');
 
         if (presentsMonths || presentsYears) {
-
             anchor = new Date(a.valueOf() + diff);
 
             monthsRemaining = diffInMonths(anchor, a);
@@ -411,7 +404,6 @@ export default typeof window !== 'undefined' ? (function () {
      * @returns {number}
      */
     var diffInMonths = function diffInMonths(a, b) {
-
         var wholeMonthDiff = (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth());
         var anchor = addMonths(clone$1(a), wholeMonthDiff);
         var anchor2 = void 0;
@@ -433,10 +425,8 @@ export default typeof window !== 'undefined' ? (function () {
      * @param state
      */
     var destroyer = (function (state) {
-
         return {
             destroy: function destroy() {
-
                 state.destroyed = true;
 
                 if (state.frame) {
@@ -468,7 +458,6 @@ export default typeof window !== 'undefined' ? (function () {
         var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.createElement('span');
         var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-
         state.root = root;
         state.aligned = null;
         state.destroyed = false;
@@ -483,10 +472,8 @@ export default typeof window !== 'undefined' ? (function () {
         }
 
         return {
-
             appendTo: function appendTo(element) {
                 var location = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'last';
-
 
                 // if no root or already attached -> exit
                 if (!state.root || state.root && state.root.parentNode) {
@@ -523,7 +510,6 @@ export default typeof window !== 'undefined' ? (function () {
                     element.insertBefore(state.root, location);
                 }
             }
-
         };
     });
 
@@ -533,9 +519,7 @@ export default typeof window !== 'undefined' ? (function () {
      * @param definition
      */
     var grouper = (function (state, definition) {
-
         state.definition = definition;
-
         return {
             setDefinition: function setDefinition(definition) {
                 state.definition = definition;
@@ -551,42 +535,27 @@ export default typeof window !== 'undefined' ? (function () {
      * @param drawViews
      */
     var drawer = (function (state, _draw, drawViews, present) {
-
         return {
             draw: function draw() {
-
-                // not dirty, might need to draw subviews
-                if (!state.dirty) {
+                if (!state.dirty) { // not dirty, might need to draw subviews
                     if (drawViews) {
-
-                        // draw sub views
-                        var redrawn = drawViews(state);
+                        var redrawn = drawViews(state); // draw sub views
                         if (redrawn) {
-                            // let's fit it! (if necessary)
-                            fit(state);
+                            fit(state); // let's fit it! (if necessary)
                         }
                     }
                     return false;
                 }
-
-                // draw everything
-                _draw(state, present);
-
-                // let's fit this view (if necessary)
-                fit(state);
-
-                // no longer dirty
-                state.dirty = false;
-
+                _draw(state, present); // draw everything
+                fit(state); // let's fit this view (if necessary)
+                state.dirty = false; // no longer dirty
                 return true;
             }
         };
     });
 
     var fit = function fit(state) {
-
         if (!state.fit) {
-
             // nope
             if (!state.root || !(state.root.getAttribute('data-layout') || '').match(/fit/)) {
                 state.fit = false;
@@ -657,137 +626,18 @@ export default typeof window !== 'undefined' ? (function () {
      * @param state
      */
     var resizer = (function (state) {
-
         state.didResizeWindow = function () {
             state.dirty = true;
         };
-
         window.addEventListener('resize', state.didResizeWindow);
     });
 
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-
-
-
-
-    var asyncGenerator = function () {
-        function AwaitValue(value) {
-            this.value = value;
-        }
-
-        function AsyncGenerator(gen) {
-            var front, back;
-
-            function send(key, arg) {
-                return new Promise(function (resolve, reject) {
-                    var request = {
-                        key: key,
-                        arg: arg,
-                        resolve: resolve,
-                        reject: reject,
-                        next: null
-                    };
-
-                    if (back) {
-                        back = back.next = request;
-                    } else {
-                        front = back = request;
-                        resume(key, arg);
-                    }
-                });
-            }
-
-            function resume(key, arg) {
-                try {
-                    var result = gen[key](arg);
-                    var value = result.value;
-
-                    if (value instanceof AwaitValue) {
-                        Promise.resolve(value.value).then(function (arg) {
-                            resume("next", arg);
-                        }, function (arg) {
-                            resume("throw", arg);
-                        });
-                    } else {
-                        settle(result.done ? "return" : "normal", result.value);
-                    }
-                } catch (err) {
-                    settle("throw", err);
-                }
-            }
-
-            function settle(type, value) {
-                switch (type) {
-                    case "return":
-                        front.resolve({
-                            value: value,
-                            done: true
-                        });
-                        break;
-
-                    case "throw":
-                        front.reject(value);
-                        break;
-
-                    default:
-                        front.resolve({
-                            value: value,
-                            done: false
-                        });
-                        break;
-                }
-
-                front = front.next;
-
-                if (front) {
-                    resume(front.key, front.arg);
-                } else {
-                    back = null;
-                }
-            }
-
-            this._invoke = send;
-
-            if (typeof gen.return !== "function") {
-                this.return = undefined;
-            }
-        }
-
-        if (typeof Symbol === "function" && Symbol.asyncIterator) {
-            AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-                return this;
-            };
-        }
-
-        AsyncGenerator.prototype.next = function (arg) {
-            return this._invoke("next", arg);
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
+        ? function (obj) {
+            return typeof obj;
+        } : function (obj) {
+            return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
         };
-
-        AsyncGenerator.prototype.throw = function (arg) {
-            return this._invoke("throw", arg);
-        };
-
-        AsyncGenerator.prototype.return = function (arg) {
-            return this._invoke("return", arg);
-        };
-
-        return {
-            wrap: function (fn) {
-                return function () {
-                    return new AsyncGenerator(fn.apply(this, arguments));
-                };
-            },
-            await: function (value) {
-                return new AwaitValue(value);
-            }
-        };
-    }();
-
 
 
 
@@ -804,7 +654,9 @@ export default typeof window !== 'undefined' ? (function () {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
+                if ("value" in descriptor) {
+                    descriptor.writable = true;
+                }
                 Object.defineProperty(target, descriptor.key, descriptor);
             }
         }

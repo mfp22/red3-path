@@ -22,7 +22,9 @@ export default typeof window !== 'undefined' ? (function () {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
+                if ("value" in descriptor) {
+                    descriptor.writable = true;
+                }
                 Object.defineProperty(target, descriptor.key, descriptor);
             }
         }
@@ -35,10 +37,12 @@ export default typeof window !== 'undefined' ? (function () {
     }();
 
     var index = (function (_ref) {
+        console.log('_ref', _ref);
         var DOM = _ref.DOM,
             animate = _ref.Animation.animate,
             Extension = _ref.Extension,
             performance = _ref.Date.performance,
+            
             _ref$View = _ref.View,
             rooter = _ref$View.rooter,
             destroyer = _ref$View.destroyer,
@@ -287,51 +291,53 @@ export default typeof window !== 'undefined' ? (function () {
                 this._backValue = null;
             }
 
-            createClass(FlipCard, [{
-                key: 'rotate',
-                value: function rotate(degrees) {
-                    this._front.style.transform = `rotateX(${degrees}deg)`;
-                    this._back.style.transform = `rotateX(${-180 + degrees}deg)`;
+            createClass(FlipCard, [
+                {
+                    key: 'rotate',
+                    value: function rotate(degrees) {
+                        this._front.style.transform = `rotateX(${degrees}deg)`;
+                        this._back.style.transform = `rotateX(${-180 + degrees}deg)`;
+                    }
+                }, {
+                    key: 'root',
+                    get: function get$$1() {
+                        return this._root;
+                    }
+                }, {
+                    key: 'front',
+                    set: function set$$1(value) {
+                        this._frontValue = value;
+                        this._textFront.textContent = value;
+                    },
+                    get: function get$$1() {
+                        return this._frontValue;
+                    }
+                }, {
+                    key: 'back',
+                    set: function set$$1(value) {
+                        this._backValue = value;
+                        this._textBack.textContent = value;
+                    },
+                    get: function get$$1() {
+                        return this._backValue;
+                    }
+                }, {
+                    key: 'highlightBack',
+                    set: function set$$1(value) {
+                        this._highlightBack.style.opacity = value;
+                    }
+                }, {
+                    key: 'shadowBack',
+                    set: function set$$1(value) {
+                        this._shadowBack.style.opacity = value;
+                    }
+                }, {
+                    key: 'shadowFront',
+                    set: function set$$1(value) {
+                        this._shadowFront.style.opacity = value;
+                    }
                 }
-            }, {
-                key: 'root',
-                get: function get$$1() {
-                    return this._root;
-                }
-            }, {
-                key: 'front',
-                set: function set$$1(value) {
-                    this._frontValue = value;
-                    this._textFront.textContent = value;
-                },
-                get: function get$$1() {
-                    return this._frontValue;
-                }
-            }, {
-                key: 'back',
-                set: function set$$1(value) {
-                    this._backValue = value;
-                    this._textBack.textContent = value;
-                },
-                get: function get$$1() {
-                    return this._backValue;
-                }
-            }, {
-                key: 'highlightBack',
-                set: function set$$1(value) {
-                    this._highlightBack.style.opacity = value;
-                }
-            }, {
-                key: 'shadowBack',
-                set: function set$$1(value) {
-                    this._shadowBack.style.opacity = value;
-                }
-            }, {
-                key: 'shadowFront',
-                set: function set$$1(value) {
-                    this._shadowFront.style.opacity = value;
-                }
-            }]);
+            ]);
 
             return FlipCard;
         }();
