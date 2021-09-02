@@ -1,9 +1,11 @@
 import React from 'react';
 import Flip from './Flip';
 import { FlipCard } from './FlipCounter';
+import { FlipClock } from '../lib/FlipCard2';
 
 function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
     return (
+        <>
         <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold">
             <div className="w-full grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
                 <div className="col-span-full justify-self-start -mt-8 px-4 bg-primary-700">Points:</div>
@@ -23,6 +25,10 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
             </div>
             <FlipCard children={pointsDst} />
         </div>
+        <div className="w-1/2">
+            <FlipClock />
+        </div>
+        </>
     );
 }
 
