@@ -86,7 +86,7 @@ export function FlipClock() {
     const timerID = useRef<ReturnType<typeof setInterval>>();
 
     useEffect(() => {
-        timerID.current = setInterval(() => updateTime(), 1250);
+        timerID.current = setInterval(() => updateTime(), 350);
         return () => {
             clearInterval(timerID.current);
         }
@@ -101,7 +101,6 @@ export function FlipClock() {
         const seconds = time.getSeconds();
         // on hour chanage, update hours and shuffle state
         if (hours !== state.hours) {
-            const hoursShuffle = !state.hoursShuffle;
             setState((v) => ({
                 ...v,
                 hours,
@@ -110,7 +109,6 @@ export function FlipClock() {
         }
         // on minute chanage, update minutes and shuffle state
         if (minutes !== state.minutes) {
-            const minutesShuffle = !state.minutesShuffle;
             setState((v) => ({
                 ...v,
                 minutes,
@@ -119,7 +117,8 @@ export function FlipClock() {
         }
         // on second chanage, update seconds and shuffle state
         if (seconds !== state.seconds) {
-            const secondsShuffle = !state.secondsShuffle;
+            console.log('change');
+            
             setState((v) => ({
                 ...v,
                 seconds,
@@ -140,7 +139,7 @@ export function FlipClock() {
 
     return (
         <div className={'flipClock'}>
-            {/* <FlipUnitContainer
+            <FlipUnitContainer
                 unit={'hours'}
                 digit={hours}
                 shuffle={hoursShuffle}
@@ -149,7 +148,7 @@ export function FlipClock() {
                 unit={'minutes'}
                 digit={minutes}
                 shuffle={minutesShuffle}
-            /> */}
+            />
             <FlipUnitContainer
                 unit={'seconds'}
                 digit={seconds}
