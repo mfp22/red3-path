@@ -42,8 +42,8 @@ const FlipUnitContainer = ({ digit, shuffle, unit }: { digit: number, shuffle: b
     }
 
     // shuffle digits
-    const digit1 = shuffle ? previousDigit : currentDigit;
-    const digit2 = !shuffle ? previousDigit : currentDigit;
+    const digit1 = shuffle ? previousDigitStr : currentDigitStr;
+    const digit2 = !shuffle ? previousDigitStr : currentDigitStr;
 
     // shuffle animations
     const animation1 = shuffle ? 'fold' : 'unfold';
@@ -60,11 +60,11 @@ const FlipUnitContainer = ({ digit, shuffle, unit }: { digit: number, shuffle: b
                 digit={previousDigitStr}
             />
             <AnimatedCard
-                digit={`${digit1}`}
+                digit={digit1}
                 animation={animation1}
             />
             <AnimatedCard
-                digit={`${digit2}`}
+                digit={digit2}
                 animation={animation2}
             />
         </div>
