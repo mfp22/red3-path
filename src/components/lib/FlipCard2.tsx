@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './FlipCard2.scss';
 
 const AnimatedCard = ({ animation, digit }: { animation: string, digit: string }) => {
@@ -72,29 +72,27 @@ const FlipUnitContainer = ({ digit, shuffle, unit }: { digit: number, shuffle: b
 };
 
 // class component
-export class FlipClock extends React.Component {
+export function FlipClock() {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            hours: 0,
-            hoursShuffle: true,
-            minutes: 0,
-            minutesShuffle: true,
-            seconds: 0,
-            secondsShuffle: true
-        };
-    }
+    const [state, setState] = useState({
+        hours: 0,
+        hoursShuffle: true,
+        minutes: 0,
+        minutesShuffle: true,
+        seconds: 0,
+        secondsShuffle: true
+    });
 
-    componentDidMount() {
-        this.timerID = setInterval(() => this.updateTime(), 50);
-    }
+    const timerID = useRef<ReturnType<typeof setInterval>>();
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-
-    updateTime() {
+    useEffect(() => {
+        timerID.current = setInterval(() => updateTime(), 1250);
+        return () => {
+            clearInterval(timerID.current);
+        }
+    }, []);
+    
+    function updateTime() {
         // get new date
         const time = new Date;
         // set time units
@@ -102,61 +100,61 @@ export class FlipClock extends React.Component {
         const minutes = time.getMinutes();
         const seconds = time.getSeconds();
         // on hour chanage, update hours and shuffle state
-        if (hours !== this.state.hours) {
-            const hoursShuffle = !this.state.hoursShuffle;
-            this.setState({
+        if (hours !== state.hours) {
+            const hoursShuffle = !state.hoursShuffle;
+            setState((v) => ({
+                ...v,
                 hours,
                 hoursShuffle
-            });
+            }));
         }
         // on minute chanage, update minutes and shuffle state
-        if (minutes !== this.state.minutes) {
-            const minutesShuffle = !this.state.minutesShuffle;
-            this.setState({
+        if (minutes !== state.minutes) {
+            const minutesShuffle = !state.minutesShuffle;
+            setState((v) => ({
+                ...v,
                 minutes,
                 minutesShuffle
-            });
+            }));
         }
         // on second chanage, update seconds and shuffle state
-        if (seconds !== this.state.seconds) {
-            const secondsShuffle = !this.state.secondsShuffle;
-            this.setState({
+        if (seconds !== state.seconds) {
+            const secondsShuffle = !state.secondsShuffle;
+            setState((v) => ({
+                ...v,
                 seconds,
-                secondsShuffle
-            });
+                secondsShuffle: !v.secondsShuffle
+            }));
         }
     }
 
-    render() {
+    // state object destructuring
+    const {
+        hours,
+        minutes,
+        seconds,
+        hoursShuffle,
+        minutesShuffle,
+        secondsShuffle
+    } = state;
 
-        // state object destructuring
-        const {
-            hours,
-            minutes,
-            seconds,
-            hoursShuffle,
-            minutesShuffle,
-            secondsShuffle
-        } = this.state;
-
-        return (
-            <div className={'flipClock'}>
-                <FlipUnitContainer
-                    unit={'hours'}
-                    digit={hours}
-                    shuffle={hoursShuffle}
-                />
-                <FlipUnitContainer
-                    unit={'minutes'}
-                    digit={minutes}
-                    shuffle={minutesShuffle}
-                />
-                <FlipUnitContainer
-                    unit={'seconds'}
-                    digit={seconds}
-                    shuffle={secondsShuffle}
-                />
-            </div>
-        );
-    }
+    return (
+        <div className={'flipClock'}>
+            {/* <FlipUnitContainer
+                unit={'hours'}
+                digit={hours}
+                shuffle={hoursShuffle}
+            />
+            <FlipUnitContainer
+                unit={'minutes'}
+                digit={minutes}
+                shuffle={minutesShuffle}
+            /> */}
+            <FlipUnitContainer
+                unit={'seconds'}
+                digit={seconds}
+                shuffle={secondsShuffle}
+            />
+        </div>
+    );
 }
