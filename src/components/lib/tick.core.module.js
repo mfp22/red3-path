@@ -33,7 +33,7 @@ export default typeof window !== 'undefined' ? (function () {
      * @param extensions
      * @returns {null}
      */
-    var addExtensions = function addExtensions(type, extensions) {
+    var addExtensions = (type, extensions) => {
         // type does not exist
         if (!Extensions[type]) {
             return null;
@@ -61,25 +61,17 @@ export default typeof window !== 'undefined' ? (function () {
      * @param fn
      * @returns {null}
      */
-    var addExtension = function addExtension(type, name, fn) {
-
-        // type does not exist
-        if (!Extensions[type]) {
-            throw 'Can\'t add extension with type of "' + type + '", "' + type + '" is not a valid extension type. The following types are valid: ' + keysToList(Extensions);
+    var addExtension = (type, name, fn) => {
+        if (!Extensions[type]) { // type does not exist
+            throw `Can't add extension with type of "${type}", "${type}" is not a valid extension type. The following types are valid: ${keysToList(Extensions)}`;
         }
-
-        // if is invalid name
-        if (!/^[-a-z]+$/.test(name)) {
-            throw 'Can\'t add extension with name "' + name + '", "' + name + '" is contains invalid characters. Only lowercase alphabetical characters and dashes are allowed.';
+        if (!/^[-a-z]+$/.test(name)) { // if is invalid name
+            throw `Can't add extension with name "${name}", "${name}" is contains invalid characters. Only lowercase alphabetical characters and dashes are allowed.`;
         }
-
-        // name in type already exists 
-        if (Extensions[type][name]) {
-            throw 'Can\'t add extension with name "' + name + '", "' + name + '" is already added.';
+        if (Extensions[type][name]) { // name in type already exists 
+            throw `Can't add extension with name "${name}", "${name}" is already added.`;
         }
-
-        // add
-        Extensions[type][name] = fn;
+        Extensions[type][name] = fn; // add
     };
 
     /**
@@ -88,18 +80,13 @@ export default typeof window !== 'undefined' ? (function () {
      * @param name
      * @returns {*}
      */
-    var getExtension = function getExtension(type, name) {
-
-        // type does not exist
-        if (!Extensions[type]) {
-            throw 'Can\'t get extension with type of "' + type + '", "' + type + '" is not a valid extension type. The following types are available: ' + keysToList(Extensions);
+    var getExtension = (type, name) => {
+        if (!Extensions[type]) { // type does not exist
+            throw `Can't get extension with type of "${type}", "${type}" is not a valid extension type. The following types are available: ${keysToList(Extensions)}`;
         }
-
-        // name in type does not exist
-        if (!Extensions[type][name]) {
-            throw 'Can\'t get extension with name "' + name + '", "' + name + '" is not available. The following extensions are available: ' + keysToList(Extensions[type]);
+        if (!Extensions[type][name]) { // name in type does not exist
+            throw `Can't get extension with name "${name}", "${name}" is not available. The following extensions are available: ${keysToList(Extensions[type])}`;
         }
-
         return Extensions[type][name];
     };
 
@@ -129,6 +116,7 @@ export default typeof window !== 'undefined' ? (function () {
         if (!TimeUnit.hasOwnProperty(key)) {
             continue;
         }
+
         var val = TimeUnit[key];
         if (val === MILLISECOND) {
             TimeUnit['mi'] = val;
@@ -138,6 +126,7 @@ export default typeof window !== 'undefined' ? (function () {
         } else {
             TimeUnit[key.charAt(0).toLowerCase()] = val;
         }
+
         TimeUnit[key.toLowerCase()] = val;
         TimeUnit[key.toLowerCase() + 's'] = val;
     }
@@ -158,7 +147,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var serverDate = function serverDate(cb) {
-
         var xhr = new XMLHttpRequest();
 
         var now = Date.now();
@@ -175,9 +163,7 @@ export default typeof window !== 'undefined' ? (function () {
         xhr.send();
     };
 
-    var isDate = function isDate(date) {
-        return date instanceof Date;
-    };
+    var isDate = (date) => date instanceof Date;
 
     var setTime = function setTime(date, time) {
         date.setHours(time[0] || 0, time[1] || 0, time[2] || 0, time[3] || 0);
@@ -199,9 +185,7 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var setMonth = function setMonth(date, month) {
-        date.setMonth(Months.map(function (m) {
-            return m.toLowerCase();
-        }).indexOf(month));
+        date.setMonth(Months.map((m) => m.toLowerCase()).indexOf(month));
         return date;
     };
 
@@ -224,30 +208,13 @@ export default typeof window !== 'undefined' ? (function () {
         return multiplier * (hours * 3600000 + minutes * 60000) + current;
     };
 
-    var offsetDate = function offsetDate(offset) {
-        return new Date(Date.now() + offset);
-    };
-
-    var timezoneDate = function timezoneDate(date, offset) {
-        return new Date(date.getTime() + offset);
-    };
-
-    // same date (day)
-    var sameDate = function sameDate(a, b) {
-        return a.toDateString() === b.toDateString();
-    };
-
-    // exact same date and time
-    var sameTime = function sameTime(a, b) {
-        return a.getTime() === b.getTime();
-    };
-
-    var daysInMonth = function daysInMonth(month, year) {
-        return new Date(year, month, 0).getDate();
-    };
+    var offsetDate = (offset) => new Date(Date.now() + offset);
+    var timezoneDate = (date, offset) => new Date(date.getTime() + offset);
+    var sameDate = (a, b) => a.toDateString() === b.toDateString(); // same date (day)
+    var sameTime = (a, b) => a.getTime() === b.getTime(); // exact same date and time
+    var daysInMonth = (month, year) => new Date(year, month, 0).getDate();
 
     var dateFromISO = function dateFromISO(iso) {
-
         // use existing timezone
         if (iso.match(/(Z)|([+\-][0-9]{2}:?[0-9]*$)/g)) {
             return new Date(iso);
@@ -258,9 +225,7 @@ export default typeof window !== 'undefined' ? (function () {
         return dateToLocal(new Date(iso));
     };
 
-    var dateToLocal = function dateToLocal(date) {
-        return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-    };
+    var dateToLocal = (date) => new Date(date.getTime() + date.getTimezoneOffset() * 60000);
 
     var timeDuration = function timeDuration(milliseconds, components) {
         return components.map(function (key) {
@@ -593,13 +558,10 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var updater = (function (state) {
-
         state.dirty = true;
         state.value = null;
         state.valueUpdateCount = 0;
-        state.isInitialValue = function () {
-            return state.valueUpdateCount <= 1;
-        };
+        state.isInitialValue = () => state.valueUpdateCount <= 1;
 
         return {
             reset: function reset() {
@@ -608,12 +570,10 @@ export default typeof window !== 'undefined' ? (function () {
                 state.valueUpdateCount = 0;
             },
             update: function update(value) {
-
                 // don't update on same value
                 if (equal(state.value, value)) {
                     return;
                 }
-
                 state.value = value;
                 state.valueUpdateCount++;
                 state.dirty = true;
@@ -724,8 +684,9 @@ export default typeof window !== 'undefined' ? (function () {
 
     var toConsumableArray = function (arr) {
         if (Array.isArray(arr)) {
-            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
+            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+                arr2[i] = arr[i];
+            }
             return arr2;
         } else {
             return Array.from(arr);
@@ -733,7 +694,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var draw = function draw(state, present) {
-
         var views = (state.definition || []).concat();
 
         if (state.align === 'right') {
@@ -743,7 +703,6 @@ export default typeof window !== 'undefined' ? (function () {
         var value = Array.isArray(state.value) ? state.value.concat() : _typeof(state.value) === 'object' ? clone(state.value) : state.value;
 
         views.forEach(function (view) {
-
             if (!view.presenter) {
                 state.update = present(view);
                 if (!view.presenter) {
@@ -753,21 +712,20 @@ export default typeof window !== 'undefined' ? (function () {
             }
         });
 
-        views.filter(function (view) {
-            return view.presenter !== undefined;
-        }).forEach(function (view) {
-
-            if (Array.isArray(value) && state.valueMapping) {
-                // if set to indexes divide values over views, else (must be "none") just pass array
-                state.update(view, state.valueMapping === 'indexes' ? state.align === 'right' ? value.pop() : value.shift() : value);
-            } else if (view.key && value[view.key] !== undefined) {
-                // view expects a key so value should be object
-                state.update(view, value[view.key]);
-            } else {
-                // just pass on value to all sub views
-                state.update(view, value);
-            }
-        });
+        views
+            .filter((view) => view.presenter !== undefined)
+            .forEach(function (view) {
+                if (Array.isArray(value) && state.valueMapping) {
+                    // if set to indexes divide values over views, else (must be "none") just pass array
+                    state.update(view, state.valueMapping === 'indexes' ? state.align === 'right' ? value.pop() : value.shift() : value);
+                } else if (view.key && value[view.key] !== undefined) {
+                    // view expects a key so value should be object
+                    state.update(view, value[view.key]);
+                } else {
+                    // just pass on value to all sub views
+                    state.update(view, value);
+                }
+            });
 
         state.views = views;
 
@@ -776,20 +734,18 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var drawViews = function drawViews(state) {
-
         var redrawn = false;
-        state.views.filter(function (view) {
-            return view.presenter !== undefined;
-        }).forEach(function (view) {
-            if (view.presenter.draw()) {
-                redrawn = true;
-            }
-        });
+        state.views
+            .filter((view) => view.presenter !== undefined)
+            .forEach((view) => {
+                if (view.presenter.draw()) {
+                    redrawn = true;
+                }
+            });
         return redrawn;
     };
 
     var createRoot = (function (root, definition, present) {
-
         var state = {
             valueMapping: null // "none" or "indexes"
         };
@@ -800,11 +756,17 @@ export default typeof window !== 'undefined' ? (function () {
             state.valueMapping = allowed.indexOf(mapping) !== -1 ? mapping : null;
         }
 
-        return Object.assign({}, rooter(state, root), resizer(state), updater(state), grouper(state, definition), drawer(state, draw, drawViews, present), destroyer(state));
+        return Object.assign({},
+            rooter(state, root),
+            resizer(state),
+            updater(state),
+            grouper(state, definition),
+            drawer(state, draw, drawViews, present),
+            destroyer(state)
+        );
     });
 
     var draw$1 = function draw(state, present, ready) {
-
         // if value is not in form of array force to array
         var value = copyArray(Array.isArray(state.value) ? state.value : (state.value + '').split(''));
 
@@ -823,7 +785,6 @@ export default typeof window !== 'undefined' ? (function () {
 
         // setup presenters
         value.forEach(function (value, index) {
-
             var def = state.definitions[index];
             if (!def) {
                 def = state.definitions[index] = cloneDefinition(state.definition);
@@ -844,7 +805,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var drawViews$1 = function drawViews(state) {
-
         var redrawn = false;
         state.views.forEach(function (view, index) {
             if (state.definitions[index].presenter.draw()) {
@@ -855,12 +815,16 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var createRepeater = (function (root, definition, present) {
-
         var state = {
             definitions: []
         };
-
-        return Object.assign({}, rooter(state, root), updater(state), grouper(state, definition), drawer(state, draw$1, drawViews$1, present), destroyer(state));
+        return Object.assign({},
+            rooter(state, root),
+            updater(state),
+            grouper(state, definition),
+            drawer(state, draw$1, drawViews$1, present),
+            destroyer(state)
+        );
     });
 
     var VENDOR_PREFIX = typeof document === 'undefined' ? null : function () {
@@ -910,9 +874,7 @@ export default typeof window !== 'undefined' ? (function () {
         return observer;
     };
 
-    var isHTMLElement = function isHTMLElement(value) {
-        return value instanceof HTMLElement;
-    };
+    var isHTMLElement = (value) => value instanceof HTMLElement;
 
     /**
      * Element Transform Origin
@@ -933,14 +895,11 @@ export default typeof window !== 'undefined' ? (function () {
     var setTransform = function setTransform(element, name, value) {
         var unit = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
-
         if (!element.transforms) {
             element.transforms = [];
         }
 
-        var t = element.transforms.find(function (t) {
-            return t.name === name;
-        });
+        var t = element.transforms.find((t) => t.name === name);
         if (t) {
             t.value = value;
         } else {
@@ -951,22 +910,14 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var setTransformStyle = function setTransformStyle(element, transforms) {
-        element.style.transform = transforms.map(function (t) {
-            return t.name + '(' + t.value + t.unit + ')';
-        }).join(' ');
+        element.style.transform = transforms.map((t) => `${t.name}(${t.value}${t.unit})`).join(' ');
     };
 
     var isVisible = function isVisible(element) {
-
         var elementRect = element.getBoundingClientRect();
 
-        // is above top of the page
-        if (elementRect.bottom < 0) {
-            return false;
-        }
-
-        // is below bottom of page
-        if (elementRect.top > window.scrollY + window.innerHeight) {
+        // is above top of the page or is below bottom of page
+        if (elementRect.bottom < 0 || elementRect.top > window.scrollY + window.innerHeight) {
             return false;
         }
 
@@ -1001,6 +952,7 @@ export default typeof window !== 'undefined' ? (function () {
         if (!CACHE[fns]) {
             CACHE[fns] = {};
         }
+
         if (!CACHE[fns][value]) {
             CACHE[fns][value] = fn(value);
         }
@@ -1026,7 +978,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toTransitionPartial = function toTransitionPartial(string) {
-
         var parts = string.match(/([a-z]+(?:\(.*?\))?)\s?(?:origin\((.*?)\))?\s?([a-z]+(?:\(.*?\))?)?\s?(?:([.0-9ms]+)?\s?(?:(ease-[a-z-]+))?\s?([.0-9ms]+)?)?/);
 
         // get transition function definition
@@ -1040,10 +991,7 @@ export default typeof window !== 'undefined' ? (function () {
         var resolver = undefined;
 
         // skip function and figure out what other parts are
-        parts.slice(2).filter(function (part) {
-            return typeof part !== 'undefined';
-        }).forEach(function (part) {
-
+        parts.slice(2).filter((part) => typeof part !== 'undefined').forEach(function (part) {
             // is either duration or delay
             if (isDuration.test(part)) {
                 if (typeof duration === 'undefined') {
@@ -1052,17 +1000,14 @@ export default typeof window !== 'undefined' ? (function () {
                     delay = toDuration(part);
                 }
             }
-
             // is origin if contains a space
             else if (/ /.test(part)) {
                 origin = part;
             }
-
             // should be ease
             else if (/^ease-[a-z-]+$/.test(part)) {
                 ease = part;
             }
-
             // should be transform
             else if (/^[a-z]+/.test(part)) {
                 resolver = toFunctionOutline(part);
@@ -1131,19 +1076,15 @@ export default typeof window !== 'undefined' ? (function () {
         pipetteCache[id].push(pipette);
     };
 
-    var toPixels = typeof document === 'undefined' ? function (value) {
-        return 0;
-    } : function (value) {
+    var toPixels = typeof document === 'undefined' ? (value) => 0 : function (value) {
         var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.body;
         var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
 
         if (value == 0) {
             return 0;
         }
 
         if (id) {
-
             var _pipette = getPipette(id, root) || {};
             if (!_pipette.node) {
                 _pipette.node = document.createElement('span');
@@ -1178,9 +1119,7 @@ export default typeof window !== 'undefined' ? (function () {
      * @param string { string } - any valid CSS color value
      * @returns { string }
      */
-    var toColor = typeof document === 'undefined' ? function (string) {
-        return string;
-    } : function (string) {
+    var toColor = typeof document === 'undefined' ? (string) => string : function (string) {
         if (string === 'transparent') {
             return 'rgba(0,0,0,0)';
         }
@@ -1194,29 +1133,22 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toShadow = function toShadow(style) {
-
         if (typeof style !== 'string') {
             return style;
         }
-
         return style.match(/([-.\d]+(?:%|ms|s|deg|cm|em|ch|ex|q|in|mm|pc|pt|px|vh|vw|vmin|vmax)?)|[%#A-Za-z0-9,.()]+/g);
     };
 
     var toURL = function toURL(style) {
-        var urls = style.match(/url\((.*?)\)/g).map(function (url) {
-            return url.substring(4, url.length - 1);
-        });
+        var urls = style.match(/url\((.*?)\)/g).map((url) => url.substring(4, url.length - 1));
         return urls.length === 1 ? urls[0] : urls;
     };
 
     var toStyleProperty = function toStyleProperty(key) {
-        return key.trim().split('-').map(function (key, index) {
-            return index > 0 ? capitalizeFirstLetter$1(key) : key;
-        }).join('');
+        return key.trim().split('-').map((key, index) => index > 0 ? capitalizeFirstLetter$1(key) : key).join('');
     };
 
     var toStyleValue = function toStyleValue(value, property) {
-
         if (isBoolean$1.test(value)) {
             return toBoolean$1(value);
         }
@@ -1269,20 +1201,12 @@ export default typeof window !== 'undefined' ? (function () {
 
     var toStyles = function toStyles(string) {
         return string.split(';')
-
             // remove empty values
-            .filter(function (style) {
-                return style.trim().length;
-            })
-
+            .filter((style) => style.trim().length)
             // turn into objects
             .map(toStyle)
-
             // remove invalid styles
-            .filter(function (style) {
-                return style !== null;
-            })
-
+            .filter((style) => style !== null)
             // create styles object
             .reduce(function (styles, style) {
                 styles[style.property] = style.value;
@@ -1295,58 +1219,19 @@ export default typeof window !== 'undefined' ? (function () {
     // https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
     // http://gizma.com/easing/
 
-    var easeLinear = function easeLinear(t) {
-        return t;
-    };
-
-    var easeInSine = function easeInSine(t) {
-        return -1 * Math.cos(t * (Math.PI / 2)) + 1;
-    };
-
-    var easeOutSine = function easeOutSine(t) {
-        return Math.sin(t * (Math.PI / 2));
-    };
-
-    var easeInOutSine = function easeInOutSine(t) {
-        return -0.5 * (Math.cos(Math.PI * t) - 1);
-    };
-
-    var easeInQuad = function easeInQuad(t) {
-        return t * t;
-    };
-
-    var easeOutQuad = function easeOutQuad(t) {
-        return t * (2 - t);
-    };
-
-    var easeInOutQuad = function easeInOutQuad(t) {
-        return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    };
-
-    var easeInCubic = function easeInCubic(t) {
-        return t * t * t;
-    };
-
-    var easeOutCubic = function easeOutCubic(t) {
-        var t1 = t - 1;
-        return t1 * t1 * t1 + 1;
-    };
-
-    var easeInOutCubic = function easeInOutCubic(t) {
-        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-    };
-
-    var easeInQuart = function easeInQuart(t) {
-        return t * t * t * t;
-    };
-
-    var easeOutQuart = function easeOutQuart(t) {
-        return 1 - --t * t * t * t;
-    };
-
-    var easeInOutQuart = function easeInOutQuart(t) {
-        return t < .5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
-    };
+    var easeLinear = (t) => t;
+    var easeInSine = (t) => -1 * Math.cos(t * (Math.PI / 2)) + 1;
+    var easeOutSine = (t) => Math.sin(t * (Math.PI / 2));
+    var easeInOutSine = (t) => -0.5 * (Math.cos(Math.PI * t) - 1);
+    var easeInQuad = (t) => t * t;
+    var easeOutQuad = (t) => t * (2 - t);
+    var easeInOutQuad = (t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    var easeInCubic = (t) => t * t * t;
+    var easeOutCubic = (t) => { var t1 = t - 1; return t1 * t1 * t1 + 1; };
+    var easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    var easeInQuart = (t) => t * t * t * t;
+    var easeOutQuart = (t) => 1 - --t * t * t * t;
+    var easeInOutQuart = (t) => t < .5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
 
     var easeInExpo = function easeInExpo(t) {
         if (t === 0) {
@@ -1363,7 +1248,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var easeInOutExpo = function easeInOutExpo(t) {
-
         if (t === 0 || t === 1) {
             return t;
         }
@@ -1389,7 +1273,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var easeInOutCirc = function easeInOutCirc(t) {
-
         var scaledTime = t * 2;
         var scaledTime1 = scaledTime - 2;
 
@@ -1430,7 +1313,6 @@ export default typeof window !== 'undefined' ? (function () {
     var easeOutElastic = function easeOutElastic(t) {
         var magnitude = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.7;
 
-
         var p = 1 - magnitude;
         var scaledTime = t * 2;
 
@@ -1446,13 +1328,16 @@ export default typeof window !== 'undefined' ? (function () {
         var scaledTime = t / 1;
         if (scaledTime < 1 / 2.75) {
             return 7.5625 * scaledTime * scaledTime;
-        } else if (scaledTime < 2 / 2.75) {
+        }
+        else if (scaledTime < 2 / 2.75) {
             var scaledTime2 = scaledTime - 1.5 / 2.75;
             return 7.5625 * scaledTime2 * scaledTime2 + 0.75;
-        } else if (scaledTime < 2.5 / 2.75) {
+        }
+        else if (scaledTime < 2.5 / 2.75) {
             var _scaledTime = scaledTime - 2.25 / 2.75;
             return 7.5625 * _scaledTime * _scaledTime + 0.9375;
-        } else {
+        }
+        else {
             var _scaledTime2 = scaledTime - 2.625 / 2.75;
             return 7.5625 * _scaledTime2 * _scaledTime2 + 0.984375;
         }
@@ -1612,7 +1497,6 @@ export default typeof window !== 'undefined' ? (function () {
                 }
 
                 var delta = ts - last;
-
                 if (delta <= interval) {
                     // skip frame
                     return;
@@ -1630,9 +1514,7 @@ export default typeof window !== 'undefined' ? (function () {
         };
 
         return {
-            getPosition: function getPosition() {
-                return state.position;
-            },
+            getPosition: () => state.position,
             cancel: cancel,
             translate: translate
         };
@@ -1658,9 +1540,11 @@ export default typeof window !== 'undefined' ? (function () {
 
         if (type === 'arrive') {
             updater.update = arrive.apply(undefined, [t.translate].concat(options));
-        } else if (type === 'spring') {
+        }
+        else if (type === 'spring') {
             updater.update = spring.apply(undefined, [t.translate].concat(options));
-        } else if (type === 'step') {
+        }
+        else if (type === 'step') {
             updater.update = step.apply(undefined, [t.translate].concat(options));
         }
 
@@ -1778,13 +1662,11 @@ export default typeof window !== 'undefined' ? (function () {
      * @returns {function(*)}
      */
     var createTransitioner = function createTransitioner(transitions) {
-
         var transitioners = transitions.map(function (t) {
             return createDurationTransitioner(createTransition(t.name, t.parameters, t.ease), t.origin, t.duration, t.delay);
         });
 
         return function (element, direction, complete) {
-
             // don't run animations when no element is supplied
             if (!isHTMLElement(element)) {
                 return false;
@@ -1815,7 +1697,6 @@ export default typeof window !== 'undefined' ? (function () {
         var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 500;
         var delay = arguments[3];
 
-
         return function (element) {
             var direction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
             var complete = arguments[2];
@@ -1842,7 +1723,6 @@ export default typeof window !== 'undefined' ? (function () {
      */
     var styler = (function (state) {
         var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
 
         // styles that were last applied to the element
         state.lastAppliedStyles = null;
@@ -1908,13 +1788,8 @@ export default typeof window !== 'undefined' ? (function () {
         return tn;
     };
 
-    var getBackingStoreRatio = function getBackingStoreRatio(ctx) {
-        return ctx[VENDOR_PREFIX + 'BackingStorePixelRatio'] || ctx.backingStorePixelRatio || 1;
-    };
-
-    var getDevicePixelRatio = function getDevicePixelRatio() {
-        return window.devicePixelRatio || 1;
-    };
+    var getBackingStoreRatio = (ctx) => ctx[VENDOR_PREFIX + 'BackingStorePixelRatio'] || ctx.backingStorePixelRatio || 1;
+    var getDevicePixelRatio = () => window.devicePixelRatio || 1;
 
     var clearCanvas = function clearCanvas(canvas) {
         var ctx = canvas.getContext('2d');
@@ -1933,7 +1808,6 @@ export default typeof window !== 'undefined' ? (function () {
     var Views = {
         'text': function text$$1() {
             return function (root) {
-
                 var state = {};
 
                 var draw = function draw(state) {
@@ -1944,7 +1818,6 @@ export default typeof window !== 'undefined' ? (function () {
                 return Object.assign({}, rooter(state, root, 'text'), updater(state), drawer(state, draw), destroyer(state));
             };
         }
-
     };
 
     addExtensions(ExtensionType.VIEW, Views);
@@ -2009,33 +1882,13 @@ export default typeof window !== 'undefined' ? (function () {
         return view ? view(API$2())(root, style) : null;
     };
 
-    var arrow = function arrow(str, i) {
-        return str[i] === '-' && str[i + 1] === '>';
-    };
-
-    var string = function string(c) {
-        return c === "'" || c === '"';
-    };
-
-    var comma = function comma(c) {
-        return c === ',';
-    };
-
-    var opener = function opener(c) {
-        return c === '(';
-    };
-
-    var closer = function closer(c) {
-        return c === ')';
-    };
-
-    var value = function value(v) {
-        return v.trim().length !== 0;
-    };
-
-    var add = function add(r, v) {
-        return r.push(v.trim());
-    };
+    var arrow = (str, i) => str[i] === '-' && str[i + 1] === '>';
+    var string = (c) => c === "'" || c === '"';
+    var comma = (c) => c === ',';
+    var opener = (c) => c === '(';
+    var closer = (c) => c === ')';
+    var value = (v) => v.trim().length !== 0;
+    var add = (r, v) => r.push(v.trim());
 
     var token = function token(r, v) {
         if (value(v)) {
@@ -2053,20 +1906,17 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var parse$1 = function parse(i, str, result) {
-
         var v = '';
         var fns = [];
         var quote = null;
         var hitArrow = false;
 
         while (i < str.length) {
-
             // character reference
             var c = str[i];
 
             // enter level
             if (opener(c)) {
-
                 hitArrow = false;
                 var fn = [v.trim()];
 
@@ -2076,10 +1926,8 @@ export default typeof window !== 'undefined' ? (function () {
                 fns.push(fn);
                 v = '';
             }
-
             // exit level
             else if (closer(c)) {
-
                 if (hitArrow && v.trim().length) {
                     fns.push([v.trim()]);
                     v = '';
@@ -2094,20 +1942,16 @@ export default typeof window !== 'undefined' ? (function () {
 
                 return i + 1;
             }
-
             // function names or arguments
             else {
-
                 // we're in a string
                 // as long as the exit has not been found add to value
                 if (quote !== null && c !== quote) {
-
                     // accept any value
                     v += c;
                 }
                 // we've found the string exit
                 else if (c === quote) {
-
                     fns.push(v);
                     v = '';
 
@@ -2118,12 +1962,10 @@ export default typeof window !== 'undefined' ? (function () {
                     v = '';
                     quote = c;
                 } else {
-
                     // we're not in a string
 
                     // we've found an arrow
                     if (arrow(str, i)) {
-
                         hitArrow = true;
 
                         // we might have finished a function without parenthesis
@@ -2137,7 +1979,6 @@ export default typeof window !== 'undefined' ? (function () {
                     }
                     // we've reached an argument separator
                     else if (comma(c)) {
-
                         if (hitArrow && v.trim().length) {
                             fns.push([v.trim()]);
                             v = '';
@@ -2182,11 +2023,9 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var cloneDefinition = function cloneDefinition(definition) {
-
         var clone = {};
 
         for (var key in definition) {
-
             if (!definition.hasOwnProperty(key)) {
                 continue;
             }
@@ -2210,7 +2049,6 @@ export default typeof window !== 'undefined' ? (function () {
         }
 
         clone.presenter = null;
-
         return clone;
     };
 
@@ -2237,7 +2075,6 @@ export default typeof window !== 'undefined' ? (function () {
             // fix to allow nesting of tick counters
             // .filter(node => !node.classList.contains('tick'))
             .map(function (node) {
-
                 var definition = mergeObjects(definitionOutline, { root: node });
 
                 // get all properties above from attributes
@@ -2253,7 +2090,6 @@ export default typeof window !== 'undefined' ? (function () {
 
                 // if is repeater set do not parse children as children but define as repeat
                 if (definition.repeat) {
-
                     // can only have one repeated child
                     definition.repeat = toPresenterDefinitionTree(node.children).pop();
 
@@ -2272,9 +2108,7 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var createDOMTreeForDefinition = function createDOMTreeForDefinition(definition) {
-
         return definition.map(function (def) {
-
             def = mergeObjects(definitionOutline, def);
 
             if (typeof def.root === 'string') {
@@ -2283,34 +2117,22 @@ export default typeof window !== 'undefined' ? (function () {
                 def.root = document.createElement('span');
             }
 
-            if (def.transform) {
-                def.root.dataset.transform = def.transform;
-            }
-
-            if (def.className) {
-                def.root.className = def.className;
-            }
-
-            if (def.overlay) {
-                def.root.dataset.overlay = def.overlay;
-            }
+            def.transform && (def.root.dataset.transform = def.transform);
+            def.className && (def.root.className = def.className);
+            def.overlay && (def.root.dataset.overlay = def.overlay);
 
             if (def.view) {
                 def.root.dataset.view = def.view;
-                if (def.style) {
-                    def.root.dataset.style = def.style;
-                }
+                def.style && (def.root.dataset.style = def.style);
                 def.repeat = null;
             } else {
-
-                if (def.layout) {
-                    def.root.dataset.layout = def.layout;
-                }
+                def.layout && (def.root.dataset.layout = def.layout);
 
                 if (def.repeat) {
                     def.root.dataset.repeat = true;
                     def.repeat = createDOMTreeForDefinition(def.children).pop();
-                } else if (def.children) {
+                }
+                else if (def.children) {
                     def.children = createDOMTreeForDefinition(def.children);
                     def.children.forEach(function (child) {
                         def.root.appendChild(child.root);
@@ -2326,14 +2148,15 @@ export default typeof window !== 'undefined' ? (function () {
      * Presenting values
      */
     var createPresenterByDefinition = function createPresenterByDefinition(definition, presentDefinition) {
-
         var presenter = void 0;
 
         if (definition.repeat) {
             presenter = createPresenterRepeater(definition.root, definition.repeat, presentDefinition);
-        } else if (typeof definition.view === 'string') {
+        }
+        else if (typeof definition.view === 'string') {
             presenter = createPresenterView(definition.view, definition.root, definition.style);
-        } else if (isRootDefinition(definition)) {
+        }
+        else if (isRootDefinition(definition)) {
             presenter = createPresenterRoot(definition.root, definition.children, presentDefinition);
         }
 
@@ -2341,11 +2164,9 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var presentTick = function presentTick(instance) {
-
         var isDrawing = false;
 
         var update = function update(definition, value) {
-
             definition.transform(value, function (output) {
                 definition.presenter.update(output);
             }, instance);
@@ -2379,15 +2200,12 @@ export default typeof window !== 'undefined' ? (function () {
         }
 
         return function (initialValue, callback) {
-
             function compose(i, value) {
-
                 // return end result
                 if (funcs.length <= i) {
                     callback(value);
                     return;
                 }
-
                 funcs[i](value, partial(compose, [i + 1]), instance);
             }
 
@@ -2407,7 +2225,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toTransformComposition = function toTransformComposition(string, instance) {
-
         // no composition
         if (!string) {
             return function (value, cb) {
@@ -2427,9 +2244,7 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var compose = function compose(chain, instance) {
-
         var composition = chain.map(function (item) {
-
             // get name
             var name = item.shift();
 
@@ -2440,25 +2255,19 @@ export default typeof window !== 'undefined' ? (function () {
 
             // other items in array are parameters
             var params = item.map(function (parameter) {
-
                 // if is array turn into function
                 if (Array.isArray(parameter)) {
-
                     // normal transform
                     if (typeof parameter[0] === 'string') {
                         return compose([parameter], instance);
                     }
-
                     // chain of transforms
                     return compose(parameter, instance);
                 }
-
                 return toParameter(parameter);
             });
-
             return func.apply(undefined, toConsumableArray(params));
         });
-
         return composeAsync.apply(undefined, [instance].concat(toConsumableArray(composition)));
     };
 
@@ -2472,14 +2281,10 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toParameters = function toParameters(string) {
-        return (string.match(/('.+?')|(".+?")|(\[.+?])|([.:\-\d\sa-zA-Z]+%?)/g) || []).map(trim).filter(function (str) {
-            return str.length;
-        }).map(toParameter);
+        return (string.match(/('.+?')|(".+?")|(\[.+?])|([.:\-\d\sa-zA-Z]+%?)/g) || []).map(trim).filter((str) => str.length).map(toParameter);
     };
 
-    var trimEdges = function trimEdges(string) {
-        return string.substring(1, string.length - 1);
-    };
+    var trimEdges = (string) => string.substring(1, string.length - 1);
 
     var isProbablyISODate = /^([\d]{4}-[\d]{1,2}-[\d]{1,2})/;
     var isBoolean = /^(true|false)$/;
@@ -2490,7 +2295,6 @@ export default typeof window !== 'undefined' ? (function () {
     var isArray = /^(\[)/;
 
     var toParameter = function toParameter(string) {
-
         if (isBoolean.test(string)) {
             return string === 'true';
         }
@@ -2534,7 +2338,6 @@ export default typeof window !== 'undefined' ? (function () {
     var mergeObjects = function mergeObjects(a) {
         var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-
         var key = void 0;
         var obj = {};
 
@@ -2563,11 +2366,7 @@ export default typeof window !== 'undefined' ? (function () {
         return ref !== window ? ref : null;
     };
 
-    /**
-     *
-     */
     var toValue = function toValue(string) {
-
         // capture for object string
         if (/^(?:[\w]+\s?:\s?[\w.]+,\s?)+(?:[\w]+\s?:\s?[\w.]+)$/g.test(string)) {
             return string.match(/(?:(\w+)\s?:\s?([\w.]+))/g).reduce(function (obj, current) {
@@ -2582,49 +2381,18 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     /**
-     * @param value { * }
-     */
-
-
-    /**
-     * @param value { * }
-     */
-    var toInt = function toInt(value) {
-        return parseInt(value, 10);
-    };
-
-    /**
-     * @param string { string }
-     */
-    var trim = function trim(string) {
-        return string.trim();
-    };
-
-    /**
      * @param string { string }
     export const lowercaseFirstLetter = (string) => string.charAt(0).toLowerCase() + string.slice(1);
      */
-
-    /**
-     * @param string { string }
-     */
-    var capitalizeFirstLetter = function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
-
-    /**
-     * @param string { string }
-     */
-    var dashesToCamels = function dashesToCamels(string) {
-        return string.replace(/-./g, function (sub) {
-            return sub.charAt(1).toUpperCase();
-        });
-    };
-
     /**
      * @param string
     export const camelsToDashes = string => string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
      */
+
+    var toInt = (value) => parseInt(value, 10);
+    var trim = (string) => string.trim();
+    var capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+    var dashesToCamels = (string) => string.replace(/-./g, (sub) => sub.charAt(1).toUpperCase());
 
     /**
      * @param obj { object }
@@ -2636,9 +2404,7 @@ export default typeof window !== 'undefined' ? (function () {
         return obj;
     };
 
-    var copyArray = function copyArray(arr) {
-        return arr.slice();
-    };
+    var copyArray = (arr) => arr.slice();
 
     var random = function random() {
         var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -2667,9 +2433,7 @@ export default typeof window !== 'undefined' ? (function () {
 
 
 
-    var now = function now() {
-        return window.performance.now();
-    };
+    var now = () => window.performance.now();
 
     var request = function request(url, success, error, options) {
         var xhr = new XMLHttpRequest();
@@ -2712,27 +2476,21 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var equalArrays = function equalArrays(a, b) {
-        return a.length == b.length && a.every(function (v, i) {
-            return v === b[i];
-        });
+        return a.length == b.length && a.every((v, i) => v === b[i]);
     };
 
     var keysToList = function keysToList(obj) {
-        return Object.keys(obj).map(function (k) {
-            return '"' + k + '"';
-        }).join(', ');
+        return Object.keys(obj).map((k) => `"${k}"`).join(', ');
     };
 
     /**
      * Tick
      */
-
     var Tick = function () {
         function Tick() {
             var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
             var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.createElement('div');
             classCallCheck(this, Tick);
-
 
             // set base configuration options
             this._options = mergeObjects(Tick.options(), options);
@@ -2759,199 +2517,183 @@ export default typeof window !== 'undefined' ? (function () {
         /**
          * Default options for this control
          */
-        createClass(Tick, [{
-            key: 'isRootElement',
-
+        createClass(Tick, [
             /**
              * Public API
              */
-            value: function isRootElement(element) {
-                return this._element === element;
-            }
-        }, {
-            key: 'setConstant',
-            value: function setConstant$$1(key, value) {
-                this._constants[key] = value;
-            }
-        }, {
-            key: 'getConstants',
-            value: function getConstants$$1() {
-                return this._constants;
-            }
-        }, {
-            key: 'getConstant',
-            value: function getConstant(key) {
-                return this._constants[key];
-            }
-        }, {
-            key: 'setPreset',
-            value: function setPreset$$1(key, fn) {
-                this._presets[key] = fn;
-            }
-        }, {
-            key: 'getPreset',
-            value: function getPreset(key) {
-                return this._presets[key];
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy$$1() {
-                this._willDestroy(this);
+            {
+                key: 'isRootElement',
+                value: function isRootElement(element) {
+                    return this._element === element;
+                }
+            }, {
+                key: 'setConstant',
+                value: function setConstant$$1(key, value) {
+                    this._constants[key] = value;
+                }
+            }, {
+                key: 'getConstants',
+                value: function getConstants$$1() {
+                    return this._constants;
+                }
+            }, {
+                key: 'getConstant',
+                value: function getConstant(key) {
+                    return this._constants[key];
+                }
+            }, {
+                key: 'setPreset',
+                value: function setPreset$$1(key, fn) {
+                    this._presets[key] = fn;
+                }
+            }, {
+                key: 'getPreset',
+                value: function getPreset(key) {
+                    return this._presets[key];
+                }
+            }, {
+                key: 'destroy',
+                value: function destroy$$1() {
+                    this._willDestroy(this);
 
-                // clean up
-                this._observer.disconnect();
+                    // clean up
+                    this._observer.disconnect();
 
-                // destroy presenters
-                this.baseDefinition.presenter.destroy();
+                    // destroy presenters
+                    this.baseDefinition.presenter.destroy();
 
-                this._didDestroy(this);
-            }
-        }, {
-            key: 'redraw',
-            value: function redraw() {
-                if (!this.baseDefinition || !this.baseDefinition.presenter) return;
-                this.baseDefinition.presenter.reset();
-                this.baseDefinition.presenter.draw();
-                this._updater(this.baseDefinition, this._value);
-            }
-
+                    this._didDestroy(this);
+                }
+            }, {
+                key: 'redraw',
+                value: function redraw() {
+                    if (!this.baseDefinition || !this.baseDefinition.presenter) return;
+                    this.baseDefinition.presenter.reset();
+                    this.baseDefinition.presenter.draw();
+                    this._updater(this.baseDefinition, this._value);
+                }
+            },
             /**
              * Private Methods
              */
+            {
+                key: '_init',
+                value: function _init() {
+                    var _this = this;
 
-        }, {
-            key: '_init',
-            value: function _init() {
-                var _this = this;
+                    // move options to properties
+                    this._viewDefinition = this._options.view;
+                    this._willDestroy = this._options.willDestroy;
+                    this._didDestroy = this._options.didDestroy;
+                    this._didInit = this._options.didInit;
+                    this._didUpdate = this._options.didUpdate;
+                    this._value = this._options.value;
+                    this._presets = this._options.presets;
+                    this._constants = this._options.constants;
 
-                // move options to properties
-                this._viewDefinition = this._options.view;
-                this._willDestroy = this._options.willDestroy;
-                this._didDestroy = this._options.didDestroy;
-                this._didInit = this._options.didInit;
-                this._didUpdate = this._options.didUpdate;
-                this._value = this._options.value;
-                this._presets = this._options.presets;
-                this._constants = this._options.constants;
+                    // no more use of options behind this line
+                    // ---------------------------------------
 
-                // no more use of options behind this line
-                // ---------------------------------------
+                    // always add class tick to element (make sure it's only added once)
+                    if (!this._element.classList.contains('tick')) {
+                        this._element.classList.add('tick');
+                    }
 
-                // always add class tick to element (make sure it's only added once)
-                if (!this._element.classList.contains('tick')) {
-                    this._element.classList.add('tick');
-                }
-
-                // use mutation observer to detect changes to value attribute
-                this._observer = observeAttributes(this._element, ['data-value'], function (value) {
-                    _this.value = value;
-                });
-
-                // force default view root, move children of current root to this element
-                if (this._viewDefinition.root !== this._element) {
-                    Array.from(this._viewDefinition.root.children).forEach(function (node) {
-                        _this._element.appendChild(node);
+                    // use mutation observer to detect changes to value attribute
+                    this._observer = observeAttributes(this._element, ['data-value'], function (value) {
+                        _this.value = value;
                     });
-                    this._viewDefinition.root = this._element;
+
+                    // force default view root, move children of current root to this element
+                    if (this._viewDefinition.root !== this._element) {
+                        Array.from(this._viewDefinition.root.children).forEach(function (node) {
+                            _this._element.appendChild(node);
+                        });
+                        this._viewDefinition.root = this._element;
+                    }
+
+                    // no default view presenter defined, fallback to text
+                    if (!this._viewDefinition.view && !this._viewDefinition.children) {
+                        this._viewDefinition.view = 'text';
+                    }
+
+                    // setup root presenter
+                    this._updater = presentTick(this);
+
+                    // update for first time
+                    if (this.value !== null) {
+                        this._update(this.value);
+                    }
+
+                    // set to ready state
+                    this._element.dataset.state = 'initialised';
+
+                    // done with init
+                    this._didInit(this, this.value);
                 }
-
-                // no default view presenter defined, fallback to text
-                if (!this._viewDefinition.view && !this._viewDefinition.children) {
-                    this._viewDefinition.view = 'text';
+            }, {
+                key: '_update',
+                value: function _update(value) {
+                    this._updater(this.baseDefinition, value);
+                    this._didUpdate(this, value);
                 }
-
-                // setup root presenter
-                this._updater = presentTick(this);
-
-                // update for first time
-                if (this.value !== null) {
-                    this._update(this.value);
-                }
-
-                // set to ready state
-                this._element.dataset.state = 'initialised';
-
-                // done with init
-                this._didInit(this, this.value);
-            }
-        }, {
-            key: '_update',
-            value: function _update(value) {
-
-                this._updater(this.baseDefinition, value);
-
-                this._didUpdate(this, value);
-            }
-        }, {
-            key: 'baseDefinition',
-
-
+            },
             /**
              * Public Properties
              */
-            get: function get$$1() {
-                return this._viewDefinition;
-            }
-        }, {
-            key: 'root',
-            get: function get$$1() {
-                return this._element;
-            }
-        }, {
-            key: 'value',
-            get: function get$$1() {
-                return this._value;
-            },
-            set: function set$$1(value) {
-                this._value = typeof value === 'string' ? toValue(value) : value;
-                this._update(value);
-            }
-        }], [{
-            key: 'options',
-            value: function options() {
-                return {
-                    constants: getConstants(),
-                    presets: getPresets(),
-                    value: null,
-                    view: null,
-                    didInit: function didInit(tick) { },
-                    didUpdate: function didUpdate(tick, value) { },
-                    willDestroy: function willDestroy(tick) { },
-                    didDestroy: function didDestroy(tick) { }
-                };
-            }
-        }]);
+            {
+                key: 'baseDefinition',
+                get: function get$$1() {
+                    return this._viewDefinition;
+                }
+            }, {
+                key: 'root',
+                get: function get$$1() {
+                    return this._element;
+                }
+            }, {
+                key: 'value',
+                get: function get$$1() {
+                    return this._value;
+                },
+                set: function set$$1(value) {
+                    this._value = typeof value === 'string' ? toValue(value) : value;
+                    this._update(value);
+                }
+            }],
+            [{
+                key: 'options',
+                value: function options() {
+                    return {
+                        constants: getConstants(),
+                        presets: getPresets(),
+                        value: null,
+                        view: null,
+                        didInit: function didInit(tick) { },
+                        didUpdate: function didUpdate(tick, value) { },
+                        willDestroy: function willDestroy(tick) { },
+                        didDestroy: function didDestroy(tick) { }
+                    };
+                }
+            }]);
         return Tick;
     }();
 
-    var transformDurationUnit = function transformDurationUnit(value, single, plural, progress) {
-        return {
-            label: value === 1 ? single : plural,
-            progress: value / progress,
-            value: value
-        };
-    };
+    var transformDurationUnit = (value, single, plural, progress) => ({
+        label: value === 1 ? single : plural,
+        progress: value / progress,
+        value: value
+    });
 
     /**
      * Tick DOM interface
      */
     var instances = [];
 
-    var setConstant = function setConstant(key, value) {
-        constants[key] = value;
-    };
-
-    var setPreset = function setPreset(key, value) {
-        presets[key] = value;
-    };
-
-    var getConstants = function getConstants() {
-        return constants;
-    };
-
-    var getPresets = function getPresets() {
-        return presets;
-    };
+    var setConstant = (key, value) => { constants[key] = value; };
+    var setPreset = (key, value) => { presets[key] = value; };
+    var getConstants = () => constants;
+    var getPresets = () => presets;
 
     var constants = {
         YEAR_PLURAL: 'Years',
@@ -2973,30 +2715,14 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var presets = {
-        y: function y(value, constants) {
-            return transformDurationUnit(value, constants.YEAR_SINGULAR, constants.YEAR_PLURAL, 10);
-        },
-        M: function M(value, constants) {
-            return transformDurationUnit(value, constants.MONTH_SINGULAR, constants.MONTH_PLURAL, 12);
-        },
-        w: function w(value, constants) {
-            return transformDurationUnit(value, constants.WEEK_SINGULAR, constants.WEEK_PLURAL, 52);
-        },
-        d: function d(value, constants) {
-            return transformDurationUnit(value, constants.DAY_SINGULAR, constants.DAY_PLURAL, 365);
-        },
-        h: function h(value, constants) {
-            return transformDurationUnit(value, constants.HOUR_SINGULAR, constants.HOUR_PLURAL, 24);
-        },
-        m: function m(value, constants) {
-            return transformDurationUnit(value, constants.MINUTE_SINGULAR, constants.MINUTE_PLURAL, 60);
-        },
-        s: function s(value, constants) {
-            return transformDurationUnit(value, constants.SECOND_SINGULAR, constants.SECOND_PLURAL, 60);
-        },
-        mi: function mi(value, constants) {
-            return transformDurationUnit(value, constants.MILLISECOND_SINGULAR, constants.MILLISECOND_PLURAL, 1000);
-        }
+        y: (value, constants) => transformDurationUnit(value, constants.YEAR_SINGULAR, constants.YEAR_PLURAL, 10),
+        M: (value, constants) => transformDurationUnit(value, constants.MONTH_SINGULAR, constants.MONTH_PLURAL, 12),
+        w: (value, constants) => transformDurationUnit(value, constants.WEEK_SINGULAR, constants.WEEK_PLURAL, 52),
+        d: (value, constants) => transformDurationUnit(value, constants.DAY_SINGULAR, constants.DAY_PLURAL, 365),
+        h: (value, constants) => transformDurationUnit(value, constants.HOUR_SINGULAR, constants.HOUR_PLURAL, 24),
+        m: (value, constants) => transformDurationUnit(value, constants.MINUTE_SINGULAR, constants.MINUTE_PLURAL, 60),
+        s: (value, constants) => transformDurationUnit(value, constants.SECOND_SINGULAR, constants.SECOND_PLURAL, 60),
+        mi: (value, constants) => transformDurationUnit(value, constants.MILLISECOND_SINGULAR, constants.MILLISECOND_PLURAL, 1000)
     };
 
     var attributes = {
@@ -3079,7 +2805,6 @@ export default typeof window !== 'undefined' ? (function () {
         var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
-
         // if first argument is options object correct parameter values
         if (element && !isHTMLElement(element)) {
             options = element;
@@ -3103,7 +2828,6 @@ export default typeof window !== 'undefined' ? (function () {
 
         // if element supplied, view is either default view or defined by child elements
         if (element) {
-
             // no options defined, set blank options object
             if (!options) {
                 options = {};
@@ -3126,9 +2850,7 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var destroy = function destroy(element) {
-
         var index = indexOfElement(instances, element);
-
         if (index < 0) {
             return false;
         }
@@ -3152,7 +2874,6 @@ export default typeof window !== 'undefined' ? (function () {
     var setTimer = function setTimer(cb) {
         var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
 
         var settings = mergeObjects({ autostart: true }, options);
 
@@ -3310,8 +3031,8 @@ export default typeof window !== 'undefined' ? (function () {
         };
 
         /**
-      * Document Visibility Change
-      */
+         * Document Visibility Change
+         */
         var didHideDocument = function didHideDocument() {
             // can only be called if the timer is currently running so no checks
             sleep();
@@ -3322,7 +3043,6 @@ export default typeof window !== 'undefined' ? (function () {
             if (!isStarted()) {
                 return;
             }
-
             wake();
         };
 
@@ -3374,7 +3094,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toYearlyMoment = function toYearlyMoment(date, string) {
-
         /*
         every 1st of november at 12:00
         every 25th of november at 13:00 wait 10 seconds
@@ -3401,22 +3120,18 @@ export default typeof window !== 'undefined' ? (function () {
             if (/([\d]+th|\dst|\dnd|first|last)/.test(part)) {
                 obj.day = /^[\d]/.test(part) ? parseInt(part, 10) : part === 'first' ? 1 : part;
             }
-
             // if is time (at 12:00)
             if (/^at/.test(part)) {
                 obj.time = toTime(clone$1(date), part.substr(3));
             }
-
             // is waiting period
             else if (/wait/.test(part)) {
                 obj.idle = toInterval(part.substr(5));
             }
-
             // must be month
             else if (/^[\a-zA-Z]+$/.test(part)) {
                 obj.month = part;
             }
-
             return obj;
         }, {
             idle: null,
@@ -3494,7 +3209,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toMonthlyMoment = function toMonthlyMoment(date, string) {
-
         /*
         every month on the 1st day
         every month on the first day
@@ -3523,22 +3237,18 @@ export default typeof window !== 'undefined' ? (function () {
         }
 
         var moment = parts.reduce(function (obj, part) {
-
             // is month day (1st, 2nd, 12th, first, last)
             if (/([\d]+th|\dst|\dnd|first|last)/.test(part)) {
                 obj.day = /^[\d]/.test(part) ? parseInt(part, 10) : part === 'first' ? 1 : part;
             }
-
             // if is time (at 12:00)
             if (/^at/.test(part)) {
                 obj.time = toTime(clone$1(date), part.substr(3));
             }
-
             // is waiting period
             else if (/wait/.test(part)) {
                 obj.idle = toInterval(part.substr(5));
             }
-
             return obj;
         }, {
             idle: null,
@@ -3550,7 +3260,6 @@ export default typeof window !== 'undefined' ? (function () {
         });
 
         if (!moment.time) {
-
             // set to day
             moment.time = setDayOfMonth(clone$1(date), moment.day);
 
@@ -3568,7 +3277,6 @@ export default typeof window !== 'undefined' ? (function () {
             // test if has already passed, if so, set to hourly from for next month
             var dist = moment.time - date;
             if (dist < 0) {
-
                 // move to next month (set to first day of month)
                 moment.time = clone$1(hourlyMoment.from);
                 moment.time.setDate(1);
@@ -3583,14 +3291,12 @@ export default typeof window !== 'undefined' ? (function () {
 
             moment.dist = dist;
         } else {
-
             // correct time to set week day
             moment.time = setDayOfMonth(moment.time, moment.day);
 
             var _dist2 = moment.time - date;
             var distOverflow = 0;
             if (_dist2 < 0) {
-
                 distOverflow = _dist2;
 
                 // move to next month (set to first day of month)
@@ -3614,12 +3320,10 @@ export default typeof window !== 'undefined' ? (function () {
         }
 
         moment.date = clone$1(moment.time);
-
         return moment;
     };
 
     var toWeeklyMoment = function toWeeklyMoment(date, string) {
-
         // - every wednesday at 12:00
         // - every wednesday at 12:00 wait 10 minutes
         // - wednesday every hour
@@ -3651,22 +3355,18 @@ export default typeof window !== 'undefined' ? (function () {
 
         // to moment object
         var moment = parts.reduce(function (obj, part) {
-
             // is day
             if (/(?:mon|tues|wednes|thurs|fri|satur|sun)day/.test(part)) {
                 obj.day = Days[capitalizeFirstLetter(part)];
             }
-
             // if is time (at 12:00)
             if (/^at/.test(part)) {
                 obj.time = toTime(clone$1(date), part.substr(3));
             }
-
             // is waiting period
             else if (/wait/.test(part)) {
                 obj.idle = toInterval(part.substr(5));
             }
-
             return obj;
         }, {
             idle: null,
@@ -3679,7 +3379,6 @@ export default typeof window !== 'undefined' ? (function () {
 
         // if no time set see if a hourly period was defined
         if (!moment.time) {
-
             // set to day
             moment.time = setDay(clone$1(date), moment.day);
 
@@ -3703,7 +3402,6 @@ export default typeof window !== 'undefined' ? (function () {
 
             moment.dist = dist;
         } else {
-
             // correct time to set week day
             moment.time = setDay(moment.time, moment.day);
 
@@ -3737,17 +3435,14 @@ export default typeof window !== 'undefined' ? (function () {
 
         // to moment object
         var moment = parts.reduce(function (obj, part) {
-
             // if is time
             if (/^[\d]/.test(part)) {
                 obj.time = toTime(clone$1(date), part);
             }
-
             // is waiting period
             else if (/wait/.test(part)) {
                 obj.idle = toInterval(part.substr(5));
             }
-
             return obj;
         }, {
             idle: null,
@@ -3778,7 +3473,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toHourlyMoment = function toHourlyMoment(date, string) {
-
         // - from 10 till 20 every hour wait 5 minutes
         // - from 10:00:00 till 14:00 every 15 minutes
         // - every hour
@@ -3790,24 +3484,20 @@ export default typeof window !== 'undefined' ? (function () {
 
         // to moment object
         var moment = parts.reduce(function (obj, part) {
-
             // if is time
             if (/from/.test(part)) {
                 obj.from = toTime(obj.from, part.split(' ')[1]);
             } else if (/till/.test(part)) {
                 obj.till = toTime(obj.till, part.split(' ')[1]);
             }
-
             // is waiting period
             else if (/wait/.test(part)) {
                 obj.idle = toInterval(part.substr(5));
             }
-
             // if is interval
             else if (/hours|hour|minutes|minute|seconds|second/.test(part)) {
                 obj.interval = toInterval(part);
             }
-
             return obj;
         }, {
             idle: null,
@@ -3855,7 +3545,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var toMoment = function toMoment(date, string) {
-
         // test yearly schedules
         if (/januari|februari|march|april|may|june|july|august|september|october|november|december/.test(string)) {
             return toYearlyMoment(date, string);
@@ -3885,18 +3574,14 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var getNextScheduledDate = function getNextScheduledDate(date, schedule) {
-
         // create moments
         var moments = schedule.split(',').map(trim) // remove whitespace
-            .map(function (s) {
-                return toMoment(date, s);
-            }); // string to moment in time
+            .map((s) => toMoment(date, s)); // string to moment in time
 
         // calculate closest moment
         var nearest = null;
 
         for (var i = 0; i < moments.length; i++) {
-
             var moment = moments[i];
 
             // currently waiting
@@ -3959,17 +3644,14 @@ export default typeof window !== 'undefined' ? (function () {
      */
     var createCounter = function createCounter(props) {
         return _extends({
-
             // read only
             complete: false,
             offset: null,
             value: null,
             timer: null,
-
             // api
             onload: function onload() { },
             onupdate: function onupdate(value) { }
-
         }, props);
     };
 
@@ -3980,7 +3662,6 @@ export default typeof window !== 'undefined' ? (function () {
      */
     var countdownAmount = function countdownAmount(total) {
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
 
         if (typeof total !== 'number') {
             throw 'Can\'t start counter, the "milliseconds" parameter is required';
@@ -4000,15 +3681,12 @@ export default typeof window !== 'undefined' ? (function () {
         });
 
         setTimeout(function () {
-
             // count method
             var count = function count(runtime) {
-
                 current = total - runtime / options.interval * options.amount;
 
                 // test if reached target date
                 if (current <= target) {
-
                     // set final value
                     counter.value = options.target;
 
@@ -4055,7 +3733,6 @@ export default typeof window !== 'undefined' ? (function () {
     var countdownDuration = function countdownDuration(due) {
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-
         if (typeof due === 'undefined') {
             throw 'Can\'t start counter, the "due" parameter is required';
         }
@@ -4074,16 +3751,13 @@ export default typeof window !== 'undefined' ? (function () {
 
         // get offset
         getServerOffset(options.server, function (offset) {
-
             counter.offset = offset;
 
             var count = function count() {
-
                 var now$$1 = offsetDate(offset);
 
                 // test if reached target date
                 if (target - now$$1 <= 0) {
-
                     // set final value
                     counter.value = new Array(options.format.length).fill(0);
 
@@ -4130,7 +3804,6 @@ export default typeof window !== 'undefined' ? (function () {
     var countUpDuration = function countUpDuration(since) {
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-
         if (typeof since === 'undefined') {
             throw 'Can\'t start counter, the "since" parameter is required';
         }
@@ -4148,11 +3821,9 @@ export default typeof window !== 'undefined' ? (function () {
 
         // get offset
         getServerOffset(options.server, function (offset) {
-
             counter.offset = offset;
 
             var count = function count() {
-
                 var now$$1 = offsetDate(offset);
 
                 // set value
@@ -4185,7 +3856,6 @@ export default typeof window !== 'undefined' ? (function () {
     var countScheduled = function countScheduled(schedule) {
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-
         if (typeof schedule !== 'string') {
             throw 'Can\'t start scheduler, "schedule" is a required parameter';
         }
@@ -4212,11 +3882,9 @@ export default typeof window !== 'undefined' ? (function () {
 
         // get offset
         getServerOffset(options.server, function (offset) {
-
             counter.offset = offset;
 
             var count = function count() {
-
                 var now$$1 = offsetDate(offset);
 
                 if (timezone !== null) {
@@ -4231,7 +3899,6 @@ export default typeof window !== 'undefined' ? (function () {
 
                 // if target is null call `wait` method
                 if (counter.waiting) {
-
                     // if is waiting initially
                     if (lastDate === undefined) {
                         lastDate = null;
@@ -4266,7 +3933,6 @@ export default typeof window !== 'undefined' ? (function () {
 
                 // if no last date or it's not the first loop and its not the same as the next date we are looping
                 if (lastDate === null || lastDate !== undefined && !sameTime(lastDate, nextDate)) {
-
                     counter.onrepeat(clone$1(nextDate), lastDate ? clone$1(lastDate) : null);
 
                     if (lastDate) {
@@ -4297,7 +3963,6 @@ export default typeof window !== 'undefined' ? (function () {
     };
 
     var support = (function () {
-
         var w = window;
         if (typeof w === 'undefined') {
             return false;
@@ -4318,9 +3983,7 @@ export default typeof window !== 'undefined' ? (function () {
         var features = ['MutationObserver', 'requestAnimationFrame'];
 
         // test if is supported
-        return isIE11 || canSupport && canTransform && !!features.filter(function (p) {
-            return p in w;
-        }).length;
+        return isIE11 || canSupport && canTransform && !!features.filter((p) => p in w).length;
     });
 
     var transform = (function () {
@@ -4508,12 +4171,10 @@ export default typeof window !== 'undefined' ? (function () {
     });
 
     var spring$1 = (function (stiffness, damping, mass) {
-
         var current = null;
         var translator = null;
 
         return function (value, cb) {
-
             value = parseFloat(value);
 
             if (current === null) {
@@ -4541,11 +4202,9 @@ export default typeof window !== 'undefined' ? (function () {
         var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
         var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
 
-
         var current = null;
 
         return function (value, cb) {
-
             // if no current value, set current value and -> exit
             if (!current) {
                 current = copyArray(value);
@@ -4608,13 +4267,11 @@ export default typeof window !== 'undefined' ? (function () {
     });
 
     var step$1 = (function (velocity) {
-
         var initial = null;
         var previous = null;
         var translator = null;
 
         return function (value, cb) {
-
             value = parseFloat(value);
 
             if (initial === null) {
@@ -4660,7 +4317,6 @@ export default typeof window !== 'undefined' ? (function () {
         for (var _len = arguments.length, format = Array(_len), _key = 0; _key < _len; _key++) {
             format[_key] = arguments[_key];
         }
-
         return function (value, cb) {
             return cb(timeDuration(value, format));
         };
@@ -4670,7 +4326,6 @@ export default typeof window !== 'undefined' ? (function () {
         for (var _len = arguments.length, keys = Array(_len), _key = 0; _key < _len; _key++) {
             keys[_key] = arguments[_key];
         }
-
         return function (value, cb) {
             var output = {};
             value.forEach(function (v, i) {
@@ -4682,14 +4337,11 @@ export default typeof window !== 'undefined' ? (function () {
 
     var map = (function (transform) {
         return function (value, cb) {
-
             var output = [];
             var input = value;
 
             input.forEach(function (v, vi) {
-
                 transform(v, function (out) {
-
                     output[vi] = out;
 
                     if (vi === input.length - 1) {
@@ -4706,15 +4358,12 @@ export default typeof window !== 'undefined' ? (function () {
         }
 
         return function (value, cb) {
-
             var input = Array.isArray(value) ? value : [value];
             var output = [];
             var totalTransforms = transforms.length;
 
             input.forEach(function (v, i) {
-
                 transforms[i % totalTransforms](v, function (out) {
-
                     output[i] = out;
                     if (i === input.length - 1) {
                         cb(output);
@@ -4739,7 +4388,6 @@ export default typeof window !== 'undefined' ? (function () {
     var tween = (function (duration) {
         var ease = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'ease-linear';
         var delay = arguments[2];
-
 
         duration = toDuration(duration);
 
@@ -4768,11 +4416,13 @@ export default typeof window !== 'undefined' ? (function () {
             var from = previous;
             var dist = to - from;
 
-            cancel = animate(function (p) {
-                cb(from + p * dist);
-            }, function () {
-                cancel = null;
-            }, duration, easeFn, delay);
+            cancel = animate(
+                function (p) {
+                    cb(from + p * dist);
+                }, function () {
+                    cancel = null;
+                }, duration, easeFn, delay
+            );
 
             previous = value;
         };
@@ -4792,10 +4442,7 @@ export default typeof window !== 'undefined' ? (function () {
 
     var char = (function (filter) {
         var replacement = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-
         var regex = filter ? new RegExp('[^' + filter + ']', 'g') : null;
-
         return function (value, cb) {
             var char = String.fromCharCode(value);
             if (regex) {
@@ -4909,7 +4556,6 @@ export default typeof window !== 'undefined' ? (function () {
         var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
         var delayIn = arguments[2];
         var delayOut = arguments[3];
-
         return {
             intro: [{
                 name: 'scale',
@@ -4947,9 +4593,7 @@ export default typeof window !== 'undefined' ? (function () {
     /**
      * Helper methods
      */
-    var between = function between(from, to, p) {
-        return from + (to - from) * p;
-    };
+    var between = (from, to, p) => from + (to - from) * p;
 
     /**
      * Single Element transitions
@@ -5056,29 +4700,20 @@ export default typeof window !== 'undefined' ? (function () {
          * Helper Methods
          */
         helper: {
-            // Starts an interval and calls callback method on each tick
-            interval: setTimer,
-
-            // Returns current time or date object based on ISO
-            date: function date(iso) {
+            interval: setTimer,             // Starts an interval and calls callback method on each tick
+            date: function date(iso) {      // Returns current time or date object based on ISO
                 return iso ? dateFromISO(iso) : now$1();
             },
-
-            // Returns duration in milliseconds or duration between two dates
-            duration: duration
+            duration: duration,             // Returns duration in milliseconds or duration between two dates
         },
 
         /**
          * Data Access
          */
         data: {
-            // Request data from a url
-            request: request,
-
-            // Poll a URL for data with a set interval
-            poll: function poll(url, cb) {
+            request: request,               // Request data from a url
+            poll: function poll(url, cb) {  // Poll a URL for data with a set interval
                 var interval = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 60000;
-
                 return setTimer(function () {
                     request(url, cb);
                 }, interval);
@@ -5089,17 +4724,10 @@ export default typeof window !== 'undefined' ? (function () {
          * DOM Operations
          */
         DOM: {
-            // Create a new ticker
-            create: create,
-
-            // Destroy an existing ticker
-            destroy: destroy,
-
-            // Parse a piece of the DOM for tickers
-            parse: parse,
-
-            // Find a specific ticker by DOM node
-            find: find
+            create: create,                 // Create a new ticker
+            destroy: destroy,               // Destroy an existing ticker
+            parse: parse,                   // Parse a piece of the DOM for tickers
+            find: find                      // Find a specific ticker by DOM node
         },
 
         count: {
@@ -5157,8 +4785,9 @@ export default typeof window !== 'undefined' ? (function () {
 
     for (var type in ExtensionType) {
         var _ret = _loop(type);
-
-        if (_ret === 'continue') continue;
+        if (_ret === 'continue') {
+            continue;
+        }
     }
 
     module.exports = API;

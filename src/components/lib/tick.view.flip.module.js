@@ -36,13 +36,13 @@ export default typeof window !== 'undefined' ? (function () {
         };
     }();
 
-    var index = (function (_ref) {
+    var index = function (_ref) {
         console.log('_ref', _ref);
         var DOM = _ref.DOM,
             animate = _ref.Animation.animate,
             Extension = _ref.Extension,
             performance = _ref.Date.performance,
-            
+
             _ref$View = _ref.View,
             rooter = _ref$View.rooter,
             destroyer = _ref$View.destroyer,
@@ -55,10 +55,8 @@ export default typeof window !== 'undefined' ? (function () {
         var easeOutSine = Extension.getExtension(Extension.Type.EASING_FUNCTION, 'ease-out-sine');
 
         var draw = function draw(state) {
-
             // create cards if not already created
             if (state.isInitialValue()) {
-
                 // clear current content
                 state.root.textContent = '';
 
@@ -99,7 +97,6 @@ export default typeof window !== 'undefined' ? (function () {
 
             // create a quick flipped initial card and then exit
             if (state.isInitialValue()) {
-
                 // create flipped state (bottom)
                 var initialBottomCard = new FlipCard();
                 initialBottomCard.back = state.value;
@@ -132,11 +129,8 @@ export default typeof window !== 'undefined' ? (function () {
                 var ease = Extension.getExtension(Extension.Type.EASING_FUNCTION, state.style.flipEasing);
 
                 var tick = function tick() {
-
                     // find cards that require animation
-                    var cardsToAnimate = state.cards.filter(function (card) {
-                        return !card.done && !card.waiting;
-                    });
+                    var cardsToAnimate = state.cards.filter((card) => !card.done && !card.waiting);
 
                     if (cardsToAnimate.length === 0) {
                         state.animating = false;
@@ -145,7 +139,6 @@ export default typeof window !== 'undefined' ? (function () {
 
                     // calculate card progress
                     cardsToAnimate.forEach(function (card) {
-
                         if (card.offset !== null) {
                             card.progress = (performance() - card.offset) / state.style.flipDuration;
                         }
@@ -161,9 +154,7 @@ export default typeof window !== 'undefined' ? (function () {
                     // sort
                     var cardDistance = 0.01;
                     cardsToAnimate.reverse().forEach(function (card, index) {
-
                         var previousCard = cardsToAnimate[index - 1];
-
                         if (previousCard && card.visual_progress <= previousCard.visual_progress) {
                             card.visual_progress = previousCard.visual_progress + cardDistance;
                         }
@@ -173,7 +164,6 @@ export default typeof window !== 'undefined' ? (function () {
 
                     // update shadows
                     state.cards.forEach(function (card, index) {
-
                         // set default shadow and highlight levels based on visual animation progress
                         var shadowFrontProgress = 1 - Math.abs(card.visual_progress - .5) * 2;
                         var highlightBackProgress = 1 - (card.visual_progress - .5) / .5;
@@ -192,7 +182,6 @@ export default typeof window !== 'undefined' ? (function () {
 
                     // update and animate cards
                     cardsToAnimate.forEach(function (card, index) {
-
                         var p = card.visual_progress;
 
                         if (p > .5 && !card.done) {
@@ -220,17 +209,14 @@ export default typeof window !== 'undefined' ? (function () {
                     DOM.transform(state.shadowCard, 'scaleY', s);
 
                     // clean up cards that finished animating
-                    state.cards.filter(function (card) {
-                        return card.done;
-                    }) // gather all done cards
+                    state.cards
+                        .filter((card) => card.done) // gather all done cards
                         .slice(0, -1) // don't delete the last one
                         .forEach(function (card) {
                             // let's delete them
 
                             // remove predecessor from cards array
-                            state.cards = state.cards.filter(function (c) {
-                                return c !== card;
-                            });
+                            state.cards = state.cards.filter((c) => c !== card);
 
                             // remove predecessor from the DOM
                             if (card.root.parentNode) {
@@ -248,7 +234,6 @@ export default typeof window !== 'undefined' ? (function () {
         var FlipCard = function () {
             function FlipCard() {
                 classCallCheck(this, FlipCard);
-
 
                 this._root = DOM.create('span', 'tick-flip-card');
 
@@ -365,12 +350,12 @@ export default typeof window !== 'undefined' ? (function () {
             return Object.assign({},
                 rooter(state, root, 'flip'),
                 updater(state),
-                styler(state, { flipDuration: 800, flipEasing: 'ease-out-bounce' }),
+                styler(state, { flipDuration: 17000 + 800, flipEasing: 'ease-out-bounce' }),
                 drawer(state, draw),
                 destroyer(state),
             );
         };
-    });
+    };
 
     module.exports = index;
 
