@@ -10,6 +10,8 @@ export default typeof window !== 'undefined' ? (function () {
     }
     'use strict';
 
+    let NEXT_CARD_ID = 0;
+
     var classCallCheck = function (instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
@@ -55,6 +57,8 @@ export default typeof window !== 'undefined' ? (function () {
         var easeOutSine = Extension.getExtension(Extension.Type.EASING_FUNCTION, 'ease-out-sine');
 
         var draw = function draw(state) {
+            console.log(`.............................. draw ${state.cards.length} cards`);
+
             // create cards if not already created
             if (state.isInitialValue()) {
                 // clear current content
@@ -106,6 +110,8 @@ export default typeof window !== 'undefined' ? (function () {
 
                 state.root.insertBefore(initialBottomCard.root, state.root.firstChild);
                 state.cards.push(initialBottomCard);
+
+                console.log(`add card ID=${initialBottomCard.id}/${state.cards.length} ++++ first +++ [f:${initialBottomCard.front} b:${initialBottomCard.back}]`, {initialBottomCard});
             }
 
             // create a new card
@@ -122,6 +128,8 @@ export default typeof window !== 'undefined' ? (function () {
 
             state.root.insertBefore(topCard.root, state.root.firstChild);
             state.cards.push(topCard);
+
+            console.log(`add card ID=${topCard.id}/${state.cards.length} ++++++++++++++ [f:${topCard.front} b:${topCard.back}]`, {topCard});
 
             if (!state.animating) {
                 state.animating = true;
@@ -218,6 +226,8 @@ export default typeof window !== 'undefined' ? (function () {
                             // remove predecessor from cards array
                             state.cards = state.cards.filter((c) => c !== card);
 
+                            console.log(`rem card ID=${card.id}/${state.cards.length} -------------- [f:${card.front} b:${card.back}]`, {card});
+
                             // remove predecessor from the DOM
                             if (card.root.parentNode) {
                                 state.root.removeChild(card.root);
@@ -235,7 +245,8 @@ export default typeof window !== 'undefined' ? (function () {
             function FlipCard() {
                 classCallCheck(this, FlipCard);
 
-                this._root = DOM.create('span', 'tick-flip-card');
+                //this._root = DOM.create('span', "tick-flip-card");
+                this._root = DOM.create('span', `tm-${NEXT_CARD_ID} tick-flip-card`);
 
                 // card front
                 var front = DOM.create('span', 'tick-flip-panel-front tick-flip-front tick-flip-panel');
@@ -274,6 +285,8 @@ export default typeof window !== 'undefined' ? (function () {
                 // front and back values
                 this._frontValue = null;
                 this._backValue = null;
+
+                this._ID = NEXT_CARD_ID++;
             }
 
             createClass(FlipCard, [
@@ -321,6 +334,11 @@ export default typeof window !== 'undefined' ? (function () {
                     set: function set$$1(value) {
                         this._shadowFront.style.opacity = value;
                     }
+                }, {
+                    key: 'id',
+                    get: function get$$1() {
+                        return this._ID;
+                    }
                 }
             ]);
 
@@ -350,7 +368,7 @@ export default typeof window !== 'undefined' ? (function () {
             return Object.assign({},
                 rooter(state, root, 'flip'),
                 updater(state),
-                styler(state, { flipDuration: 17000 + 800, flipEasing: 'ease-out-bounce' }),
+                styler(state, { flipDuration: /*17000 +*/ 800, flipEasing: 'ease-out-bounce' }),
                 drawer(state, draw),
                 destroyer(state),
             );
