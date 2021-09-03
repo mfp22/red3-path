@@ -43,27 +43,38 @@ export default function Flip({ value }: { value: number; }) {
 
     React.useEffect(() => {
         console.log('mount', {ref: _tickRef.current, inst: _tickInstance.current});
-        
+
         if (!_tickRef.current) {
             return;
         }
-        _tickInstance.current = Tick.DOM.create(_tickRef.current, {
-            value: value
-        });
 
-        const closure = _tickRef.current;
+        const elTick = document.createElement('div');
+        elTick.className = "tick";
+
+        const elFlex = document.createElement('div');
+        elFlex.className = "flex";
+        elFlex.dataset.repeat = 'true';
+        elFlex.ariaHidden = 'true';
+
+        const elSpan = document.createElement('span');
+        elSpan.dataset.view = "flip";
+        
+        elFlex.appendChild(elSpan);
+        elTick.appendChild(elFlex);
+        _tickRef.current.appendChild(elTick);
 
         //
 
-        const el = document.createElement('div');
-        el.className = "one";
-        _tickRef.current.appendChild(el);
+        
+        _tickInstance.current = Tick.DOM.create(elTick, {
+            value: value
+        });
 
         return () => {
-            el.parentElement?.removeChild(el);
-            
-            console.log('unmount', {ref: _tickRef.current, clos: closure, inst: _tickInstance.current});
-            //Tick.DOM.destroy(closure);
+            elTick.parentElement?.removeChild(elTick);
+
+            console.log('unmount', {ref: _tickRef.current, clos: elTick, inst: _tickInstance.current});
+            Tick.DOM.destroy(elTick);
         };
     }, []);
 
@@ -71,14 +82,18 @@ export default function Flip({ value }: { value: number; }) {
         _tickInstance.current && (_tickInstance.current.value = value);
     }, [value]);
 
-    return (
+    /*
         <div className="">
             <div ref={_tickRef} className="tick">
                 <div className="flex" data-repeat="true" aria-hidden="true">
                     <span data-view="flip">Tick</span>
                 </div>
             </div>
-            {/* 111 */}
+        </div>
+    */
+
+    return (
+        <div ref={_tickRef} className="">
         </div>
     );
 }
