@@ -4,13 +4,13 @@ import Flip from './Flip';
 function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
     return (
         <div className="w-full col-span-full flex justify-center text-gray-300">
-        {/* <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold"> */}
+            {/* <div className="w-full col-span-full p-4 flex justify-center border rounded border-white text-gray-300 text-xl font-semibold"> */}
 
             <div className="w-full grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
                 {/* <div className="col-span-full justify-self-start -mt-8 mb-4 px-4 bg-primary-700">Points:</div> */}
 
                 {/* Left */}
-                <div className="">
+                <div className="" style={{ backdropFilter: 'blur(16px) saturate(180%)' }}>
                     <div className="relative p-4 text-4xl rounded-md border border-primary-800 overflow-hidden">
                         <div className="1absolute -m-4 mb-4 px-4 py-1 right-0 top-0 text-sm bg-primary-800 text-right"># Source points</div>
                         <Flip value={pointsSrc} alignRight={true} />
