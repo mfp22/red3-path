@@ -53,9 +53,17 @@ export default function Flip({ value }: { value: number; }) {
 
         const closure = _tickRef.current;
 
+        //
+
+        const el = document.createElement('div');
+        el.className = "one";
+        _tickRef.current.appendChild(el);
+
         return () => {
+            el.parentElement?.removeChild(el);
+            
             console.log('unmount', {ref: _tickRef.current, clos: closure, inst: _tickInstance.current});
-            Tick.DOM.destroy(closure);
+            //Tick.DOM.destroy(closure);
         };
     }, []);
 

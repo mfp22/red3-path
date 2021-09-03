@@ -40,6 +40,7 @@ export default typeof window !== 'undefined' ? (function () {
 
     var index = function (_ref) {
         console.log('_ref', _ref);
+
         var DOM = _ref.DOM,
             animate = _ref.Animation.animate,
             Extension = _ref.Extension,
@@ -64,7 +65,7 @@ export default typeof window !== 'undefined' ? (function () {
                 // clear current content
                 state.root.textContent = '';
 
-                // value spacer
+                // value spacer to hold width of card
                 state.spacer = DOM.create('span', 'tick-flip-spacer');
                 state.root.appendChild(state.spacer);
 
@@ -381,5 +382,6 @@ export default typeof window !== 'undefined' ? (function () {
         name: 'flip',
         type: 'view'
     };
+
     return module.exports;
 }()) : null;
