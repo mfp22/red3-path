@@ -50,7 +50,7 @@ header {
 $border-color: red;
 $border-width: 7;
 $card-border-half: math.div($border-width, 2) * 1px solid $border-color;
-$card-border-full: $border-width * 1px solid $border-color;
+$card-border: $border-width * 1px solid $border-color;
 
 $card: white;
 $font-family: "Droid Sans Mono", monospace;
@@ -98,7 +98,7 @@ $card-radius: 11px;
     height: 50%;
 
     overflow: hidden;
-    border: $card-border-full;
+    border: $card-border;
 }
 
 .upperCard {
@@ -149,7 +149,7 @@ $card-radius: 11px;
         background-color: $card;
         border-bottom-left-radius: $card-radius;
         border-bottom-right-radius: $card-radius;
-        border: $card-border-half;
+        border: $card-border;
         
         border-top: $card-border-half;
 
@@ -167,7 +167,7 @@ $card-radius: 11px;
         background-color: $card;
         border-top-left-radius: $card-radius;
         border-top-right-radius: $card-radius;
-        border: $card-border-half;
+        border: $card-border;
         
         border-bottom: $card-border-half;
 
