@@ -4,12 +4,13 @@ import React from "react";
 import Tick from '../lib/flip-old';
 import "./flip.scss";
 
-function createTickAsNoneReactBusiness() {
+function createTickAsNoneReactBusiness(alignRight: boolean) {
     const elTick = document.createElement('div');
     elTick.className = "tick";
 
     const elFlex = document.createElement('div');
     elFlex.className = "flex";
+    alignRight && (elFlex.style.justifyContent = 'flex-end');
     elFlex.dataset.repeat = 'true';
     elFlex.ariaHidden = 'true';
 
@@ -21,7 +22,7 @@ function createTickAsNoneReactBusiness() {
     return elTick;
 }
 
-export default function Flip({ value }: { value: number; }) {
+export default function Flip({ value, alignRight = false }: { value: number; alignRight?: boolean; }) {
     const _tickRef = React.useRef<HTMLDivElement>(null);
     const _tickInstance = React.useRef<any>(null);
 
@@ -30,7 +31,7 @@ export default function Flip({ value }: { value: number; }) {
             return;
         }
 
-        const elTick = createTickAsNoneReactBusiness();
+        const elTick = createTickAsNoneReactBusiness(alignRight);
         _tickRef.current.appendChild(elTick);
         _tickInstance.current = Tick.DOM.create(elTick, { value: value });
 
