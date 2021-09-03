@@ -48,11 +48,12 @@ header {
 
 //$border: whitesmoke;
 $border-color: red;
-$border-width: 7;
+$border-width: 12;
 $card-border-half: math.div($border-width, 2) * 1px solid $border-color;
 $card-border: $border-width * 1px solid $border-color;
 
-$card: white;
+//$card: white;
+$card: tomato;
 $font-family: "Droid Sans Mono", monospace;
 $font-size: 5em;
 $font-width: lighter;

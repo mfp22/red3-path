@@ -142,7 +142,7 @@ export function FlipClock() {
 
     return (
         <div className={'flipClock'}>
-            <FlipUnitContainer
+            {/* <FlipUnitContainer
                 unit={'hours'}
                 digit={hours}
                 shuffle={hoursShuffle}
@@ -151,7 +151,7 @@ export function FlipClock() {
                 unit={'minutes'}
                 digit={minutes}
                 shuffle={minutesShuffle}
-            />
+            /> */}
             <FlipUnitContainer
                 unit={'seconds'}
                 digit={seconds}

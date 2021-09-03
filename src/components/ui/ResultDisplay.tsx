@@ -23,11 +23,11 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                     {/* <Flip value={pointsDst} /> */}
                 </div>
             </div>
-            <FlipCard children={pointsDst} />
+            {/* <FlipCard children={pointsDst} /> */}
         </div>
-        <div className="w-1/2">
+        {/* <div className="w-1/2">
             <FlipClock />
-        </div>
+        </div> */}
         </>
     );
 }

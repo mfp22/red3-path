@@ -9,6 +9,7 @@ import { clamp, withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
 import Slider from './ui/Slider';
 import Result from './ui/ResultDisplay';
+import ResultDisplayProduction from './ui/ResultDisplayProduction';
 
 function getPath(points: [number, number][], tolerance: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -140,7 +141,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
-            <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} />
+            {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
+            <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
 
             {/* Canvas */}
             <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
