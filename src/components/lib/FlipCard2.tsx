@@ -91,7 +91,7 @@ export function FlipClock() {
     const timerID = useRef<ReturnType<typeof setInterval>>();
 
     useEffect(() => {
-        timerID.current = setInterval(() => updateTime(), 50);
+        timerID.current = setInterval(() => updateTime(), 500);
         return () => {
             clearInterval(timerID.current);
         }
