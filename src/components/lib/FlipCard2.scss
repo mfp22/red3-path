@@ -52,22 +52,27 @@ $font-size: 5em;
 $font-width: lighter;
 $font-color: lighten(black, 20%);
 
+$card-hieght: 120px;
+$card-width: 140px;
+
 .flipClock {
     display: flex;
     justify-content: space-between;
-    width: 3 * 140px + 80px;
+    width: 3 * $card-width + 80px;
 }
 
 .flipUnitContainer {
     display: block;
     position: relative;
-    width: 140px;
-    height: 120px;
-    perspective-origin: 50% 50%;
-    perspective: 300px;
+    width: $card-width;
+    height: $card-hieght;
+
     background-color: $card;
     border-radius: 3px;
     box-shadow: 0px 10px 10px -10px grey;
+
+    perspective-origin: 50% 50%;
+    perspective: 300px;
 }
 
 .upperCard,
@@ -75,8 +80,10 @@ $font-color: lighten(black, 20%);
     display: flex;
     position: relative;
     justify-content: center;
+
     width: 100%;
     height: 50%;
+
     overflow: hidden;
     border: 1px solid $border;
 
@@ -90,9 +97,11 @@ $font-color: lighten(black, 20%);
 
 .upperCard {
     align-items: flex-end;
-    border-bottom: 0.5px solid $border;
+
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+    
+    border-bottom: 0.5px solid $border;
 
     span {
         transform: translateY(50%);
@@ -101,9 +110,11 @@ $font-color: lighten(black, 20%);
 
 .lowerCard {
     align-items: flex-start;
-    border-top: 0.5px solid $border;
+
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+    
+    border-top: 0.5px solid $border;
 
     span {
         transform: translateY(-50%);
@@ -111,14 +122,16 @@ $font-color: lighten(black, 20%);
 }
 
 .flipCard {
-    display: flex;
-    justify-content: center;
     position: absolute;
     left: 0;
     width: 100%;
     height: 50%;
+
     overflow: hidden;
     backface-visibility: hidden;
+    
+    display: flex;
+    justify-content: center;
 
     span {
         font-family: $font-family;
@@ -126,15 +139,19 @@ $font-color: lighten(black, 20%);
         font-weight: $font-width;
         color: $font-color;
     }
+
     &.unfold {
-        top: 50%;
         align-items: flex-start;
+
+        top: 50%;
         transform-origin: 50% 0%;
         transform: rotateX(180deg);        // from 180 to 0
+
         background-color: $card;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
         border: 0.5px solid $border;
+        
         border-top: 0.5px solid $border;
 
         span {
@@ -142,14 +159,17 @@ $font-color: lighten(black, 20%);
         }
     }
     &.fold {
-        top: 0%;
         align-items: flex-end;
+
+        top: 0%;
         transform-origin: 50% 100%;
         transform: rotateX(0deg);        // from 0 to -180
+
         background-color: $card;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
         border: 0.5px solid $border;
+        
         border-bottom: 0.5px solid $border;
 
         span {
@@ -159,12 +179,12 @@ $font-color: lighten(black, 20%);
 }
 
 .fold {
-    @include animate(fold, $easeInOut, 0.6s);
+    @include animate(fold, $easeInOut, .6s);
     transform-style: preserve-3d;
 }
 
 .unfold {
-    @include animate(unfold, $easeInOut, 0.6s);
+    @include animate(unfold, $easeInOut, .6s);
     transform-style: preserve-3d;
 }
 
