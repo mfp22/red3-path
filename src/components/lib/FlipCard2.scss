@@ -179,12 +179,12 @@ $card-width: 140px;
 }
 
 .fold {
-    @include animate(fold, $easeInOut, .6s);
+    @include animate(fold, $easeInOut, 4.6s);
     transform-style: preserve-3d;
 }
 
 .unfold {
-    @include animate(unfold, $easeInOut, .6s);
+    @include animate(unfold, $easeInOut, 4.6s);
     transform-style: preserve-3d;
 }
 
