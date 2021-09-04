@@ -145,8 +145,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
 
-            <div className="w-full col-span-full">
-                <div className="py-4 hidden sm:block text-sm md:text-xl lg:text-2xl text-primary-900" style={{textShadow: '1px 1px #5a5a5a'}}>
+            <div className="col-span-full">
+                <div className="py-2 hidden sm:block text-sm md:text-xl lg:text-2xl text-primary-900" style={{textShadow: '1px 1px #5a5a5a'}}>
                     Draw a line on the canvas and use the tolerance slider to see the result of the interpolation.
                 </div>
                 <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
