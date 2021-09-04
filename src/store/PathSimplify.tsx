@@ -46,7 +46,7 @@ const initialPoints: [number, number][] = [[248, 293], [248, 285], [248, 271], [
 const PathSimplifyProvider: React.FC = ({ children }) => {
     const [points, setPoints] = React.useState<[number, number][]>(initialPoints);
     const [tolerance, setTolerance] = React.useState<number>(62);
-    const [precision, setPrecision] = React.useState<number>(62);
+    const [precision, setPrecision] = React.useState<number>(5);
 
     const [showLine, setShowLine] = React.useState<boolean>(true);
     const [showRaw, setShowRaw] = React.useState<boolean>(true);

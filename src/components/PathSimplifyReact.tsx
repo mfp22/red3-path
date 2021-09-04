@@ -172,7 +172,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <div className="flex items-center space-x-2">
                     <div className="">Precision</div>
                     <div className="flex-1 h-3">
-                        <Slider min={0} max={400} step={0.1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
+                        <Slider min={0} max={16} step={0.1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
                     </div>
                     <div className="">{precision}</div>
                 </div>
