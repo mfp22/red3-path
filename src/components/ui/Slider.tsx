@@ -80,7 +80,7 @@ const SliderBalloon = styled('div', {
 function BallonSVG({ value }: { value: number; }) {
     return (
         <div className="relative">
-            <svg className="absolute inset-0" fill="var(--tm-primary-500)" stroke="#00000050">
+            <svg className="absolute inset-0" viewBox="-2 0 36 62" fill="var(--tm-primary-500)" stroke="#00000050">
                 <path d="M16,44.89S7,37.62,4.7,35.32a16,16,0,1,1,22.6,0C25,37.62,16,44.89,16,44.89Z" />
             </svg>
             <div className="relative w-full top-3 left-[-1px]">{value}</div>
