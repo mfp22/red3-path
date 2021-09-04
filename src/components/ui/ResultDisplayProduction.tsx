@@ -32,10 +32,10 @@ function DisplayColumn({number, title, alignRight: alignRight = false, children}
                         {children}
                     </div>
                 </div>
-                <div className="p-5 bg-primary-700 flex items-center justify-end uppercase">{title}</div>
+                <div className={`p-5 bg-primary-700 flex items-center ${alignRight ? 'justify-end': 'justify-start'} uppercase`}>{title}</div>
 
                 {/* </div> */}
-                <div className="p-4 col-span-2 text-4xl flex items-center justify-end">
+                <div className={`p-4 col-span-2 text-4xl flex items-center ${alignRight ? 'justify-end': 'justify-start'}`}>
                     <Flip value={number} alignRight={alignRight} />
                 </div>
             </div>
