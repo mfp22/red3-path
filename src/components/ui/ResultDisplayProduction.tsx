@@ -44,7 +44,7 @@ function DisplayColumn({ number, title, alignRight: alignRight = false, children
 
 function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
     return (
-        <div className="w-full col-span-full flex justify-center text-gray-300">
+        <div className="flex justify-center text-gray-300">
             <div className="w-full grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
                 {/* Left */}
                 <DisplayColumn number={pointsSrc} title="# Source points" alignRight={true}>

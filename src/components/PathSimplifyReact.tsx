@@ -136,7 +136,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     console.log('path', path);
-    
+
 
     const svgWidth = 500;
     const svgHeight = 500;
@@ -144,8 +144,14 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
-            {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
-            <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
+
+            <div className="w-full col-span-full">
+                <div className="py-4 hidden sm:block text-sm md:text-xl lg:text-2xl text-primary-900" style={{textShadow: '1px 1px #5a5a5a'}}>
+                    Draw a line on the canvas and use the tolerance slider to see the result of the interpolation.
+                </div>
+                <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
+                {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
+            </div>
 
             {/* Canvas */}
             <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
