@@ -4,7 +4,7 @@ import Flip from './Flip';
 
 export function IconSteps(props: React.SVGProps<SVGSVGElement>) {
     return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".25">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".75">
             <path d="M37.5 11.7c.4 2.1-.2 3.3-2 3.6-1.9.2-2.6-1-3-3.2-.4-2.9.6-4.7 2-4.8s2.7 2.2 3 4.4zM38.4 17.7a2.3 2.3 0 01-1.6 2.6 2.2 2.2 0 01-2.4-1.9c-.2-1.2.7-1.2 1.8-1.5s2-.7 2.2.8zM41.7 8.1c-.4 2.2.2 3.4 2 3.6 1.8.3 2.6-1 3-3.1.4-3-.6-4.8-2-4.9S42 6 41.7 8.1zM40.8 14.1a2.3 2.3 0 001.5 2.6 2.2 2.2 0 002.4-1.8c.3-1.2-.6-1.3-1.7-1.5s-2-.8-2.2.7z" transform="translate(-27.6)" />
         </svg>
     );
@@ -31,11 +31,20 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 {/* <div className="col-span-full justify-self-start -mt-8 mb-4 px-4 bg-primary-700">Points:</div> */}
 
                 {/* Left */}
-                <div className="bg-[red] rounded-md">
-                    <div className="text-4xl grid">
-                        <IconSteps />
-                        <div className="rounded-t-md text-sm bg-primary-800 text-right"># Source points</div>
-                        <Flip value={pointsSrc} alignRight={true} />
+                <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
+                    <div className="grid grid-cols-2">
+                        {/* <div className="rounded-t-md text-sm bg-primary-800 flex justify-between"> */}
+                        <div className="p-4 bg-primary-700 flex items-center">
+                            <div className="w-8 h-8">
+                                <IconSteps />
+                            </div>
+                        </div>
+                        <div className="p-5 bg-primary-700 flex items-center justify-end uppercase"># Source points</div>
+
+                        {/* </div> */}
+                        <div className="p-4 col-span-2 text-4xl flex items-center justify-end">
+                            <Flip value={pointsSrc} alignRight={true} />
+                        </div>
                     </div>
                 </div>
 
@@ -46,11 +55,20 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                     </svg>
                 </div>
                 {/* Right */}
+
+
                 <div className="relative p-4 text-4xl rounded-md border border-primary-800 overflow-hidden shadow-md"
                     style={{ backgroundColor: 'red' }}
                 >
-                    <IconBike />
                     <div className="1absolute -m-4 mb-4 px-4 py-1 left-0 top-0 text-sm bg-primary-800"># Smooth points</div>
+                        <div className="p-4 bg-primary-700 flex items-center">
+                            <div className="w-12 h-12">
+                            <IconBike />
+                            </div>
+                        </div>
+
+                    
+                    
                     <Flip value={pointsDst} />
                 </div>
             </div>
