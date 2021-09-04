@@ -12,7 +12,7 @@ Curve path simplification
 
 
 <!-- <div class="flex"> -->
-<img src="src/assets/previews/2021-09-04_1-56-34.png" width="300px">
+<img src="src/assets/previews/2021-09-04_1-56-34.png" width="200px">
 <img src="src/assets/previews/2021-08-26_20-02-22-score.png" width="200px">
 <!-- </div> -->
 
