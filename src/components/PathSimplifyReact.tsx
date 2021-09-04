@@ -132,8 +132,11 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         // }
     });
 
-    const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance]);
+    const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
+
+    console.log('path', path);
+    
 
     const svgWidth = 500;
     const svgHeight = 500;
@@ -161,18 +164,18 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance */}
                 <div className="flex items-center space-x-2">
-                    <div className="">Tolerance</div>
+                    <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
                     <div className="flex-1 h-3">
                         <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
                     </div>
                     <div className="">{tolerance}</div>
                 </div>
 
-                {/* Tolerance */}
+                {/* Precision of output path numbers */}
                 <div className="flex items-center space-x-2">
-                    <div className="">Precision</div>
+                    <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
                     <div className="flex-1 h-3">
-                        <Slider min={0} max={16} step={0.1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
+                        <Slider min={0} max={9} step={1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
                     </div>
                     <div className="">{precision}</div>
                 </div>
