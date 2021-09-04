@@ -52,9 +52,9 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 {/* <div className="col-span-full justify-self-start -mt-8 mb-4 px-4 bg-primary-700">Points:</div> */}
 
                 {/* Left */}
-                <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
+                {/* <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
                     <div className="grid grid-cols-2">
-                        {/* <div className="rounded-t-md text-sm bg-primary-800 flex justify-between"> */}
+                        {/* <div className="rounded-t-md text-sm bg-primary-800 flex justify-between"> * /}
                         <div className="p-4 bg-primary-700 flex items-center">
                             <div className="w-8 h-8">
                                 <IconSteps />
@@ -62,12 +62,16 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                         </div>
                         <div className="p-5 bg-primary-700 flex items-center justify-end uppercase"># Source points</div>
 
-                        {/* </div> */}
+                        {/* </div> * /}
                         <div className="p-4 col-span-2 text-4xl flex items-center justify-end">
                             <Flip value={pointsSrc} alignRight={true} />
                         </div>
                     </div>
-                </div>
+                </div> */}
+
+                <DisplayColumn number={pointsSrc} title="# Source points" alignRight={true}>
+                <IconSteps />
+                </DisplayColumn>
 
                 {/* Arrow */}
                 <div className="self-center">
@@ -81,21 +85,6 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 <IconBike />
                 </DisplayColumn>
 
-
-                {/* <div className="relative p-4 text-4xl rounded-md border border-primary-800 overflow-hidden shadow-md"
-                    style={{ backgroundColor: 'red' }}
-                >
-                    <div className="1absolute -m-4 mb-4 px-4 py-1 left-0 top-0 text-sm bg-primary-800"># Smooth points</div>
-                    <div className="p-4 bg-primary-700 flex items-center">
-                        <div className="w-12 h-12">
-                            <IconBike />
-                        </div>
-                    </div>
-
-
-
-                    <Flip value={pointsDst} />
-                </div> */}
             </div>
         </div>
     );
