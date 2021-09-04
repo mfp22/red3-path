@@ -4,7 +4,7 @@ import Flip from './Flip';
 
 export function IconSteps(props: React.SVGProps<SVGSVGElement>) {
     return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".75">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth=".5">
             <path d="M37.5 11.7c.4 2.1-.2 3.3-2 3.6-1.9.2-2.6-1-3-3.2-.4-2.9.6-4.7 2-4.8s2.7 2.2 3 4.4zM38.4 17.7a2.3 2.3 0 01-1.6 2.6 2.2 2.2 0 01-2.4-1.9c-.2-1.2.7-1.2 1.8-1.5s2-.7 2.2.8zM41.7 8.1c-.4 2.2.2 3.4 2 3.6 1.8.3 2.6-1 3-3.1.4-3-.6-4.8-2-4.9S42 6 41.7 8.1zM40.8 14.1a2.3 2.3 0 001.5 2.6 2.2 2.2 0 002.4-1.8c.3-1.2-.6-1.3-1.7-1.5s-2-.8-2.2.7z" transform="translate(-27.6)" />
         </svg>
     );
@@ -12,7 +12,7 @@ export function IconSteps(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconBike(props: React.SVGProps<SVGSVGElement>) {
     return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".25" stroke-linecap="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth=".5" strokeLinecap="round">
             <path d="M6.1 6.2h3.5" />
             <path d="M7.2 6.2l4.6 7.8a.1.1 0 00.2 0l2.8-5.4a.1.1 0 000-.2l-6.3.1-3 5.6h8.2a1.3 1.3 0 01-1.6 1.5" />
             <circle cx="5.4" cy="14.1" r="3.8" />
@@ -22,7 +22,31 @@ export function IconBike(props: React.SVGProps<SVGSVGElement>) {
     );
 }
 
-function DisplayColumn({number, title, alignRight: alignRight = false, children}: {number: number; title: string; alignRight?: boolean, children: React.ReactNode}) {
+function DisplayColumn({ number, title, alignRight: alignRight = false, children }: { number: number; title: string; alignRight?: boolean, children: React.ReactNode; }) {
+    return (
+        <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
+            <div className="flex flex-col">
+
+                <div className={`text-sm bg-primary-700 flex justify-between ${alignRight ? '' : 'flex-row-reverse'}`}>
+                    <div className="p-4 flex items-center">
+                        <div className="w-8 h-8">
+                            {children}
+                        </div>
+                    </div>
+                    <div className={`p-5 flex items-center uppercase`}>
+                        {title}
+                    </div>
+                </div>
+
+                <div className={`p-4 text-4xl flex items-center ${alignRight ? 'justify-end' : 'justify-start'}`}>
+                    <Flip value={number} alignRight={alignRight} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function DisplayColumn2({ number, title, alignRight: alignRight = false, children }: { number: number; title: string; alignRight?: boolean, children: React.ReactNode; }) {
     return (
         <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
             <div className="grid grid-cols-2">
@@ -32,10 +56,10 @@ function DisplayColumn({number, title, alignRight: alignRight = false, children}
                         {children}
                     </div>
                 </div>
-                <div className={`p-5 bg-primary-700 flex items-center ${alignRight ? 'justify-end': 'justify-start'} uppercase`}>{title}</div>
+                <div className={`p-5 bg-primary-700 flex items-center ${alignRight ? 'justify-end' : 'justify-start'} uppercase`}>{title}</div>
 
                 {/* </div> */}
-                <div className={`p-4 col-span-2 text-4xl flex items-center ${alignRight ? 'justify-end': 'justify-start'}`}>
+                <div className={`p-4 col-span-2 text-4xl flex items-center ${alignRight ? 'justify-end' : 'justify-start'}`}>
                     <Flip value={number} alignRight={alignRight} />
                 </div>
             </div>
@@ -70,7 +94,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 </div> */}
 
                 <DisplayColumn number={pointsSrc} title="# Source points" alignRight={true}>
-                <IconSteps />
+                    <IconSteps />
                 </DisplayColumn>
 
                 {/* Arrow */}
@@ -82,7 +106,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 {/* Right */}
 
                 <DisplayColumn number={pointsDst} title="# Smooth points">
-                <IconBike />
+                    <IconBike />
                 </DisplayColumn>
 
             </div>
