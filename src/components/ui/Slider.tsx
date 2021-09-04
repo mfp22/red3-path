@@ -9,44 +9,46 @@ const defaultStyles = {
 
 const SliderRoot = styled(RadixSlider.Root, {
     ...defaultStyles,
-    display: 'flex',
     position: 'relative',
+    width: '100%',
+    height: '1em',
+    display: 'flex',
     alignItems: 'center',
     userSelect: 'none',
     touchAction: 'none',
-    width: '100%',
-    height: '1em',
 });
 
 const SliderTrack = styled(RadixSlider.Track, {
     ...defaultStyles,
-    background: '#ffffff40',
     position: 'relative',
     flexGrow: 1,
-    height: 3,
+    height: 4,
     borderRadius: '3px',
+    background: '#ffffff40',
 });
 
 
 const SliderRange = styled(RadixSlider.Range, {
     ...defaultStyles,
     position: 'absolute',
-    background: 'var(--tm-primary-500)',
-    outline: '1px solid #00000050',
-    borderRadius: '3px',
     height: '100%',
+    background: 'var(--tm-primary-500)',
+    border: '1px solid #00000050', outline: '2px solid transparent', 'outline-offset': '2px', //Chrome 93 makes outline as square: outline: '1px solid #00000050',
+    borderRadius: '3px',
 });
 
 const SliderThumb = styled(RadixSlider.Thumb, {
     ...defaultStyles,
     position: 'relative',
-    display: 'flex',
     width: 18,
     height: 18,
     background: 'var(--tm-primary-500)',
     borderRadius: '50%',
     cursor: 'pointer',
-    outline: '1px solid #00000050',
+    display: 'flex',
+
+    border: '1px solid #00000050', outline: '2px solid transparent', 'outline-offset': '2px', //Chrome 93 makes outline as square: outline: '1px solid #00000050',
+
     //'--active': '0',
     //'&:active': { '--active': '1' },
     '&:hover': { backgroundColor: 'var(--tm-primary-500)' },
@@ -55,9 +57,9 @@ const SliderThumb = styled(RadixSlider.Thumb, {
 
 const SliderBalloon = styled('div', {
     position: 'absolute',
+    margin: '0 0 0 -7px',
     left: 0,
     bottom: '5px',
-    margin: '0 0 0 -7px',
     width: '32px',
     height: '62px',
     transition: 'transform .2s ease',
@@ -101,7 +103,7 @@ const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { 
     });
 
     return (
-        <SliderRoot {...bind()} {...rest} ref={sliderRef}>
+        <SliderRoot {...bind()} ref={sliderRef} {...rest}>
             <SliderTrack>
                 <SliderRange />
             </SliderTrack>
