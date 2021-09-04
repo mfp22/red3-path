@@ -22,6 +22,27 @@ export function IconBike(props: React.SVGProps<SVGSVGElement>) {
     );
 }
 
+function DisplayColumn({number, title, alignRight: alignRight = false, children}: {number: number; title: string; alignRight?: boolean, children: React.ReactNode}) {
+    return (
+        <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
+            <div className="grid grid-cols-2">
+                {/* <div className="rounded-t-md text-sm bg-primary-800 flex justify-between"> */}
+                <div className="p-4 bg-primary-700 flex items-center">
+                    <div className="w-8 h-8">
+                        {children}
+                    </div>
+                </div>
+                <div className="p-5 bg-primary-700 flex items-center justify-end uppercase">{title}</div>
+
+                {/* </div> */}
+                <div className="p-4 col-span-2 text-4xl flex items-center justify-end">
+                    <Flip value={number} alignRight={alignRight} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
     return (
         <div className="w-full col-span-full flex justify-center text-gray-300">
@@ -56,21 +77,25 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 </div>
                 {/* Right */}
 
+                <DisplayColumn number={pointsDst} title="# Smooth points">
+                <IconBike />
+                </DisplayColumn>
 
-                <div className="relative p-4 text-4xl rounded-md border border-primary-800 overflow-hidden shadow-md"
+
+                {/* <div className="relative p-4 text-4xl rounded-md border border-primary-800 overflow-hidden shadow-md"
                     style={{ backgroundColor: 'red' }}
                 >
                     <div className="1absolute -m-4 mb-4 px-4 py-1 left-0 top-0 text-sm bg-primary-800"># Smooth points</div>
-                        <div className="p-4 bg-primary-700 flex items-center">
-                            <div className="w-12 h-12">
+                    <div className="p-4 bg-primary-700 flex items-center">
+                        <div className="w-12 h-12">
                             <IconBike />
-                            </div>
                         </div>
+                    </div>
 
-                    
-                    
+
+
                     <Flip value={pointsDst} />
-                </div>
+                </div> */}
             </div>
         </div>
     );
