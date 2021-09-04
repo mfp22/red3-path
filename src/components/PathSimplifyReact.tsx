@@ -11,10 +11,10 @@ import Slider from './ui/Slider';
 import Result from './ui/ResultDisplay';
 import ResultDisplayProduction from './ui/ResultDisplayProduction';
 
-function getPath(points: [number, number][], tolerance: number) {
+function getPath(points: [number, number][], tolerance: number, precision: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
 
-    return points.length > 1 ? simplifyPath(points, { tolerance: tolerance }) : '';
+    return points.length > 1 ? simplifyPath(points, { tolerance, precision }) : '';
 }
 
 function getPathPoints(pathStr: string) {
@@ -110,7 +110,7 @@ interface PathSimplifyReactProps {
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, setTolerance, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
+    const { points, setPoints, tolerance, setTolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
@@ -132,7 +132,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         // }
     });
 
-    const path = React.useMemo(() => getPath(points, tolerance), [points, tolerance]);
+    const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
 
     const svgWidth = 500;
@@ -161,11 +161,20 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance */}
                 <div className="flex items-center space-x-2">
-                    <div className="">Tolerance:</div>
+                    <div className="">Tolerance</div>
                     <div className="flex-1 h-3">
                         <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
                     </div>
                     <div className="">{tolerance}</div>
+                </div>
+
+                {/* Tolerance */}
+                <div className="flex items-center space-x-2">
+                    <div className="">Precision</div>
+                    <div className="flex-1 h-3">
+                        <Slider min={0} max={400} step={0.1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
+                    </div>
+                    <div className="">{precision}</div>
                 </div>
 
                 <div className="flex justify-between">
