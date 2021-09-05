@@ -11,6 +11,7 @@ import Slider from './ui/Slider';
 import Result from './ui/ResultDisplay';
 import ResultDisplayProduction from './ui/ResultDisplayProduction';
 import HeroInfo from './ui/HeroInfo';
+import Hero from './ui/Hero';
 
 function getPath(points: [number, number][], tolerance: number, precision: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -146,8 +147,12 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
 
+            <div className="col-span-full flex items-center justify-between">
+                    <Hero className="h-12 text-primary-900" />
+                    <HeroInfo />
+                </div>
+
             <div className="col-span-full">
-                <HeroInfo />
                 <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
             {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
             </div>
