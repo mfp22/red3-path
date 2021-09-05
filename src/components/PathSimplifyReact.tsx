@@ -144,11 +144,12 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgHeight = 500;
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
+        <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
+            {/* max-w-[600px] lg:max-w-none */}
             {/* Tolerance range and Points stats */}
 
             <div className="col-span-full my-0 md:my-4 lg:my-0 hidden sm:grid auto-cols-fr">
-                    <Hero className="h-8 md:h-16 text-primary-900 opacity-50" />
+                    <Hero className="h-12 md:h-16 text-primary-900 opacity-75 md:opacity-50" />
                     <HeroInfo className="text-sm md:text-lg text-primary-200 opacity-90" />
                 </div>
 
@@ -158,17 +159,20 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </div>
 
             {/* Canvas */}
-            <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                className="col-span-1 lg:col-span-2 min-w-[400px] w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
-            >
-                {showPts && <RenderCpts pts={controlPoints.points} />}
-                {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
-                {showRaw && <RenderRawPoints pts={points} />}
-                {showLine && <>
-                    <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
-                    <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
-                </>}
-            </svg>
+            <div className="col-span-1 lg:col-span-2">
+                <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+                    className="w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
+                    // w-[580px] lg:w-full h-full
+                >
+                    {showPts && <RenderCpts pts={controlPoints.points} />}
+                    {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
+                    {showRaw && <RenderRawPoints pts={points} />}
+                    {showLine && <>
+                        <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
+                        <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
+                    </>}
+                </svg>
+            </div>
 
             {/* Controls */}
             <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">

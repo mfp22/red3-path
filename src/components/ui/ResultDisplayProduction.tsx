@@ -33,16 +33,16 @@ function DisplayColumn({ number, caption, title, alignRight: alignRight = false,
     return (
         <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50" title={title}>
             <div className="flex flex-col">
-                <div className={`text-[.7rem] sm:text-sm bg-primary-700 flex justify-between ${alignRight ? '' : 'flex-row-reverse'}`}>
+                <div className={`text-[.7rem] md:text-sm whitespace-nowrap bg-primary-700 flex justify-between ${alignRight ? '' : 'flex-row-reverse'}`}>
                     <div className="m-4 w-8 h-8">
                         {children}
                     </div>
-                    <div className={`p-5 flex items-center uppercase ${alignRight ? 'text-right' : ''}`}>
+                    <div className={`flex items-center uppercase ${alignRight ? 'text-right p-3 md:p-5 pl-0' : ' p-3 md:p-5  pr-0'}`}>
                         {caption}
                     </div>
                 </div>
 
-                <div className={`p-2 sm:p-4 text-2xl sm:text-4xl flex items-center ${alignRight ? 'justify-end' : 'justify-start'}`}>
+                <div className={`p-2 md:p-4 text-2xl md:text-4xl flex items-center ${alignRight ? 'justify-end' : 'justify-start'}`}>
                     <Flip value={number} alignRight={alignRight} />
                 </div>
             </div>
