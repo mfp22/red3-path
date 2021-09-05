@@ -21,20 +21,28 @@ export function IconBike(props: React.SVGProps<SVGSVGElement>) {
     );
 }
 
-function DisplayColumn({ number, title, alignRight: alignRight = false, children }: { number: number; title: string; alignRight?: boolean, children: React.ReactNode; }) {
+type ColumnProps = {
+    number: number;
+    caption: string;
+    title: string;
+    alignRight?: boolean;
+    children: React.ReactNode;
+};
+
+function DisplayColumn({ number, caption, title, alignRight: alignRight = false, children }: ColumnProps) {
     return (
-        <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50">
+        <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50" title={title}>
             <div className="flex flex-col">
-                <div className={`text-sm bg-primary-700 flex justify-between ${alignRight ? '' : 'flex-row-reverse'}`}>
+                <div className={`text-[.7rem] sm:text-sm bg-primary-700 flex justify-between ${alignRight ? '' : 'flex-row-reverse'}`}>
                     <div className="m-4 w-8 h-8">
                         {children}
                     </div>
-                    <div className={`p-5 flex items-center uppercase`}>
-                        {title}
+                    <div className={`p-5 flex items-center uppercase ${alignRight ? 'text-right' : ''}`}>
+                        {caption}
                     </div>
                 </div>
 
-                <div className={`p-4 text-4xl flex items-center ${alignRight ? 'justify-end' : 'justify-start'}`}>
+                <div className={`p-2 sm:p-4 text-2xl sm:text-4xl flex items-center ${alignRight ? 'justify-end' : 'justify-start'}`}>
                     <Flip value={number} alignRight={alignRight} />
                 </div>
             </div>
@@ -47,7 +55,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
         <div className="flex justify-center text-gray-300">
             <div className="w-full grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
                 {/* Left */}
-                <DisplayColumn number={pointsSrc} title="# Source points" alignRight={true}>
+                <DisplayColumn number={pointsSrc} caption="Source points" title="Number of source points" alignRight={true}>
                     <IconSteps />
                 </DisplayColumn>
 
@@ -59,7 +67,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 </div>
 
                 {/* Right */}
-                <DisplayColumn number={pointsDst} title="# Smooth points">
+                <DisplayColumn number={pointsDst} caption="Smooth points" title="Number of smooth points">
                     <IconBike />
                 </DisplayColumn>
             </div>
