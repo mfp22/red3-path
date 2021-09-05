@@ -139,14 +139,14 @@ function svgCalc(pathStr: string, points: number): [number, number][] {
     }
     const step = pathLength / points;
 
-    console.log('path length', pathLength);
+    //console.log('path length', pathLength);
     //console.log('path at', path.pointAt(100));
 
     const res: [number, number][] = [];
     for (let i = 0; i <= pathLength; i = i + step) {
         let pt = path.pointAt(i);
         res.push([pt.x, pt.y]);
-        console.log(`path at ${i}`, pt);
+        //console.log(`path at ${i}`, pt);
     }
 
     //console.log('path res', res);
@@ -181,9 +181,11 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         // }
     });
 
+    const [nSetPoints, setNSetPoints] = React.useState(10);
+
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    const stepPoints = React.useMemo(() => svgCalc(path, 10), [path]);
+    const stepPoints = React.useMemo(() => svgCalc(path, nSetPoints), [path, nSetPoints]);
 
     const svgWidth = 500;
     const svgHeight = 500;
@@ -221,6 +223,15 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
                     </div>
                     <div className="">{tolerance}</div>
+                </div>
+
+                {/* Step points */}
+                <div className="flex items-center space-x-2">
+                    <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Steps</div>
+                    <div className="flex-1 h-3">
+                        <Slider min={0} max={100} step={1} value={[nSetPoints]} onValueChange={(value: number[]) => setNSetPoints(value[0])} ariaLabel="Number of step points" />
+                    </div>
+                    <div className="">{nSetPoints}</div>
                 </div>
 
                 {/* Precision of output path numbers */}
