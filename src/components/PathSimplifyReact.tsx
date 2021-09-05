@@ -147,9 +147,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[600px] lg:max-w-none gap-4 text-gray-700 select-none">
             {/* Tolerance range and Points stats */}
 
-            <div className="col-span-full grid auto-cols-fr">
-                    <Hero className="h-8 md:h-16 text-primary-900" />
-                    <HeroInfo className="hidden sm:block text-sm md:text-lg lg:text-xl" />
+            <div className="col-span-full my-0 md:my-4 lg:my-0 hidden sm:grid auto-cols-fr">
+                    <Hero className="h-8 md:h-16 text-primary-900 opacity-50" />
+                    <HeroInfo className="text-sm md:text-lg text-primary-200 opacity-90" />
                 </div>
 
             <div className="col-span-full">
