@@ -1,6 +1,6 @@
 import React from 'react';
 import Flip from './Flip';
-import { FlipCard } from './FlipCounter';
+import { FlipCard } from '../lib/FlipCounter';
 import { FlipClock } from '../lib/FlipCard2';
 
 function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
