@@ -17,7 +17,7 @@ function App() {
                             </div>
                         </div>
                     </header> */}
-                    <div className="flex-1 lg:max-w-5xl mx-auto flex items-center justify-center">
+                    <div className="flex-1 lg:max-w-5xl mx-auto px-4 flex items-center justify-center">
                         <PathSimplifyReact />
                     </div>
                     <div className="hidden md:block">
