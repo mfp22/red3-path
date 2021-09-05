@@ -14,7 +14,7 @@ import HeroInfo from './ui/HeroInfo';
 import Hero from './ui/Hero';
 
 function getPath(points: [number, number][], tolerance: number, precision: number) {
-    //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
+    console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
 
     return points.length > 1 ? simplifyPath(points, { tolerance, precision }) : '';
 }
@@ -136,33 +136,23 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-
-    console.log('path', path);
-
+    //console.log('path', path);
 
     const svgWidth = 500;
     const svgHeight = 500;
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
-            {/* max-w-[600px] lg:max-w-none */}
-            {/* Tolerance range and Points stats */}
-
+            {/* Hero and instructions */}
             <div className="col-span-full my-0 md:my-4 lg:my-0 hidden sm:grid auto-cols-fr">
-                    <Hero className="h-12 md:h-16 text-primary-900 opacity-75 md:opacity-50" />
-                    <HeroInfo className="text-sm md:text-lg text-primary-200 opacity-90" />
-                </div>
-
-            <div className="col-span-full">
-                <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
-            {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
+                <Hero className="h-12 md:h-16 text-primary-900 opacity-75 md:opacity-50" />
+                <HeroInfo className="text-sm md:text-lg text-primary-200 opacity-90" />
             </div>
 
             {/* Canvas */}
             <div className="col-span-1 lg:col-span-2">
                 <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
                     className="w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
-                    // w-[580px] lg:w-full h-full
                 >
                     {showPts && <RenderCpts pts={controlPoints.points} />}
                     {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
@@ -175,7 +165,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             </div>
 
             {/* Controls */}
-            <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm rounded border-primary-600 border-8 border-opacity-50">
+            <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance */}
                 <div className="flex items-center space-x-2">
                     <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
@@ -199,6 +189,13 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])} title="Clear canvas points">Clear</button>
                 </div>
             </div>
+        
+            {/* Tolerance range and Points stats */}
+            <div className="col-span-full">
+                <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
+                {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
+            </div>
+
         </div>
     );
 };
