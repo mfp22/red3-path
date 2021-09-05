@@ -122,11 +122,11 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 interface PathSimplifyReactProps {
 }
 
-function svgCalc(pathStr: string, points: number): [number, number][] {
+function svgCalc(pathStr: string, points: number, svgWidth: number, svgHeight: number): [number, number][] { //TODO: N points or % ?
     if (points <= 0) {
         return [];
     }
-    var draw = SVG().size(500, 500);
+    var draw = SVG().size(svgWidth, svgHeight);
 
     //console.log('path-str', pathStr);
     //var path = draw.path('M0 0 H50 A20 20 0 1 0 100 50 v25 C50 125 0 85 0 85 z');
@@ -185,7 +185,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    const stepPoints = React.useMemo(() => svgCalc(path, nSetPoints), [path, nSetPoints]);
+    const stepPoints = React.useMemo(() => svgCalc(path, nSetPoints, svgWidth, svgHeight), [path, nSetPoints]);
 
     const svgWidth = 500;
     const svgHeight = 500;
