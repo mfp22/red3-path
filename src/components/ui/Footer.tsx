@@ -13,11 +13,11 @@ function SunnyvaleLogo(props: React.HTMLAttributes<SVGSVGElement>) {
 
 function Footer() {
     return (
-        <div className="mt-4 text-center text-sm text-primary-900">Created by Max Zakharzhevskiy.
-            Made in Sunnyvale, CA. <span>
+        <div className="my-4 text-center text-sm text-primary-900 tracking-tight">Created by <span className="tracking-tighter">Max Zakharzhevskiy</span>.
+            Made in Sunnyvale, CA.<span>
                 <SunnyvaleLogo className="inline-block w-6 h-6 text-[#eddbff]" />
             </span>
-            <span>Open sourced on <a className="underline" href="https://github.com/maxzz/red3-path" target="_blank" rel="noopener">Github.</a></span>
+            <span> Open sourced on <a className="underline" href="https://github.com/maxzz/red3-path" target="_blank" rel="noopener">Github.</a></span>
         </div>
     );
 }

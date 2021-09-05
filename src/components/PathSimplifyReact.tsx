@@ -10,6 +10,7 @@ import ToggleButtons from './ToggleButtons';
 import Slider from './ui/Slider';
 import Result from './ui/ResultDisplay';
 import ResultDisplayProduction from './ui/ResultDisplayProduction';
+import HeroInfo from './ui/HeroInfo';
 
 function getPath(points: [number, number][], tolerance: number, precision: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -146,11 +147,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             {/* Tolerance range and Points stats */}
 
             <div className="col-span-full">
-                <div className="py-2 hidden sm:block text-sm md:text-xl lg:text-2xl text-primary-900" style={{textShadow: '1px 1px #5a5a5a'}}>
-                    Draw a line on the canvas and use the tolerance slider to see the result of the interpolation.
-                </div>
+                <HeroInfo />
                 <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
-                {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
+            {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
             </div>
 
             {/* Canvas */}
