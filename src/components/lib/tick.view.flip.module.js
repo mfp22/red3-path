@@ -39,7 +39,7 @@ export default typeof window !== 'undefined' ? (function () {
     }();
 
     var index = function (_ref) {
-        console.log('_ref', _ref);
+        //not now -------------- console.log('_ref', _ref);
 
         var DOM = _ref.DOM,
             animate = _ref.Animation.animate,
@@ -58,7 +58,7 @@ export default typeof window !== 'undefined' ? (function () {
         var easeOutSine = Extension.getExtension(Extension.Type.EASING_FUNCTION, 'ease-out-sine');
 
         var draw = function draw(state) {
-            console.log(`.............................. draw ${state.cards.length} cards`);
+            //not now -------------- console.log(`.............................. draw ${state.cards.length} cards`);
 
             // create cards if not already created
             if (state.isInitialValue()) {
@@ -112,7 +112,7 @@ export default typeof window !== 'undefined' ? (function () {
                 state.root.insertBefore(initialBottomCard.root, state.root.firstChild);
                 state.cards.push(initialBottomCard);
 
-                console.log(`add card ID=${initialBottomCard.id}/${state.cards.length} ++++ first +++ [f:${initialBottomCard.front} b:${initialBottomCard.back}]`, {initialBottomCard});
+                //not now -------------- console.log(`add card ID=${initialBottomCard.id}/${state.cards.length} ++++ first +++ [f:${initialBottomCard.front} b:${initialBottomCard.back}]`, {initialBottomCard});
             }
 
             // create a new card
@@ -130,7 +130,7 @@ export default typeof window !== 'undefined' ? (function () {
             state.root.insertBefore(topCard.root, state.root.firstChild);
             state.cards.push(topCard);
 
-            console.log(`add card ID=${topCard.id}/${state.cards.length} ++++++++++++++ [f:${topCard.front} b:${topCard.back}]`, {topCard});
+            //not now -------------- console.log(`add card ID=${topCard.id}/${state.cards.length} ++++++++++++++ [f:${topCard.front} b:${topCard.back}]`, {topCard});
 
             if (!state.animating) {
                 state.animating = true;
@@ -227,7 +227,7 @@ export default typeof window !== 'undefined' ? (function () {
                             // remove predecessor from cards array
                             state.cards = state.cards.filter((c) => c !== card);
 
-                            console.log(`rem card ID=${card.id}/${state.cards.length} -------------- [f:${card.front} b:${card.back}]`, {card});
+                            //not now -------------- console.log(`rem card ID=${card.id}/${state.cards.length} -------------- [f:${card.front} b:${card.back}]`, {card});
 
                             // remove predecessor from the DOM
                             if (card.root.parentNode) {

@@ -12,6 +12,7 @@ import Result from './ui/ResultDisplay';
 import ResultDisplayProduction from './ui/ResultDisplayProduction';
 import HeroInfo from './ui/HeroInfo';
 import Hero from './ui/Hero';
+import { SVG } from '@svgdotjs/svg.js';
 
 function getPath(points: [number, number][], tolerance: number, precision: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -67,6 +68,17 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
     </g>);
 }
 
+function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
+    rest = { stroke: COLORS.sRaw, fill: 'red', ...rest };
+    return (<g {...rest}>
+        {pts.map((pt, idx) => {
+            return <circle cx={pt[0]} cy={pt[1]} r={SIZES.rRaw + 5} key={idx} >
+                <title>Index: {idx} Location: {withDigits(pt[0], 0)} x {withDigits(pt[1], 0)}</title>
+            </circle>;
+        })}
+    </g>);
+}
+
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
     rest = { r: SIZES.rCpt, stroke: COLORS.sCpt, fill: COLORS.fCpt, ...rest }; // orange 50%
     return (<g>
@@ -110,6 +122,41 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 interface PathSimplifyReactProps {
 }
 
+function svgCalc(pathStr: string, points: number): [number, number][] {
+    if (points <= 0) {
+        return [];
+    }
+    var draw = SVG().size(500, 500);
+
+    //console.log('path-str', pathStr);
+    //var path = draw.path('M0 0 H50 A20 20 0 1 0 100 50 v25 C50 125 0 85 0 85 z');
+    var path = draw.path(pathStr);
+    //console.log('path', path);
+
+    const pathLength = path.length();
+    if (!pathLength) {
+        return [];
+    }
+    const step = pathLength / points;
+
+    console.log('path length', pathLength);
+    //console.log('path at', path.pointAt(100));
+
+    const res: [number, number][] = [];
+    for (let i = 0; i <= pathLength; i = i + step) {
+        let pt = path.pointAt(i);
+        res.push([pt.x, pt.y]);
+        console.log(`path at ${i}`, pt);
+    }
+
+    //console.log('path res', res);
+
+    return res;
+
+    // path.fill('none').move(20, 20);
+    // path.stroke({ color: '#f06', width: 4, linecap: 'round', linejoin: 'round' });
+}
+
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
     const { points, setPoints, tolerance, setTolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
@@ -136,7 +183,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    //console.log('path', path);
+    const stepPoints = React.useMemo(() => svgCalc(path, 10), [path]);
 
     const svgWidth = 500;
     const svgHeight = 500;
@@ -161,6 +208,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                         <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
                         <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
                     </>}
+                    <RenderStepRawPoints pts={stepPoints} />
                 </svg>
             </div>
 
@@ -189,7 +237,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                     <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])} title="Clear canvas points">Clear</button>
                 </div>
             </div>
-        
+
             {/* Tolerance range and Points stats */}
             <div className="col-span-full">
                 <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
