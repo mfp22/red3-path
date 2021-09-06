@@ -158,6 +158,9 @@ function svgCalc(pathStr: string, points: number, svgWidth: number, svgHeight: n
 }
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
+    const svgWidth = 500;
+    const svgHeight = 500;
+
     const svgRef = React.useRef<SVGSVGElement>(null);
     const { points, setPoints, tolerance, setTolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
@@ -186,9 +189,6 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
     const stepPoints = React.useMemo(() => svgCalc(path, nSetPoints, svgWidth, svgHeight), [path, nSetPoints]);
-
-    const svgWidth = 500;
-    const svgHeight = 500;
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
