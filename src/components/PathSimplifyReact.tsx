@@ -164,6 +164,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgRef = React.useRef<SVGSVGElement>(null);
     const { points, setPoints, tolerance, setTolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
+    const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
+
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
     const bind = useDrag((event) => {
@@ -185,6 +187,8 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     });
 
     const [nSetPoints, setNSetPoints] = React.useState(10);
+
+    const setNSetPointsDebounced = useCallback(debounce((cnt: number) => setNSetPoints(cnt)), []);
 
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
@@ -220,7 +224,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <div className="flex items-center space-x-2">
                     <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
                     <div className="flex-1 h-3">
-                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setTolerance(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
+                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
                     </div>
                     <div className="">{tolerance}</div>
                 </div>
@@ -229,7 +233,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 <div className="flex items-center space-x-2">
                     <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Steps</div>
                     <div className="flex-1 h-3">
-                        <Slider min={0} max={100} step={1} value={[nSetPoints]} onValueChange={(value: number[]) => setNSetPoints(value[0])} ariaLabel="Number of step points" />
+                        <Slider min={0} max={100} step={1} value={[nSetPoints]} onValueChange={(value: number[]) => setNSetPointsDebounced(value[0])} ariaLabel="Number of step points" />
                     </div>
                     <div className="">{nSetPoints}</div>
                 </div>
