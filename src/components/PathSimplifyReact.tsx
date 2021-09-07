@@ -122,16 +122,13 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 interface PathSimplifyReactProps {
 }
 
-function svgCalc(pathStr: string, points: number, svgWidth: number, svgHeight: number): [number, number][] { //TODO: N points or % ?
+function svgCalcStepPoints(pathStr: string, points: number, svgWidth: number, svgHeight: number): [number, number][] { //TODO: N points or % ?
     if (points <= 0) {
         return [];
     }
-    var draw = SVG().size(svgWidth, svgHeight);
 
-    //console.log('path-str', pathStr);
-    //var path = draw.path('M0 0 H50 A20 20 0 1 0 100 50 v25 C50 125 0 85 0 85 z');
-    var path = draw.path(pathStr);
-    //console.log('path', path);
+    const draw = SVG().size(svgWidth, svgHeight);
+    const path = draw.path(pathStr);
 
     const pathLength = path.length();
     if (!pathLength) {
@@ -139,22 +136,12 @@ function svgCalc(pathStr: string, points: number, svgWidth: number, svgHeight: n
     }
     const step = pathLength / points;
 
-    //console.log('path length', pathLength);
-    //console.log('path at', path.pointAt(100));
-
     const res: [number, number][] = [];
     for (let i = 0; i <= pathLength; i = i + step) {
         let pt = path.pointAt(i);
         res.push([pt.x, pt.y]);
-        //console.log(`path at ${i}`, pt);
     }
-
-    //console.log('path res', res);
-
     return res;
-
-    // path.fill('none').move(20, 20);
-    // path.stroke({ color: '#f06', width: 4, linecap: 'round', linejoin: 'round' });
 }
 
 function SliderTolerance() {
@@ -229,7 +216,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    const stepPoints = React.useMemo(() => svgCalc(path, nStepPoints, svgWidth, svgHeight), [path, nStepPoints]);
+    const stepPoints = React.useMemo(() => svgCalcStepPoints(path, nStepPoints, svgWidth, svgHeight), [path, nStepPoints]);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
@@ -259,7 +246,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
                 <SliderTolerance />
                 <SliderStepPoints />
-                <SliderPrecision />
+                {/* <SliderPrecision /> */}
 
                 <div className="flex justify-between">
                     <ToggleButtons />
@@ -267,12 +254,11 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 </div>
             </div>
 
-            {/* Tolerance range and Points stats */}
+            {/* In and out points stats */}
             <div className="col-span-full">
                 <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
                 {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
             </div>
-
         </div>
     );
 };
