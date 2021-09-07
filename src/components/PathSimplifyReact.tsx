@@ -157,14 +157,38 @@ function svgCalc(pathStr: string, points: number, svgWidth: number, svgHeight: n
     // path.stroke({ color: '#f06', width: 4, linecap: 'round', linejoin: 'round' });
 }
 
+// function SliderTolerance() {
+//     return (
+
+//     );
+// }
+
+function SliderTolerance() {
+    const { tolerance, setTolerance, } = useContext(PathSimplifyContext);
+    const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
+    return (
+        <div className="flex items-center space-x-2">
+        <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
+        <div className="flex-1 h-3">
+            <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
+        </div>
+        <div className="">{tolerance}</div>
+    </div>
+    );
+}
+
+// function SliderTolerance() {
+//     return (
+        
+//     );
+// }
+
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgWidth = 500;
     const svgHeight = 500;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, setTolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
-
-    const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
+    const { points, setPoints, tolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
@@ -221,13 +245,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             {/* Controls */}
             <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
                 {/* Tolerance */}
-                <div className="flex items-center space-x-2">
-                    <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
-                    <div className="flex-1 h-3">
-                        <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
-                    </div>
-                    <div className="">{tolerance}</div>
-                </div>
+                <SliderTolerance />
 
                 {/* Step points */}
                 <div className="flex items-center space-x-2">
