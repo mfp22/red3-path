@@ -239,13 +239,14 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
                 </div>
 
                 {/* Precision of output path numbers */}
-                <div className="flex items-center space-x-2">
+                {/* Precision range control has effect only on the output, so we don't need it */}
+                {/* <div className="flex items-center space-x-2">
                     <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
                     <div className="flex-1 h-3">
                         <Slider min={0} max={9} step={1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
                     </div>
                     <div className="">{precision}</div>
-                </div>
+                </div> */}
 
                 <div className="flex justify-between">
                     <ToggleButtons />
