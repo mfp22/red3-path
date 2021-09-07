@@ -157,38 +157,55 @@ function svgCalc(pathStr: string, points: number, svgWidth: number, svgHeight: n
     // path.stroke({ color: '#f06', width: 4, linecap: 'round', linejoin: 'round' });
 }
 
-// function SliderTolerance() {
-//     return (
-
-//     );
-// }
-
 function SliderTolerance() {
     const { tolerance, setTolerance, } = useContext(PathSimplifyContext);
     const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
     return (
         <div className="flex items-center space-x-2">
-        <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
-        <div className="flex-1 h-3">
-            <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
+            <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
+            <div className="flex-1 h-3">
+                <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
+            </div>
+            <div className="">{tolerance}</div>
         </div>
-        <div className="">{tolerance}</div>
-    </div>
     );
 }
 
-// function SliderTolerance() {
-//     return (
-        
-//     );
-// }
+function SliderStepPoints() {
+    const { nStepPoints, setNStepPoints, } = useContext(PathSimplifyContext);
+    const setNSetPointsDebounced = useCallback(debounce((cnt: number) => setNStepPoints(cnt)), []);
+    return (
+        <div className="flex items-center space-x-2">
+            <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Steps</div>
+            <div className="flex-1 h-3">
+                <Slider min={0} max={100} step={1} value={[nStepPoints]} onValueChange={(value: number[]) => setNSetPointsDebounced(value[0])} ariaLabel="Number of step points" />
+            </div>
+            <div className="">{nStepPoints}</div>
+        </div>
+    );
+}
+
+function SliderPrecision() {
+    // Precision of output path numbers.
+    // Precision range control has effect only on the output, so we don't need it.
+    const { precision, setPrecision, } = useContext(PathSimplifyContext);
+    return (
+        <div className="flex items-center space-x-2">
+            <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
+            <div className="flex-1 h-3">
+                <Slider min={0} max={9} step={1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
+            </div>
+            <div className="">{precision}</div>
+        </div>
+    );
+}
 
 const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
     const svgWidth = 500;
     const svgHeight = 500;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, precision, setPrecision, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
+    const { points, setPoints, tolerance, precision, nStepPoints, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
@@ -210,13 +227,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
         // }
     });
 
-    const [nSetPoints, setNSetPoints] = React.useState(10);
-
-    const setNSetPointsDebounced = useCallback(debounce((cnt: number) => setNSetPoints(cnt)), []);
-
     const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
     const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    const stepPoints = React.useMemo(() => svgCalc(path, nSetPoints, svgWidth, svgHeight), [path, nSetPoints]);
+    const stepPoints = React.useMemo(() => svgCalc(path, nStepPoints, svgWidth, svgHeight), [path, nStepPoints]);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
@@ -244,27 +257,9 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
             {/* Controls */}
             <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
-                {/* Tolerance */}
                 <SliderTolerance />
-
-                {/* Step points */}
-                <div className="flex items-center space-x-2">
-                    <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Steps</div>
-                    <div className="flex-1 h-3">
-                        <Slider min={0} max={100} step={1} value={[nSetPoints]} onValueChange={(value: number[]) => setNSetPointsDebounced(value[0])} ariaLabel="Number of step points" />
-                    </div>
-                    <div className="">{nSetPoints}</div>
-                </div>
-
-                {/* Precision of output path numbers */}
-                {/* Precision range control has effect only on the output, so we don't need it */}
-                {/* <div className="flex items-center space-x-2">
-                    <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
-                    <div className="flex-1 h-3">
-                        <Slider min={0} max={9} step={1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
-                    </div>
-                    <div className="">{precision}</div>
-                </div> */}
+                <SliderStepPoints />
+                <SliderPrecision />
 
                 <div className="flex justify-between">
                     <ToggleButtons />

@@ -7,6 +7,8 @@ interface PathSimplifyDatum {
     setTolerance: React.Dispatch<React.SetStateAction<number>>,
     precision: number;
     setPrecision: React.Dispatch<React.SetStateAction<number>>,
+    nStepPoints: number;
+    setNStepPoints: React.Dispatch<React.SetStateAction<number>>,
 
     showLine: boolean;
     setShowLine: React.Dispatch<React.SetStateAction<boolean>>,
@@ -25,6 +27,8 @@ const PathSimplifyContext = createContext<PathSimplifyDatum>({
     setTolerance: () => { },
     precision: 0,
     setPrecision: () => { },
+    nStepPoints: 0,
+    setNStepPoints: () => { },
 
     showLine: true,
     setShowLine: () => { },
@@ -48,6 +52,7 @@ const PathSimplifyProvider: React.FC = ({ children }) => {
     const [points, setPoints] = React.useState<[number, number][]>(initialPoints);
     const [tolerance, setTolerance] = React.useState<number>(62);
     const [precision, setPrecision] = React.useState<number>(2);
+    const [nStepPoints, setNStepPoints] = React.useState<number>(2);
 
     const [showLine, setShowLine] = React.useState<boolean>(true);
     const [showRaw, setShowRaw] = React.useState<boolean>(true);
@@ -62,7 +67,9 @@ const PathSimplifyProvider: React.FC = ({ children }) => {
             setTolerance,
             precision,
             setPrecision,
-
+            nStepPoints,
+            setNStepPoints,
+        
             showLine, setShowLine,
             showRaw, setShowRaw,
             showPts, setShowPts,
