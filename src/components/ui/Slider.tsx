@@ -1,7 +1,7 @@
 import React from 'react';
 import * as RadixSlider from '@radix-ui/react-slider'; // https://www.radix-ui.com/docs/primitives/components/slider
 import { CSS, styled } from '../../stitches.config';
-import { useDrag } from 'react-use-gesture';
+import { useDrag } from '@use-gesture/react';
 
 const defaultStyles = {
     boxSizing: 'border-box',
@@ -88,7 +88,7 @@ function BallonSVG({ value }: { value: number; }) {
     );
 };
 
-const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderOwnProps & { ariaLabel?: string; }>((props, forwardedRef) => {
+const Slider = React.forwardRef<HTMLSpanElement, RadixSlider.SliderProps & { ariaLabel?: string; }>((props, forwardedRef) => {
     const value = props.value || props.defaultValue || [];
     const { ariaLabel, ...rest } = props;
 
