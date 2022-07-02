@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { PathSimplifyProvider } from './store/PathSimplify';
-import PathSimplifyReact from './components/PathSimplifyReact';
-import Footer from './components/ui/Footer';
+import { PathSimplifyProvider } from '@/store/PathSimplify';
+import PathSimplifyReact from '@/components/PathSimplifyReact';
+import Footer from '@/components/UI/Footer';
 
 function App() {
     return (<>
@@ -24,7 +24,7 @@ function App() {
                 <div className="hidden sm:block">
                     <Footer />
                 </div>
-                
+
             </div>
         </PathSimplifyProvider >
     </>);

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PathSimplifyContext } from '../store/PathSimplify';
+import { PathSimplifyContext } from '@/store/PathSimplify';
 
 function ToogleButton({ children, pressed, onClick, title }: { children: React.ReactNode; pressed: boolean; onClick: () => void; title: string; }) {
     return (

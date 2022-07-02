@@ -1,7 +1,7 @@
 import React from "react";
 //import Tick from "@pqina/flip";
 //import Tick from '../lib/flip-old';
-import Tick from '../lib/flip-old';
+import Tick from './Cards/flip-old';
 import "./flip.scss";
 
 function createTickAsNoneReactBusiness(alignRight: boolean) {
