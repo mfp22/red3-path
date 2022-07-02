@@ -3,3 +3,35 @@ body {
         url("./assets/background-bw.jpg") /*http://higeom.math.msu.su/history/delone_r.html*/;
     background-blend-mode: multiply;
 }
+
+/* roboto-flex-regular - latin */
+/* @font-face {
+       font-family: "Roboto Flex";
+       font-style: normal;
+       font-weight: 400;
+       src: local(""), url("./assets/fonts/roboto-flex-v8-latin-regular.woff2") format("woff2");
+   } */
+
+/* merriweather-700 - latin */
+/* @font-face {
+       font-family: "Merriweather";
+       font-style: normal;
+       font-weight: 700;
+       src: local(""), url("./assets/fonts/merriweather-v30-latin-700.woff2") format("woff2");
+   } */
+
+/* source-sans-pro-regular - latin */
+@font-face {
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""), url("./assets/fonts/source-sans-pro-v21-latin-regular.woff2") format("woff2");
+}
+
+/* source-sans-pro-700 - latin */
+@font-face {
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    font-weight: 700;
+    src: local(""), url("./assets/fonts/source-sans-pro-v21-latin-700.woff2") format("woff2");
+}

@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /* Tailwind original colors
 {
@@ -62,12 +63,19 @@ module.exports = {
                 //     dark: 'red',
                 // },
             },
+            fontFamily: {
+                'old-normal': [...defaultTheme.fontFamily.sans],
+            },
         },
     },
     variants: {
         extend: {},
     },
     plugins: [
+        require('./tailwind/tailwnid-plugin-debug-styles'),
+        require('./tailwind/tailwind-plugin-debug-screens'),
+        require('@tailwindcss/forms')({ strategy: 'class' }),
+        /**/
         function ({ theme, addBase }) {
             const bridge = buildColorsToBridge(theme('colors'), 'primary', 'primary');
 
@@ -82,5 +90,6 @@ module.exports = {
             //console.log(`4--------------theme(colors)------------------${JSON.stringify(theme('colors'))}`);
             //console.log(`4--------------colors------------------${JSON.stringify(colors)}`);
         },
+        /**/
     ],
 };
