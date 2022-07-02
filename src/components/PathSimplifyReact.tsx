@@ -3,7 +3,7 @@ import simplifyPath from '@luncheon/simplify-svg-path';
 import { useDrag } from '@use-gesture/react';
 import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
-import debounce from '../utils/debounce';
+import { debounce } from '../utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '../utils/svg-path-cpts';
 import { clamp, withDigits } from '../utils/numbers';
 import ToggleButtons from './ToggleButtons';
