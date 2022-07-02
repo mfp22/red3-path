@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
 import simplifyPath from '@luncheon/simplify-svg-path';
-import { useDrag } from 'react-use-gesture';
+import { useDrag } from '@use-gesture/react';
 import { pointer } from '../utils/pointer';
 import { PathSimplifyContext } from '../store/PathSimplify';
 import debounce from '../utils/debounce';
@@ -196,12 +196,12 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
-    const bind = useDrag((event) => {
+    const bind = useDrag(({event, dragging, buttons}) => {
         //if (event.event.type === 'pointerdown') {}
 
-        if (event.dragging && event.buttons === 1) {
+        if (dragging && buttons === 1) {
             // let pt = pointer(event, ref.current).map(coord => +withDigits(coord, 0)) as [number, number];
-            let pt = pointer(event.event, svgRef.current);
+            let pt = pointer(event as PointerEvent, svgRef.current);
             pt[0] = clamp(pt[0], SIZES.rCpt, svgWidth - SIZES.rCpt);
             pt[1] = clamp(pt[1], SIZES.rCpt, svgHeight - SIZES.rCpt);
             addPoint(pt);
@@ -229,7 +229,7 @@ const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
             {/* Canvas */}
             <div className="col-span-1 lg:col-span-2">
                 <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                    className="w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50"
+                    className="w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50 touch-none"
                 >
                     {showPts && <RenderCpts pts={controlPoints.points} />}
                     {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
