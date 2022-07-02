@@ -75,7 +75,7 @@ module.exports = {
         require('./tailwind/tailwnid-plugin-debug-styles'),
         require('./tailwind/tailwind-plugin-debug-screens'),
         require('@tailwindcss/forms')({ strategy: 'class' }),
-        /**/
+        /** /
         function ({ theme, addBase }) {
             const bridge = buildColorsToBridge(theme('colors'), 'primary', 'primary');
 
@@ -91,5 +91,6 @@ module.exports = {
             //console.log(`4--------------colors------------------${JSON.stringify(colors)}`);
         },
         /**/
+        require('./tailwind/tailwind-plugin-colors-bridge')({ prefix: '--tm-', groupName: 'primary' }),
     ],
 };
