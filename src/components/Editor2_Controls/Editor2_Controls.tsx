@@ -4,7 +4,8 @@ import { curveParams } from "@/store/store";
 import { debounce } from "@/utils/debounce";
 import { withDigits } from "@/utils/numbers";
 import Slider from '../UI/Slider';
-import ToggleButtons from "../ToggleButtons";
+import { ToggleButtons } from "./ToggleButtons";
+import { Legend } from "./Legend";
 
 function SliderTolerance() {
     const [tolerance, setTolerance] = useAtom(curveParams.toleranceAtom);
@@ -84,6 +85,9 @@ export function Editor2_Controls() {
                     Clear
                 </button>
             </div>
+
+            <Legend />
+
         </div>
     );
 }
