@@ -1,9 +1,10 @@
-import React, { useCallback, useContext } from 'react';
-import simplifyPath from '@luncheon/simplify-svg-path';
+import React, { useCallback } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import { buildResultAtom, curveParams, showOptions, svgHeight, svgWidth } from '@/store/store';
 import { useDrag } from '@use-gesture/react';
 import { pointer } from '@/utils/pointer';
 import { debounce } from '@/utils/debounce';
-import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '@/utils/svg-path-cpts';
+import { ControlPoint, CpType, XY } from '@/utils/svg-path-cpts';
 import { clamp, withDigits } from '@/utils/numbers';
 import ToggleButtons from './ToggleButtons';
 import Slider from './UI/Slider';
@@ -11,25 +12,6 @@ import Result from './UI/ResultDisplay';
 import ResultDisplayProduction from './UI/ResultDisplayProduction';
 import HeroInfo from './UI/HeroInfo';
 import Hero from './UI/Hero';
-import { SVG } from '@svgdotjs/svg.js';
-import { buildResultAtom, curveParams, Point, showOptions, svgHeight, svgWidth } from '@/store/store';
-import { useAtom, useAtomValue } from 'jotai';
-
-/*
-function getPath(points: [number, number][], tolerance: number, precision: number) {
-    //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
-
-    return points.length > 1 ? simplifyPath(points, { tolerance, precision }) : '';
-}
-
-function getPathPoints(pathStr: string) {
-    const tuples = pathToAbsolute(parsePathString(pathStr));
-    return {
-        points: tuples.length > 1 ? getPoints(tuples) : [],
-        controls: tuples.length > 1 ? getControlPoints(tuples) : [],
-    };
-}
-*/
 
 const enum SIZES {
     rRaw = 5,               // raw point radius
@@ -122,33 +104,6 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     </g>);
 }
 
-/*
-interface PathSimplifyReactProps {
-}
-
-function svgCalcStepPoints(pathStr: string, points: number, svgWidth: number, svgHeight: number): [number, number][] { //TODO: N points or % ?
-    if (points <= 0) {
-        return [];
-    }
-
-    const draw = SVG().size(svgWidth, svgHeight);
-    const path = draw.path(pathStr);
-
-    const pathLength = path.length();
-    if (!pathLength) {
-        return [];
-    }
-    const step = pathLength / points;
-
-    const res: [number, number][] = [];
-    for (let i = 0; i <= pathLength; i = i + step) {
-        let pt = path.pointAt(i);
-        res.push([pt.x, pt.y]);
-    }
-    return res;
-}
-*/
-
 function SliderTolerance() {
     const [tolerance, setTolerance] = useAtom(curveParams.toleranceAtom);
     const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
@@ -230,15 +185,9 @@ function Controls({ points, setPoints, controlPoints }: {
 }
 
 function Editor() {
-    // const svgWidth = 500;
-    // const svgHeight = 500;
-
     const svgRef = React.useRef<SVGSVGElement>(null);
 
     const [points, setPoints] = useAtom(curveParams.pointsAtom);
-    const tolerance = useAtomValue(curveParams.toleranceAtom);
-    const precision = useAtomValue(curveParams.precisionAtom);
-    const nStepPoints = useAtomValue(curveParams.nStepPointsAtom);
 
     const showLine = useAtomValue(showOptions.showLineAtom);
     const showRaw = useAtomValue(showOptions.showRawAtom);
@@ -265,11 +214,7 @@ function Editor() {
         // }
     });
 
-    const {path,controlPoints,stepPoints,    } = useAtomValue(buildResultAtom);
-
-    // const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
-    // const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    // const stepPoints = React.useMemo(() => svgCalcStepPoints(path, nStepPoints, svgWidth, svgHeight), [path, nStepPoints]);
+    const { path, controlPoints, stepPoints, } = useAtomValue(buildResultAtom);
 
     return (<>
         <div className="col-span-1 lg:col-span-2">

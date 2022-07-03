@@ -1,7 +1,7 @@
-import { ControlPoint, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from "@/utils/svg-path-cpts";
 import { atom, Getter } from "jotai";
 import { Atomize, atomWithCallback } from "../hooks/atomsX";
 import { debounce } from "../utils/debounce";
+import { ControlPoint, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from "@/utils/svg-path-cpts";
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { SVG } from "@svgdotjs/svg.js";
 
@@ -105,6 +105,9 @@ export const showOptions: Atomize<ShowOptions> = {
 
 // Derived
 
+export const svgWidth = 500;
+export const svgHeight = 500;
+
 export type BuildResult = {
     path: string;
     controlPoints: {
@@ -114,44 +117,43 @@ export type BuildResult = {
     stepPoints: Point[];
 };
 
-function getPath(points: [number, number][], tolerance: number, precision: number) {
-    //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
-
-    return points.length > 1 ? simplifyPath(points, { tolerance, precision }) : '';
-}
-
-function getPathPoints(pathStr: string) {
-    const tuples = pathToAbsolute(parsePathString(pathStr));
-    return {
-        points: tuples.length > 1 ? getPoints(tuples) : [],
-        controls: tuples.length > 1 ? getControlPoints(tuples) : [],
-    };
-}
-
-function svgCalcStepPoints(pathStr: string, points: number, svgWidth: number, svgHeight: number): [number, number][] { //TODO: N points or % ?
-    if (points <= 0) {
-        return [];
+namespace Calc {
+    export function getPath(points: [number, number][], tolerance: number, precision: number) {
+        //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
+    
+        return points.length > 1 ? simplifyPath(points, { tolerance, precision }) : '';
     }
-
-    const draw = SVG().size(svgWidth, svgHeight);
-    const path = draw.path(pathStr);
-
-    const pathLength = path.length();
-    if (!pathLength) {
-        return [];
+    
+    export function getPathPoints(pathStr: string) {
+        const tuples = pathToAbsolute(parsePathString(pathStr));
+        return {
+            points: tuples.length > 1 ? getPoints(tuples) : [],
+            controls: tuples.length > 1 ? getControlPoints(tuples) : [],
+        };
     }
-    const step = pathLength / points;
-
-    const res: [number, number][] = [];
-    for (let i = 0; i <= pathLength; i = i + step) {
-        let pt = path.pointAt(i);
-        res.push([pt.x, pt.y]);
+    
+    export function svgCalcStepPoints(pathStr: string, points: number, svgWidth: number, svgHeight: number): [number, number][] { //TODO: N points or % ?
+        if (points <= 0) {
+            return [];
+        }
+    
+        const draw = SVG().size(svgWidth, svgHeight);
+        const path = draw.path(pathStr);
+    
+        const pathLength = path.length();
+        if (!pathLength) {
+            return [];
+        }
+        const step = pathLength / points;
+    
+        const res: [number, number][] = [];
+        for (let i = 0; i <= pathLength; i = i + step) {
+            let pt = path.pointAt(i);
+            res.push([pt.x, pt.y]);
+        }
+        return res;
     }
-    return res;
-}
-
-export const svgWidth = 500;
-export const svgHeight = 500;
+} //namespace Calc
 
 export const buildResultAtom = atom<BuildResult>(
     (get) => {
@@ -160,9 +162,9 @@ export const buildResultAtom = atom<BuildResult>(
         const precision = get(curveParams.precisionAtom);
         const nStepPoints = get(curveParams.nStepPointsAtom);
 
-        const path = getPath(points, tolerance, precision);
-        const controlPoints = getPathPoints(path);
-        const stepPoints = svgCalcStepPoints(path, nStepPoints, svgWidth, svgHeight);
+        const path = Calc.getPath(points, tolerance, precision);
+        const controlPoints = Calc.getPathPoints(path);
+        const stepPoints = Calc.svgCalcStepPoints(path, nStepPoints, svgWidth, svgHeight);
         return {
             path,
             controlPoints,
