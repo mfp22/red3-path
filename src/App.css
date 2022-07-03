@@ -1,5 +1,10 @@
 body {
-    background-image: linear-gradient(to right, var(--tm-primary-300), var(--tm-primary-300)),
+    background-image: 
+        /*linear-gradient(to right, var(--tm-primary-300), var(--tm-primary-300)),*/
+        linear-gradient(127deg, #bce9ff10, #7a7aff),
+        linear-gradient(217deg, #bce9ff10, #ffb0b0),
+        linear-gradient(336deg, #bce9ff10, #5e72ff),
+        /* linear-gradient(336deg, #bce9ffd0, #71b8e0), */
         url("./assets/background-bw.jpg") /*http://higeom.math.msu.su/history/delone_r.html*/;
     background-blend-mode: multiply;
 }
@@ -29,9 +34,9 @@ body {
 }
 
 /* source-sans-pro-700 - latin */
-@font-face {
+/* @font-face {
     font-family: "Source Sans Pro";
     font-style: normal;
     font-weight: 700;
     src: local(""), url("./assets/fonts/source-sans-pro-v21-latin-700.woff2") format("woff2");
-}
+} */

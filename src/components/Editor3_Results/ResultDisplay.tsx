@@ -1,7 +1,7 @@
 import React from 'react';
-import Flip from './Flip';
-import { FlipCard } from './Cards/FlipCounter';
-import { FlipClock } from './Cards/FlipCard2';
+import Flip from '../UI/Flip';
+import { FlipCard } from '../UI/Cards/FlipCounter';
+import { FlipClock } from '../UI/Cards/FlipCard2';
 
 function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
     return (

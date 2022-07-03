@@ -1,5 +1,5 @@
 import React from 'react';
-import Flip from './Flip';
+import Flip from '../UI/Flip';
 
 export function IconSteps(props: React.SVGProps<SVGSVGElement>) {
     return (
