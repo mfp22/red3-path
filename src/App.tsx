@@ -2,10 +2,11 @@ import React from 'react';
 import './App.css';
 import { Section2_Main } from '@/components/Section2_Main';
 import { Section3_Footer } from '@/components/Section3_Footer';
+import { Section1_Header } from './components/Section1_Header';
 
 function App() {
     return (
-        <div className="h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col debug-screens">
 
             {/* <header className="p-2 shadow-md">
                         <div className="">
@@ -16,7 +17,9 @@ function App() {
                         </div>
                     </header> */}
 
-            <div className="flex-1 lg:max-w-5xl mx-auto px-4 flex items-center justify-center">
+            <Section1_Header />
+
+            <div className="flex-1 mx-auto px-4 lg:max-w-5xl flex items-center justify-center">
                 <Section2_Main />
             </div>
 
