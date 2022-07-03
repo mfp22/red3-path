@@ -11,7 +11,7 @@ function SunnyvaleLogo(props: React.HTMLAttributes<SVGSVGElement>) {
     );
 }
 
-function Footer() {
+export function Section3_Footer() {
     return (
         <div className="my-4 text-center text-sm text-primary-900 tracking-tight">Created by <span className="tracking-tighter">Max Zakharzhevskiy</span>.
             Made in Sunnyvale, CA.<span>
@@ -22,4 +22,3 @@ function Footer() {
     );
 }
 
-export default Footer;

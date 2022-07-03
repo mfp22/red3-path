@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import PathSimplifyReact from '@/components/PathSimplifyReact';
-import Footer from '@/components/UI/Footer';
+import { Section2_Main } from '@/components/Section2_Main';
+import { Section3_Footer } from '@/components/Section3_Footer';
 
 function App() {
     return (
         <div className="h-screen flex flex-col">
-            
+
             {/* <header className="p-2 shadow-md">
                         <div className="">
                             <div className="space-x-2 flex items-center">
@@ -17,11 +17,11 @@ function App() {
                     </header> */}
 
             <div className="flex-1 lg:max-w-5xl mx-auto px-4 flex items-center justify-center">
-                <PathSimplifyReact />
+                <Section2_Main />
             </div>
 
             <div className="hidden sm:block">
-                <Footer />
+                <Section3_Footer />
             </div>
 
         </div>

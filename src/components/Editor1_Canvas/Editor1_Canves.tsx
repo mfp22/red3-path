@@ -1,17 +1,11 @@
-import React, { useCallback } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
-import { buildResultAtom, curveParams, showOptions, svgHeight, svgWidth } from '@/store/store';
-import { useDrag } from '@use-gesture/react';
-import { pointer } from '@/utils/pointer';
-import { debounce } from '@/utils/debounce';
-import { ControlPoint, CpType, XY } from '@/utils/svg-path-cpts';
-import { clamp, withDigits } from '@/utils/numbers';
-import ToggleButtons from './ToggleButtons';
-import Slider from './UI/Slider';
-import Result from './UI/ResultDisplay';
-import ResultDisplayProduction from './UI/ResultDisplayProduction';
-import HeroInfo from './UI/HeroInfo';
-import Hero from './UI/Hero';
+import { buildResultAtom, curveParams, showOptions, svgHeight, svgWidth } from "@/store/store";
+import { debounce } from "@/utils/debounce";
+import { clamp, withDigits } from "@/utils/numbers";
+import { pointer } from "@/utils/pointer";
+import { ControlPoint, CpType, XY } from "@/utils/svg-path-cpts";
+import { useDrag } from "@use-gesture/react";
+import { useAtom, useAtomValue } from "jotai";
+import React, { useCallback } from "react";
 
 const enum SIZES {
     rRaw = 5,               // raw point radius
@@ -104,87 +98,7 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     </g>);
 }
 
-function SliderTolerance() {
-    const [tolerance, setTolerance] = useAtom(curveParams.toleranceAtom);
-    const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
-    return (
-        <div className="flex items-center space-x-2">
-            <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
-            <div className="flex-1 h-3">
-                <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
-            </div>
-            <div className="">{tolerance}</div>
-        </div>
-    );
-}
-
-function SliderStepPoints() {
-    const [nStepPoints, setNStepPoints] = useAtom(curveParams.nStepPointsAtom);
-    const setNSetPointsDebounced = useCallback(debounce((cnt: number) => setNStepPoints(cnt)), []);
-    return (
-        <div className="flex items-center space-x-2">
-            <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Steps</div>
-            <div className="flex-1 h-3">
-                <Slider min={0} max={100} step={1} value={[nStepPoints]} onValueChange={(value: number[]) => setNSetPointsDebounced(value[0])} ariaLabel="Number of step points" />
-            </div>
-            <div className="">{nStepPoints}</div>
-        </div>
-    );
-}
-
-function SliderPrecision() {
-    // Precision of output path numbers.
-    // Precision range control has effect only on the output, so we don't need it.
-    const [precision, setPrecision] = useAtom(curveParams.precisionAtom);
-    return (
-        <div className="flex items-center space-x-2">
-            <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
-            <div className="flex-1 h-3">
-                <Slider min={0} max={9} step={1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
-            </div>
-            <div className="">{precision}</div>
-        </div>
-    );
-}
-
-function Header() {
-    return (
-        <div className="col-span-full my-0 md:my-4 lg:my-0 hidden sm:grid auto-cols-fr">
-            <Hero className="h-12 md:h-16 text-primary-900 opacity-75 md:opacity-50" />
-            <HeroInfo className="text-sm md:text-lg text-primary-100 opacity-90" />
-        </div>
-    );
-}
-
-function Controls({ points, setPoints, controlPoints }: {
-    points: [number, number][];
-    setPoints: React.Dispatch<React.SetStateAction<[number, number][]>>;
-    controlPoints: {
-        points: XY[];
-        controls: ControlPoint[];
-    };
-}) {
-    return (<>
-        <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
-            <SliderTolerance />
-            <SliderStepPoints />
-            {/* <SliderPrecision /> */}
-
-            <div className="flex justify-between">
-                <ToggleButtons />
-                <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])} title="Clear canvas points">Clear</button>
-            </div>
-        </div>
-
-        {/* In and out points stats */}
-        <div className="col-span-full">
-            <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
-            {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
-        </div>
-    </>);
-}
-
-function Editor() {
+export function Editor1_Canvas() {
     const svgRef = React.useRef<SVGSVGElement>(null);
 
     const [points, setPoints] = useAtom(curveParams.pointsAtom);
@@ -231,23 +145,6 @@ function Editor() {
                 <RenderStepRawPoints pts={stepPoints} />
             </svg>
         </div>
-        <Controls points={points} setPoints={setPoints} controlPoints={controlPoints} />
+
     </>);
 }
-
-const PathSimplifyReact: React.FC<{}> = () => {
-    return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
-            {/* Hero and instructions */}
-            <Header />
-
-            {/* Canvas */}
-            <Editor />
-
-            {/* Controls */}
-            {/* <Controls points={points} setPoints={setPoints} controlPoints={controlPoints} /> */}
-        </div>
-    );
-};
-
-export default PathSimplifyReact;
