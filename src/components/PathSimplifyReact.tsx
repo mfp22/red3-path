@@ -12,9 +12,10 @@ import ResultDisplayProduction from './UI/ResultDisplayProduction';
 import HeroInfo from './UI/HeroInfo';
 import Hero from './UI/Hero';
 import { SVG } from '@svgdotjs/svg.js';
-import { curveParams, showOptions } from '@/store/store';
+import { buildResultAtom, curveParams, Point, showOptions, svgHeight, svgWidth } from '@/store/store';
 import { useAtom, useAtomValue } from 'jotai';
 
+/*
 function getPath(points: [number, number][], tolerance: number, precision: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
 
@@ -28,6 +29,7 @@ function getPathPoints(pathStr: string) {
         controls: tuples.length > 1 ? getControlPoints(tuples) : [],
     };
 }
+*/
 
 const enum SIZES {
     rRaw = 5,               // raw point radius
@@ -120,6 +122,7 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
     </g>);
 }
 
+/*
 interface PathSimplifyReactProps {
 }
 
@@ -144,6 +147,7 @@ function svgCalcStepPoints(pathStr: string, points: number, svgWidth: number, sv
     }
     return res;
 }
+*/
 
 function SliderTolerance() {
     const [tolerance, setTolerance] = useAtom(curveParams.toleranceAtom);
@@ -198,7 +202,9 @@ function Header() {
 }
 
 function Controls({ points, setPoints, controlPoints }: {
-    points: [number, number][]; setPoints: React.Dispatch<React.SetStateAction<[number, number][]>>; controlPoints: {
+    points: [number, number][];
+    setPoints: React.Dispatch<React.SetStateAction<[number, number][]>>;
+    controlPoints: {
         points: XY[];
         controls: ControlPoint[];
     };
@@ -224,16 +230,16 @@ function Controls({ points, setPoints, controlPoints }: {
 }
 
 function Editor() {
-    const svgWidth = 500;
-    const svgHeight = 500;
+    // const svgWidth = 500;
+    // const svgHeight = 500;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
-    
+
     const [points, setPoints] = useAtom(curveParams.pointsAtom);
     const tolerance = useAtomValue(curveParams.toleranceAtom);
     const precision = useAtomValue(curveParams.precisionAtom);
     const nStepPoints = useAtomValue(curveParams.nStepPointsAtom);
-    
+
     const showLine = useAtomValue(showOptions.showLineAtom);
     const showRaw = useAtomValue(showOptions.showRawAtom);
     const showPts = useAtomValue(showOptions.showPtsAtom);
@@ -259,9 +265,11 @@ function Editor() {
         // }
     });
 
-    const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
-    const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
-    const stepPoints = React.useMemo(() => svgCalcStepPoints(path, nStepPoints, svgWidth, svgHeight), [path, nStepPoints]);
+    const {path,controlPoints,stepPoints,    } = useAtomValue(buildResultAtom);
+
+    // const path = React.useMemo(() => getPath(points, tolerance, precision), [points, tolerance, precision]);
+    // const controlPoints = React.useMemo(() => getPathPoints(path), [path]);
+    // const stepPoints = React.useMemo(() => svgCalcStepPoints(path, nStepPoints, svgWidth, svgHeight), [path, nStepPoints]);
 
     return (<>
         <div className="col-span-1 lg:col-span-2">
@@ -282,7 +290,7 @@ function Editor() {
     </>);
 }
 
-const PathSimplifyReact: React.FC<PathSimplifyReactProps> = () => {
+const PathSimplifyReact: React.FC<{}> = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 max-w-[420px] md:max-w-[480px] lg:max-w-full gap-4 text-gray-700 select-none">
             {/* Hero and instructions */}
