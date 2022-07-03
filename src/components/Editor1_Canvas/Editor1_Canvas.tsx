@@ -19,14 +19,16 @@ const enum SIZES {
 }
 
 export const enum COLORS {
-    strkRaw = 'blue',          // raw point stroke
-    fillRaw = '#0085ff',       // raw point fill
-    strkCpt = 'red',           // smooth point stroke
-    fillCpt = '#ffa500',       // smooth point fill
-    strkHandle = 'maroon',     // circle control point handle stroke
-    fillHandle = 'tomato',     // circle control point handle fill
-    strkLineLower = '#ff8422', // lower line stroke
-    strkLineUpper = '#ffdb00', // upper line stroke
+    strkRaw = '#2b2bff',         // raw point stroke
+    fillRaw = '#0085ff80',       // raw point fill
+    strkCpt = '#b83a00',         // smooth point stroke
+    fillCpt = '#ffa50080',       // smooth point fill
+    strkStep = '#2b2bff',        // step point stroke
+    fillStep = '#ff000080',      // step point fill
+    strkHandle = '#ff0000',      // circle control point handle stroke
+    fillHandle = '#ff634780',    // circle control point handle fill
+    strkLineLower = '#ff842280', // lower line stroke
+    strkLineUpper = '#ffdb0080', // upper line stroke
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
@@ -69,7 +71,7 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
 }
 
 function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.strkRaw, fill: 'red', ...rest };
+    rest = { stroke: COLORS.strkStep, fill: COLORS.fillStep, ...rest };
     return (
         <g {...rest}>
             {pts.map(([x, y], idx) => (
@@ -87,7 +89,7 @@ function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & Re
 }
 
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: SIZES.rCpt, stroke: COLORS.strkCpt, fill: COLORS.fillCpt, ...rest }; // orange 50%
+    rest = { stroke: COLORS.strkCpt, fill: COLORS.fillCpt, r: SIZES.rCpt, ...rest }; // orange 50%
     return (
         <g>
             {pts.map(({ x, y }, index) => (
