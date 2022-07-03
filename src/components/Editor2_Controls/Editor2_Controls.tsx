@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
-import { buildResultAtom, curveParams } from "@/store/store";
-import { useAtom, useAtomValue } from "jotai";
-import Slider from '../UI/Slider';
+import { useAtom, useSetAtom } from "jotai";
+import { curveParams } from "@/store/store";
 import { debounce } from "@/utils/debounce";
-import ToggleButtons from "../ToggleButtons";
 import { withDigits } from "@/utils/numbers";
+import Slider from '../UI/Slider';
+import ToggleButtons from "../ToggleButtons";
 
 function SliderTolerance() {
     const [tolerance, setTolerance] = useAtom(curveParams.toleranceAtom);
@@ -13,7 +13,12 @@ function SliderTolerance() {
         <div className="flex items-center space-x-2">
             <div className="min-w-[3.7rem]" title="Path tolerance">Tolerance</div>
             <div className="flex-1 h-3">
-                <Slider min={0} max={400} step={0.1} value={[tolerance]} onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))} ariaLabel="Tolerance control" />
+                <Slider
+                    min={0} max={400} step={0.1}
+                    value={[tolerance]}
+                    onValueChange={(value: number[]) => setToleranceDebounced(+withDigits(value[0], 0))}
+                    ariaLabel="Tolerance control"
+                />
             </div>
             <div className="">{tolerance}</div>
         </div>
@@ -27,7 +32,12 @@ function SliderStepPoints() {
         <div className="flex items-center space-x-2">
             <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Steps</div>
             <div className="flex-1 h-3">
-                <Slider min={0} max={100} step={1} value={[nStepPoints]} onValueChange={(value: number[]) => setNSetPointsDebounced(value[0])} ariaLabel="Number of step points" />
+                <Slider
+                    min={0} max={100} step={1}
+                    value={[nStepPoints]}
+                    onValueChange={(value: number[]) => setNSetPointsDebounced(value[0])}
+                    ariaLabel="Number of step points"
+                />
             </div>
             <div className="">{nStepPoints}</div>
         </div>
@@ -42,27 +52,38 @@ function SliderPrecision() {
         <div className="flex items-center space-x-2">
             <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
             <div className="flex-1 h-3">
-                <Slider min={0} max={9} step={1} value={[precision]} onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))} ariaLabel="Precision control" />
+                <Slider
+                    min={0} max={9} step={1}
+                    value={[precision]}
+                    onValueChange={(value: number[]) => setPrecision(+withDigits(value[0], 0))}
+                    ariaLabel="Precision control"
+                />
             </div>
             <div className="">{precision}</div>
         </div>
     );
 }
 
-
 export function Editor2_Controls() {
-    const [points, setPoints] = useAtom(curveParams.pointsAtom);
-    const { controlPoints } = useAtomValue(buildResultAtom);
-    return (<>
+    const setPoints = useSetAtom(curveParams.pointsAtom);
+    return (
         <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
+
             <SliderTolerance />
             <SliderStepPoints />
             {/* <SliderPrecision /> */}
 
             <div className="flex justify-between">
                 <ToggleButtons />
-                <button className="p-1 border border-primary-700 rounded shadow active:scale-[.97]" onClick={() => setPoints([])} title="Clear canvas points">Clear</button>
+
+                <button
+                    className="p-1 border border-primary-700 rounded shadow active:scale-[.97]"
+                    onClick={() => setPoints([])}
+                    title="Clear canvas points"
+                >
+                    Clear
+                </button>
             </div>
         </div>
-    </>);
+    );
 }

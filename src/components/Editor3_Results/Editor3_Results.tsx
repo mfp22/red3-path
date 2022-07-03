@@ -10,7 +10,12 @@ export function Editor3_Results() {
     return (
         <div className="col-span-full">
             {/* In and out points stats */}
-            <ResultDisplayProduction pointsSrc={points.length} pointsDst={controlPoints.points.length} />
+            
+            <ResultDisplayProduction
+                pointsSrc={points.length}
+                pointsDst={controlPoints.points.length}
+            />
+
             {/* <Result pointsSrc={points.length} pointsDst={controlPoints.points.length} /> */}
         </div>
     );
