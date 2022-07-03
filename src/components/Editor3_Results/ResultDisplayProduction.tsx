@@ -54,6 +54,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
     return (
         <div className="flex justify-center text-gray-300">
             <div className="w-full grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
+
                 {/* Left */}
                 <DisplayColumn number={pointsSrc} caption="Source points" title="Number of source points" alignRight={true}>
                     <IconSteps />
@@ -70,6 +71,7 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                 <DisplayColumn number={pointsDst} caption="Smooth points" title="Number of smooth points">
                     <IconBike />
                 </DisplayColumn>
+                
             </div>
         </div>
     );

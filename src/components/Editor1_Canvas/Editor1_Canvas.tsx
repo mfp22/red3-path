@@ -18,19 +18,19 @@ const enum SIZES {
     wLineUpper = 2,         // upper line width
 }
 
-const enum COLORS {
-    sRaw = 'blue',          // raw point stroke
-    fRaw = '#0085ff',       // raw point fill
-    sCpt = 'red',           // smooth point stroke
-    fCpt = '#ffa500',       // smooth point fill
-    sHandle = 'maroon',     // circle control point handle stroke
-    fHandle = 'tomato',     // circle control point handle fill
-    slineLower = '#ff8422', // lower line stroke
-    slineUpper = '#ffdb00', // upper line stroke
+export const enum COLORS {
+    strkRaw = 'blue',          // raw point stroke
+    fillRaw = '#0085ff',       // raw point fill
+    strkCpt = 'red',           // smooth point stroke
+    fillCpt = '#ffa500',       // smooth point fill
+    strkHandle = 'maroon',     // circle control point handle stroke
+    fillHandle = 'tomato',     // circle control point handle fill
+    strkLineLower = '#ff8422', // lower line stroke
+    strkLineUpper = '#ffdb00', // upper line stroke
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.sRaw, fill: COLORS.fRaw, ...rest };
+    rest = { stroke: COLORS.strkRaw, fill: COLORS.fillRaw, ...rest };
     return (
         <g {...rest}>
             {pts.map(([x, y], idx) => (
@@ -47,16 +47,16 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
             {/*
             {pts.map(([x, y], index) => (
                 <React.Fragment key={index}>
-                    <circle 
-                        cx={x} 
-                        cy={y} 
+                    <circle
+                        cx={x}
+                        cy={y}
                         {...rest}
                     >
                         <title>{index}: x:{x} y: {y}</title>
                     </circle>
-                    <text 
-                        x={x + 7} 
-                        y={y} 
+                    <text
+                        x={x + 7}
+                        y={y}
                         fontSize="7" stroke="none"
                     >
                         {index}
@@ -69,7 +69,7 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
 }
 
 function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.sRaw, fill: 'red', ...rest };
+    rest = { stroke: COLORS.strkRaw, fill: 'red', ...rest };
     return (
         <g {...rest}>
             {pts.map(([x, y], idx) => (
@@ -87,7 +87,7 @@ function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & Re
 }
 
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { r: SIZES.rCpt, stroke: COLORS.sCpt, fill: COLORS.fCpt, ...rest }; // orange 50%
+    rest = { r: SIZES.rCpt, stroke: COLORS.strkCpt, fill: COLORS.fillCpt, ...rest }; // orange 50%
     return (
         <g>
             {pts.map(({ x, y }, index) => (
@@ -115,7 +115,7 @@ function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGEl
 }
 
 function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.sHandle, fill: COLORS.fHandle, strokeWidth: '1', ...rest };
+    rest = { stroke: COLORS.strkHandle, fill: COLORS.fillHandle, strokeWidth: '1', ...rest };
     return (
         <g {...rest}>
             {cpts.map((cpt, index) => (
@@ -144,7 +144,7 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 }
 
 function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.sHandle, fill: COLORS.fHandle, strokeWidth: '1', ...rest };
+    rest = { stroke: COLORS.strkHandle, fill: COLORS.fillHandle, strokeWidth: '1', ...rest };
     return (
         <g {...rest}>
             {cpts.map((cpt, index) => (
@@ -212,8 +212,8 @@ export function Editor1_Canvas() {
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showLine &&
                     <>
-                        <path fill="none" stroke={COLORS.slineLower} strokeWidth={SIZES.wLineLower} d={path} />
-                        <path fill="none" stroke={COLORS.slineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
+                        <path fill="none" stroke={COLORS.strkLineLower} strokeWidth={SIZES.wLineLower} d={path} />
+                        <path fill="none" stroke={COLORS.strkLineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
                     </>
                 }
 

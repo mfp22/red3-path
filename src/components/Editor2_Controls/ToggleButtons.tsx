@@ -16,7 +16,7 @@ function ToogleButton({ children, toggleAtom, title }: { children: ReactNode; to
     );
 }
 
-const ToggleButtons: React.FC = () => {
+export function ToggleButtons() {
     return (
         <div className="flex space-x-1">
             <ToogleButton toggleAtom={showOptions.showRawAtom} title="Show raw points">
@@ -48,6 +48,4 @@ const ToggleButtons: React.FC = () => {
             </ToogleButton>
         </div>
     );
-};
-
-export default ToggleButtons;
+}
