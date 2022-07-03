@@ -2,7 +2,6 @@ import React, { useCallback, useContext } from 'react';
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { useDrag } from '@use-gesture/react';
 import { pointer } from '@/utils/pointer';
-import { PathSimplifyContext } from '@/store/PathSimplify';
 import { debounce } from '@/utils/debounce';
 import { ControlPoint, CpType, getControlPoints, getPoints, parsePathString, pathToAbsolute, XY } from '@/utils/svg-path-cpts';
 import { clamp, withDigits } from '@/utils/numbers';
@@ -13,6 +12,8 @@ import ResultDisplayProduction from './UI/ResultDisplayProduction';
 import HeroInfo from './UI/HeroInfo';
 import Hero from './UI/Hero';
 import { SVG } from '@svgdotjs/svg.js';
+import { curveParams, showOptions } from '@/store/store';
+import { useAtom, useAtomValue } from 'jotai';
 
 function getPath(points: [number, number][], tolerance: number, precision: number) {
     //console.log(`points\n${JSON.stringify(points.map(pt => [+withDigits(pt[0], 0), +withDigits(pt[1], 0)]))}`);
@@ -145,7 +146,7 @@ function svgCalcStepPoints(pathStr: string, points: number, svgWidth: number, sv
 }
 
 function SliderTolerance() {
-    const { tolerance, setTolerance, } = useContext(PathSimplifyContext);
+    const [tolerance, setTolerance] = useAtom(curveParams.toleranceAtom);
     const setToleranceDebounced = useCallback(debounce((v: number) => setTolerance(v)), []);
     return (
         <div className="flex items-center space-x-2">
@@ -159,7 +160,7 @@ function SliderTolerance() {
 }
 
 function SliderStepPoints() {
-    const { nStepPoints, setNStepPoints, } = useContext(PathSimplifyContext);
+    const [nStepPoints, setNStepPoints] = useAtom(curveParams.nStepPointsAtom);
     const setNSetPointsDebounced = useCallback(debounce((cnt: number) => setNStepPoints(cnt)), []);
     return (
         <div className="flex items-center space-x-2">
@@ -175,7 +176,7 @@ function SliderStepPoints() {
 function SliderPrecision() {
     // Precision of output path numbers.
     // Precision range control has effect only on the output, so we don't need it.
-    const { precision, setPrecision, } = useContext(PathSimplifyContext);
+    const [precision, setPrecision] = useAtom(curveParams.precisionAtom);
     return (
         <div className="flex items-center space-x-2">
             <div className="min-w-[3.7rem]" title="Precision of numbers on a smooth path">Precision</div>
@@ -227,7 +228,16 @@ function Editor() {
     const svgHeight = 500;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
-    const { points, setPoints, tolerance, precision, nStepPoints, showLine, showRaw, showPts, showCtr, } = useContext(PathSimplifyContext);
+    
+    const [points, setPoints] = useAtom(curveParams.pointsAtom);
+    const tolerance = useAtomValue(curveParams.toleranceAtom);
+    const precision = useAtomValue(curveParams.precisionAtom);
+    const nStepPoints = useAtomValue(curveParams.nStepPointsAtom);
+    
+    const showLine = useAtomValue(showOptions.showLineAtom);
+    const showRaw = useAtomValue(showOptions.showRawAtom);
+    const showPts = useAtomValue(showOptions.showPtsAtom);
+    const showCtr = useAtomValue(showOptions.showCtrAtom);
 
     const addPoint = useCallback(debounce((pt: [number, number]) => setPoints(prev => [...prev, pt]), 50), []);
 
