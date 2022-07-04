@@ -1,5 +1,6 @@
 const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
+const { cursorMove } = require('./tailwind/tailwind-cursors');
 
 /* Tailwind original colors
 {
@@ -65,6 +66,9 @@ module.exports = {
             },
             fontFamily: {
                 'old-normal': [...defaultTheme.fontFamily.sans],
+            },
+            cursor: {
+                'tm-move': cursorMove,
             },
         },
     },
