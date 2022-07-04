@@ -6,10 +6,13 @@ import { clamp, withDigits } from "@/utils/numbers";
 import { pointer } from "@/utils/pointer";
 import { ControlPoint, CpType, XY } from "@/utils/svg-path-cpts";
 import { useDrag } from "@use-gesture/react";
+import styles from './Editor1_Canvas.module.scss';
+console.log('styles',styles);
+
 
 const enum SIZES {
-    rawRadius = 5,                  // raw point radius
-    cptRadius = 9,                  // smooth point radius
+    rawRadius = 12,                  // raw point radius
+    cptRadius = 4,                  // smooth point radius
     stepRadius = 2,                 // step point radius
 
     handleWidth = 8,                // square control point width
@@ -23,7 +26,7 @@ const enum SIZES {
 
 export const enum COLORS {
     rawStrk = '#2b2bff',          // raw point stroke
-    rawFill = '#0085ff80',        // raw point fill
+    rawFill = '#0085ffa0',        // raw point fill
 
     cptStrk = '#b83a00',          // smooth point stroke
     cptFill = '#ffa50080',        // smooth point fill
@@ -39,9 +42,8 @@ export const enum COLORS {
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.rawStrk, fill: COLORS.rawFill, ...rest };
     return (
-        <g {...rest}>
+        <g className={styles.pointRaw} data-row {...rest}>
             {pts.map(([x, y], idx) => (
                 <circle
                     cx={x}
@@ -78,7 +80,6 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
 }
 
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.cptStrk, fill: COLORS.cptFill, r: SIZES.cptRadius, ...rest }; // orange 50%
     return (
         <g>
             {pts.map(({ x, y }, index) => (
@@ -86,6 +87,8 @@ function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGEl
                     <circle
                         cx={x}
                         cy={y}
+                        r={SIZES.cptRadius}
+                        className={styles.pointCtrl}
                         {...rest}
                     >
                         <title>Index: {index}: Location: {withDigits(x, 0)} x {withDigits(y, 0)}</title>
@@ -106,9 +109,8 @@ function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGEl
 }
 
 function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.handleStrk, fill: COLORS.handleFill, strokeWidth: '1', ...rest };
     return (
-        <g {...rest}>
+        <g className={styles.handle} {...rest}>
             {cpts.map((cpt, index) => (
                 <React.Fragment key={index}>
                     <rect
@@ -135,9 +137,8 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 }
 
 function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.handleStrk, fill: COLORS.handleFill, strokeWidth: '1', ...rest };
     return (
-        <g {...rest}>
+        <g className={styles.handle} {...rest}>
             {cpts.map((cpt, index) => (
                 <React.Fragment key={index}>
                     <circle
@@ -162,9 +163,8 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 }
 
 function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.stepStrk, fill: COLORS.stepFill, ...rest };
     return (
-        <g {...rest}>
+        <g className={styles.pointStep} {...rest}>
             {pts.map(([x, y], idx) => (
                 <circle
                     cx={x}

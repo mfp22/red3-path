@@ -1,0 +1,28 @@
+.pointRaw {                // raw point
+    fill: #0085ffa0;
+    stroke: #2b2bff;
+}
+
+.pointCtrl {               // control/smooth point
+    fill: #ffa50080;
+    stroke: #b83a00;
+}
+
+.pointStep {               // step point
+    fill: #ff000080;
+    stroke: #ff0000;
+}
+
+.handle {                   // control point handle
+    fill: #ffa50080;
+    stroke: #b83a00;
+    stroke-width: 1;
+}
+
+.lineLower {
+    stroke: #ff842280;
+}
+
+.lineUpper {
+    stroke: #ffdb0080;
+}
