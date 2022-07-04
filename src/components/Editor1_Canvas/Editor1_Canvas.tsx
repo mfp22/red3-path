@@ -32,27 +32,6 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
                     <title>Index: {idx} Location: {withDigits(x, 0)} x {withDigits(y, 0)}</title>
                 </circle>
             ))}
-
-            {/*
-            {pts.map(([x, y], index) => (
-                <React.Fragment key={index}>
-                    <circle
-                        cx={x}
-                        cy={y}
-                        {...rest}
-                    >
-                        <title>{index}: x:{x} y: {y}</title>
-                    </circle>
-                    <text
-                        x={x + 7}
-                        y={y}
-                        fontSize="7" stroke="none"
-                    >
-                        {index}
-                    </text>
-                </React.Fragment>
-            ))}
-            */}
         </g>
     );
 }
@@ -101,6 +80,15 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
                         <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
                     </rect>
 
+                    <circle
+                        cx={cpt.cp.x}
+                        cy={cpt.cp.y}
+                        r={SIZES.handleRadius}
+                        fill={cpt.t === CpType.computed ? 'none' : rest.fill}
+                    >
+                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
+                    </circle>
+
                     <line
                         x1={cpt.pt.x}
                         y1={cpt.pt.y}
@@ -125,7 +113,7 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
                         r={SIZES.handleRadius}
                         fill={cpt.t === CpType.computed ? 'none' : rest.fill}
                     >
-                        <title>Command {cpt.n}: {cpt.i}: x:{withDigits(cpt.cp.x)} y: {withDigits(cpt.cp.y)}</title>
+                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
                     </circle>
                     <line
                         x1={cpt.pt.x}
@@ -196,6 +184,7 @@ export function Editor1_Canvas() {
             >
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
+                {/* {showCtr && <RenderCptsHandlesCyrcles cpts={controlPoints.controls} />} */}
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showLine &&
                     <>
