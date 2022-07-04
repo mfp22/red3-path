@@ -21,12 +21,16 @@ const enum SIZES {
 export const enum COLORS {
     strkRaw = '#2b2bff',         // raw point stroke
     fillRaw = '#0085ff80',       // raw point fill
+
     strkCpt = '#b83a00',         // smooth point stroke
     fillCpt = '#ffa50080',       // smooth point fill
+
     strkStep = '#2b2bff',        // step point stroke
     fillStep = '#ff000080',      // step point fill
+
     strkHandle = '#ff0000',      // circle control point handle stroke
     fillHandle = '#ff634780',    // circle control point handle fill
+
     strkLineLower = '#ff842280', // lower line stroke
     strkLineUpper = '#ffdb0080', // upper line stroke
 }
@@ -207,7 +211,7 @@ export function Editor1_Canvas() {
     return (
         <div className="col-span-1 lg:col-span-2">
             <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                className="w-full h-full bg-primary-300 border-primary-600 border-8 border-opacity-50 touch-none cursor-tm-point"
+                className="w-full h-full bg-slate-900 border-primary-600 border-8 border-opacity-30 touch-none cursor-tm-point"
             >
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
