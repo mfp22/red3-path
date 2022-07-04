@@ -211,7 +211,7 @@ export function Editor1_Canvas() {
     return (
         <div className="col-span-1 lg:col-span-2">
             <svg ref={svgRef} {...bind()} viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                className="w-full h-full bg-slate-900 border-primary-600 border-8 border-opacity-30 touch-none cursor-tm-point"
+                className="w-full h-full bg-primary-300 border-primary-600 border-opacity-50 border-8 touch-none cursor-tm-point"
             >
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
