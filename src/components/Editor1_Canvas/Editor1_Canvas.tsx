@@ -159,7 +159,6 @@ export function Editor1_Canvas() {
             >
                 {showPts && <RenderCpts pts={controlPoints.points} />}
                 {showCtr && <RenderCptsHandlesSquares cpts={controlPoints.controls} />}
-                {/* {showCtr && <RenderCptsHandlesCyrcles cpts={controlPoints.controls} />} */}
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showLine &&
                     <>

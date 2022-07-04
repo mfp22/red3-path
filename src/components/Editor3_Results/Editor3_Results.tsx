@@ -1,8 +1,8 @@
 import React from 'react';
 import { useAtomValue } from 'jotai';
 import { buildResultAtom, curveParams } from '@/store/store';
-import Result from './ResultDisplay';
-import ResultDisplayProduction from './ResultDisplayProduction';
+//import Result from './ResultDisplay';
+import { ResultDisplayProduction } from './ResultDisplayProduction';
 
 export function Editor3_Results() {
     const points = useAtomValue(curveParams.pointsAtom);

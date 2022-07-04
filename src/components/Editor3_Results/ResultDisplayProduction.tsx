@@ -31,7 +31,7 @@ type ColumnProps = {
 
 function DisplayColumn({ number, caption, title, alignRight: alignRight = false, children }: ColumnProps) {
     return (
-        <div className="border-8 border-primary-600 border-opacity-50 bg-primary-400 bg-opacity-50" title={title}>
+        <div className="border-8 border-primary-500 border-opacity-50 bg-primary-400 bg-opacity-50" title={title}>
             <div className="flex flex-col">
                 <div className={`text-[.7rem] md:text-sm whitespace-nowrap bg-primary-700 flex justify-between ${alignRight ? '' : 'flex-row-reverse'}`}>
                     <div className="m-4 w-8 h-8">
@@ -50,9 +50,19 @@ function DisplayColumn({ number, caption, title, alignRight: alignRight = false,
     );
 }
 
-function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
+function Arrow() {
     return (
-        <div className="flex justify-center text-gray-300">
+        <div className="pt-16 self-center text-primary-500">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </div>
+    );
+}
+
+export function ResultDisplayProduction({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number; }) {
+    return (
+        <div className="flex justify-center text-primary-200">
             <div className="w-full grid gap-x-2" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
 
                 {/* Left */}
@@ -60,21 +70,15 @@ function Result({ pointsSrc, pointsDst }: { pointsSrc: number, pointsDst: number
                     <IconSteps />
                 </DisplayColumn>
 
-                {/* Arrow */}
-                <div className="pt-16 self-center text-primary-700">
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </div>
+                <Arrow />
 
                 {/* Right */}
-                <DisplayColumn number={pointsDst} caption="Smooth points" title="Number of smooth points">
+                <DisplayColumn number={pointsDst} caption="Curve points" title="Number of smooth points">
                     <IconBike />
                 </DisplayColumn>
-                
+
             </div>
         </div>
     );
 }
 
-export default Result;
