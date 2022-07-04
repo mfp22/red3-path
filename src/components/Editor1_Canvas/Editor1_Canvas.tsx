@@ -14,8 +14,8 @@ const enum SIZES {
     rHandle = 4,            // circle control point radius
     handleTextOfsX = rCpt + 3,    // control point x text offset
     handleTextOfsY = 0,     // control point y text offset
-    wLineLower = 5,         // lower line width
-    wLineUpper = 2,         // upper line width
+    widthLineLower = 2,     // lower line width
+    widthLineUpper = 1,     // upper line width
 }
 
 export const enum COLORS {
@@ -28,8 +28,8 @@ export const enum COLORS {
     strkStep = '#2b2bff',        // step point stroke
     fillStep = '#ff000080',      // step point fill
 
-    strkHandle = '#ff0000',      // circle control point handle stroke
-    fillHandle = '#ff634780',    // circle control point handle fill
+    strkHandle = '#e00000',      // circle control point handle stroke
+    fillHandle = '#ff000066',    // circle control point handle fill
 
     strkLineLower = '#ff842280', // lower line stroke
     strkLineUpper = '#ffdb0080', // upper line stroke
@@ -218,8 +218,8 @@ export function Editor1_Canvas() {
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showLine &&
                     <>
-                        <path fill="none" stroke={COLORS.strkLineLower} strokeWidth={SIZES.wLineLower} d={path} />
-                        <path fill="none" stroke={COLORS.strkLineUpper} strokeWidth={SIZES.wLineUpper} d={path} />
+                        <path fill="none" stroke={COLORS.strkLineLower} strokeWidth={SIZES.widthLineLower} d={path} />
+                        <path fill="none" stroke={COLORS.strkLineUpper} strokeWidth={SIZES.widthLineUpper} d={path} />
                     </>
                 }
 
