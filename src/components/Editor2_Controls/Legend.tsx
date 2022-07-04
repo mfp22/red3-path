@@ -16,8 +16,8 @@ export function Legend() {
         <div className="flex items-center space-x-2 lg:flex-col lg:items-start lg:space-x-0 lg:space-y-1">
             <div className="lg:pb-1">Legend:</div>
 
-            <Dot label="raw points" color={COLORS.rawFill} stroke={COLORS.rawStrk}/>
-            <Dot label="smooth points" color={COLORS.cptFill} stroke={COLORS.cptStrk}/>
+            <Dot label="placed points" color={COLORS.rawFill} stroke={COLORS.rawStrk}/>
+            <Dot label="curve points" color={COLORS.cptFill} stroke={COLORS.cptStrk}/>
             <Dot label="steps" color={COLORS.handleFill} stroke={COLORS.handleStrk}/>
         </div>
     );

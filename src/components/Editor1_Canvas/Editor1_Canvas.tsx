@@ -28,8 +28,8 @@ export const enum COLORS {
     cptStrk = '#b83a00',          // smooth point stroke
     cptFill = '#ffa50080',        // smooth point fill
 
-    handleStrk = '#ff0000',       // circle control point handle stroke
-    handleFill = '#ff000080',     // circle control point handle fill
+    handleStrk = '#b83a00',       // circle control point handle stroke
+    handleFill = '#ffa50080',     // circle control point handle fill
 
     stepStrk = '#ff0000',         // step point stroke
     stepFill = '#ff000080',       // step point fill
