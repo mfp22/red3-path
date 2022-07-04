@@ -17,26 +17,6 @@ const enum SIZES {
     handleRadius = 4,               // circle control point radius
     handleTextOfsX = cptRadius + 3, // control point x text offset
     handleTextOfsY = 0,             // control point y text offset
-
-    lineLowerWidth = 4,             // lower line width
-    lineUpperWidth = 2,             // upper line width
-}
-
-export const enum COLORS {
-    rawStrk = '#2b2bff',          // raw point stroke
-    rawFill = '#0085ffa0',        // raw point fill
-
-    cptStrk = '#b83a00',          // smooth point stroke
-    cptFill = '#ffa50080',        // smooth point fill
-
-    handleStrk = '#b83a00',       // circle control point handle stroke
-    handleFill = '#ffa50080',     // circle control point handle fill
-
-    stepStrk = '#ff0000',         // step point stroke
-    stepFill = '#ff000080',       // step point fill
-
-    lineLowerStrk = '#ff842280',  // lower line stroke
-    lineUpperStrk = '#ffdb0080',  // upper line stroke
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
@@ -219,8 +199,8 @@ export function Editor1_Canvas() {
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showLine &&
                     <>
-                        <path fill="none" stroke={COLORS.lineLowerStrk} strokeWidth={SIZES.lineLowerWidth} d={path} />
-                        <path fill="none" stroke={COLORS.lineUpperStrk} strokeWidth={SIZES.lineUpperWidth} d={path} />
+                        <path className={styles.lineLower} d={path} />
+                        <path className={styles.lineUpper} d={path} />
                     </>
                 }
 

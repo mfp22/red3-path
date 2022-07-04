@@ -1,6 +1,4 @@
 import React, { HTMLAttributes } from 'react';
-import { classNames } from '@/utils/classnames';
-import { COLORS } from '../Editor1_Canvas/Editor1_Canvas';
 import styles from '../Editor1_Canvas/Editor1_Canvas.module.scss';
 
 function Dot({ label, className, ...rest }: { label: string; } & HTMLAttributes<HTMLDivElement>) {

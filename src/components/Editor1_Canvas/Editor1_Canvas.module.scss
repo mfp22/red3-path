@@ -33,11 +33,15 @@ $pointStepStroke: #ff0000;
 }
 
 .lineLower {
+    fill: none;
     stroke: #ff842280;
+    stroke-width: 4;
 }
 
 .lineUpper {
+    fill: none;
     stroke: #ffdb0080;
+    stroke-width: 2;
 }
 
 // legend
@@ -56,4 +60,3 @@ $pointStepStroke: #ff0000;
     background-color: $pointStepFill;
     border: 1px solid $pointStepStroke;
 }
-
