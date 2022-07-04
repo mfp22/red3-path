@@ -13,8 +13,8 @@ function Dot({ label, color, stroke, ...rest }: { label: string; color: string; 
 
 export function Legend() {
     return (
-        <div className="flex items-center space-x-2">
-            <div className="">Legend</div>
+        <div className="flex items-center space-x-2 lg:flex-col lg:items-start lg:space-x-0 lg:space-y-1">
+            <div className="lg:pb-1">Legend:</div>
 
             <Dot label="raw points" color={COLORS.fillRaw} stroke={COLORS.strkRaw}/>
             <Dot label="smooth points" color={COLORS.fillCpt} stroke={COLORS.strkCpt}/>
