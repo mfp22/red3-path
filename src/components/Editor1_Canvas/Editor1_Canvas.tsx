@@ -9,7 +9,7 @@ import { useDrag } from "@use-gesture/react";
 import styles from './Editor1_Canvas.module.scss';
 
 const enum SIZES {
-    rawRadius = 12,                  // raw point radius
+    rawRadius = 2,                  // raw point radius
     cptRadius = 4,                  // smooth point radius
     stepRadius = 2,                 // step point radius
 
@@ -66,6 +66,7 @@ function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGEl
 }
 
 function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
+    const ctrlPointTitle = (cpt: ControlPoint) => `Command ${cpt.n}: ${cpt.i}: Location: ${withDigits(cpt.cp.x, 0)} x ${withDigits(cpt.cp.y, 0)}`;
     return (
         <g className={styles.handle} {...rest}>
             {cpts.map((cpt, index) => (
@@ -77,7 +78,7 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
                         height={SIZES.handleWidth}
                         fill={cpt.t === CpType.computed ? 'none' : rest.fill}
                     >
-                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
+                        {/* <title>{ctrlPointTitle(cpt)}</title> */}
                     </rect>
 
                     <circle
@@ -86,35 +87,9 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
                         r={SIZES.handleRadius}
                         fill={cpt.t === CpType.computed ? 'none' : rest.fill}
                     >
-                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
+                        <title>{ctrlPointTitle(cpt)}</title>
                     </circle>
 
-                    <line
-                        x1={cpt.pt.x}
-                        y1={cpt.pt.y}
-                        x2={cpt.cp.x}
-                        y2={cpt.cp.y}
-                        strokeDasharray="2 2"
-                    />
-                </React.Fragment>
-            ))}
-        </g>
-    );
-}
-
-function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    return (
-        <g className={styles.handle} {...rest}>
-            {cpts.map((cpt, index) => (
-                <React.Fragment key={index}>
-                    <circle
-                        cx={cpt.cp.x}
-                        cy={cpt.cp.y}
-                        r={SIZES.handleRadius}
-                        fill={cpt.t === CpType.computed ? 'none' : rest.fill}
-                    >
-                        <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
-                    </circle>
                     <line
                         x1={cpt.pt.x}
                         y1={cpt.pt.y}
