@@ -8,42 +8,45 @@ import { ControlPoint, CpType, XY } from "@/utils/svg-path-cpts";
 import { useDrag } from "@use-gesture/react";
 
 const enum SIZES {
-    rRaw = 5,               // raw point radius
-    rCpt = 13,              // smooth point radius
-    wHandle = 8,            // square control point width
-    rHandle = 4,            // circle control point radius
-    handleTextOfsX = rCpt + 3,    // control point x text offset
-    handleTextOfsY = 0,     // control point y text offset
-    widthLineLower = 2,     // lower line width
-    widthLineUpper = 1,     // upper line width
+    rawRadius = 5,                  // raw point radius
+    cptRadius = 9,                  // smooth point radius
+    stepRadius = 2,                 // step point radius
+
+    handleWidth = 8,                // square control point width
+    handleRadius = 4,               // circle control point radius
+    handleTextOfsX = cptRadius + 3, // control point x text offset
+    handleTextOfsY = 0,             // control point y text offset
+
+    lineLowerWidth = 4,             // lower line width
+    lineUpperWidth = 2,             // upper line width
 }
 
 export const enum COLORS {
-    strkRaw = '#2b2bff',         // raw point stroke
-    fillRaw = '#0085ff80',       // raw point fill
+    rawStrk = '#2b2bff',          // raw point stroke
+    rawFill = '#0085ff80',        // raw point fill
 
-    strkCpt = '#b83a00',         // smooth point stroke
-    fillCpt = '#ffa50080',       // smooth point fill
+    cptStrk = '#b83a00',          // smooth point stroke
+    cptFill = '#ffa50080',        // smooth point fill
 
-    strkStep = '#2b2bff',        // step point stroke
-    fillStep = '#ff000080',      // step point fill
+    handleStrk = '#ff0000',       // circle control point handle stroke
+    handleFill = '#ff000080',     // circle control point handle fill
 
-    strkHandle = '#e00000',      // circle control point handle stroke
-    fillHandle = '#ff000066',    // circle control point handle fill
+    stepStrk = '#ff0000',         // step point stroke
+    stepFill = '#ff000080',       // step point fill
 
-    strkLineLower = '#ff842280', // lower line stroke
-    strkLineUpper = '#ffdb0080', // upper line stroke
+    lineLowerStrk = '#ff842280',  // lower line stroke
+    lineUpperStrk = '#ffdb0080',  // upper line stroke
 }
 
 function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.strkRaw, fill: COLORS.fillRaw, ...rest };
+    rest = { stroke: COLORS.rawStrk, fill: COLORS.rawFill, ...rest };
     return (
         <g {...rest}>
             {pts.map(([x, y], idx) => (
                 <circle
                     cx={x}
                     cy={y}
-                    r={SIZES.rRaw}
+                    r={SIZES.rawRadius}
                     key={idx}
                 >
                     <title>Index: {idx} Location: {withDigits(x, 0)} x {withDigits(y, 0)}</title>
@@ -74,26 +77,8 @@ function RenderRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.
     );
 }
 
-function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.strkStep, fill: COLORS.fillStep, ...rest };
-    return (
-        <g {...rest}>
-            {pts.map(([x, y], idx) => (
-                <circle
-                    cx={x}
-                    cy={y}
-                    r={SIZES.rRaw + 5}
-                    key={idx}
-                >
-                    <title>Index: {idx} Location: {withDigits(x, 0)} x {withDigits(y, 0)}</title>
-                </circle>
-            ))}
-        </g>
-    );
-}
-
 function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.strkCpt, fill: COLORS.fillCpt, r: SIZES.rCpt, ...rest }; // orange 50%
+    rest = { stroke: COLORS.cptStrk, fill: COLORS.cptFill, r: SIZES.cptRadius, ...rest }; // orange 50%
     return (
         <g>
             {pts.map(({ x, y }, index) => (
@@ -121,16 +106,16 @@ function RenderCpts({ pts, ...rest }: { pts: XY[]; } & React.SVGAttributes<SVGEl
 }
 
 function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.strkHandle, fill: COLORS.fillHandle, strokeWidth: '1', ...rest };
+    rest = { stroke: COLORS.handleStrk, fill: COLORS.handleFill, strokeWidth: '1', ...rest };
     return (
         <g {...rest}>
             {cpts.map((cpt, index) => (
                 <React.Fragment key={index}>
                     <rect
-                        x={cpt.cp.x - SIZES.wHandle / 2}
-                        y={cpt.cp.y - SIZES.wHandle / 2}
-                        width={SIZES.wHandle}
-                        height={SIZES.wHandle}
+                        x={cpt.cp.x - SIZES.handleWidth / 2}
+                        y={cpt.cp.y - SIZES.handleWidth / 2}
+                        width={SIZES.handleWidth}
+                        height={SIZES.handleWidth}
                         fill={cpt.t === CpType.computed ? 'none' : rest.fill}
                     >
                         <title>Command {cpt.n}: {cpt.i}: Location: {withDigits(cpt.cp.x, 0)} x {withDigits(cpt.cp.y, 0)}</title>
@@ -150,7 +135,7 @@ function RenderCptsHandlesSquares({ cpts, ...rest }: { cpts: ControlPoint[]; } &
 }
 
 function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } & React.SVGAttributes<SVGElement>) {
-    rest = { stroke: COLORS.strkHandle, fill: COLORS.fillHandle, strokeWidth: '1', ...rest };
+    rest = { stroke: COLORS.handleStrk, fill: COLORS.handleFill, strokeWidth: '1', ...rest };
     return (
         <g {...rest}>
             {cpts.map((cpt, index) => (
@@ -158,7 +143,7 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
                     <circle
                         cx={cpt.cp.x}
                         cy={cpt.cp.y}
-                        r={SIZES.rHandle}
+                        r={SIZES.handleRadius}
                         fill={cpt.t === CpType.computed ? 'none' : rest.fill}
                     >
                         <title>Command {cpt.n}: {cpt.i}: x:{withDigits(cpt.cp.x)} y: {withDigits(cpt.cp.y)}</title>
@@ -171,6 +156,24 @@ function RenderCptsHandlesCyrcles({ cpts, ...rest }: { cpts: ControlPoint[]; } &
                         strokeDasharray="2 2"
                     />
                 </React.Fragment>
+            ))}
+        </g>
+    );
+}
+
+function RenderStepRawPoints({ pts, ...rest }: { pts: [number, number][]; } & React.SVGAttributes<SVGElement>) {
+    rest = { stroke: COLORS.stepStrk, fill: COLORS.stepFill, ...rest };
+    return (
+        <g {...rest}>
+            {pts.map(([x, y], idx) => (
+                <circle
+                    cx={x}
+                    cy={y}
+                    r={SIZES.stepRadius}
+                    key={idx}
+                >
+                    <title>Index: {idx} Location: {withDigits(x, 0)} x {withDigits(y, 0)}</title>
+                </circle>
             ))}
         </g>
     );
@@ -194,8 +197,8 @@ export function Editor1_Canvas() {
         if (dragging && buttons === 1) {
             // let pt = pointer(event, ref.current).map(coord => +withDigits(coord, 0)) as [number, number];
             let pt = pointer(event as PointerEvent, svgRef.current);
-            pt[0] = clamp(pt[0], SIZES.rCpt, svgWidth - SIZES.rCpt);
-            pt[1] = clamp(pt[1], SIZES.rCpt, svgHeight - SIZES.rCpt);
+            pt[0] = clamp(pt[0], SIZES.cptRadius, svgWidth - SIZES.cptRadius);
+            pt[1] = clamp(pt[1], SIZES.cptRadius, svgHeight - SIZES.cptRadius);
             addPoint(pt);
         }
 
@@ -218,8 +221,8 @@ export function Editor1_Canvas() {
                 {showRaw && <RenderRawPoints pts={points} />}
                 {showLine &&
                     <>
-                        <path fill="none" stroke={COLORS.strkLineLower} strokeWidth={SIZES.widthLineLower} d={path} />
-                        <path fill="none" stroke={COLORS.strkLineUpper} strokeWidth={SIZES.widthLineUpper} d={path} />
+                        <path fill="none" stroke={COLORS.lineLowerStrk} strokeWidth={SIZES.lineLowerWidth} d={path} />
+                        <path fill="none" stroke={COLORS.lineUpperStrk} strokeWidth={SIZES.lineUpperWidth} d={path} />
                     </>
                 }
 
