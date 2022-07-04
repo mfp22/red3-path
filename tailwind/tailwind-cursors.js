@@ -1,5 +1,12 @@
 const SVG = require('mini-svg-data-uri');
 
+const cursorPointer = `url("${SVG(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M.6.55V14.2l.84-.07 3.65-4.01 4.91.02-.16-.5L1.02.71.6.55z"/>
+        <path fill="#fffc" d="m.6.55.42.15 8.82 8.94.15.5-4.91-.02-3.64 4.01-.83.07V.55m0-.5c-.1 0-.2.03-.29.09a.5.5 0 0 0-.21.41V14.2c0 .14.06.27.16.37.09.09.21.13.34.13h.04l.83-.07a.52.52 0 0 0 .33-.16l3.51-3.84 4.68.02c.16 0 .31-.07.4-.2a.53.53 0 0 0 .08-.44l-.15-.5a.55.55 0 0 0-.12-.21L1.38.35A.57.57 0 0 0 1.2.23L.77.08A.5.5 0 0 0 .6.05Z"/>
+    </svg>
+`)}") 0 0, auto`;
+
 const cursorMove = `url("${SVG(`
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M.6.55V14.2l.84-.07 3.65-4.01 4.91.02-.16-.5L1.02.71.6.55z"/>
@@ -10,5 +17,6 @@ const cursorMove = `url("${SVG(`
 `)}") 0 0, auto`;
 
 module.exports = {
+    cursorPointer,
     cursorMove,
 };
