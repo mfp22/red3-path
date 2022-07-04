@@ -1,19 +1,32 @@
-.pointRaw {                // raw point
-    fill: #0085ffa0;
-    stroke: #2b2bff;
+// raw point
+$pointRawFill: #0085ffa0;
+$pointRawStroke: #2b2bff;
+
+// control/smooth point
+$pointCtrlFill: #ffa50080;
+$pointCtrlStroke: #b83a00;
+
+// step point
+$pointStepFill: #ff000080;
+$pointStepStroke: #ff0000;
+
+.pointRaw {
+    fill: $pointRawFill;
+    stroke: $pointRawStroke;
 }
 
-.pointCtrl {               // control/smooth point
-    fill: #ffa50080;
-    stroke: #b83a00;
+.pointCtrl {
+    fill: $pointCtrlFill;
+    stroke: $pointCtrlStroke;
 }
 
-.pointStep {               // step point
-    fill: #ff000080;
-    stroke: #ff0000;
+.pointStep {
+    fill: $pointStepFill;
+    stroke: $pointStepStroke;
 }
 
-.handle {                   // control point handle
+// control point handle
+.handle {
     fill: #ffa50080;
     stroke: #b83a00;
     stroke-width: 1;
@@ -26,3 +39,21 @@
 .lineUpper {
     stroke: #ffdb0080;
 }
+
+// legend
+
+.legendRaw {
+    background-color: $pointRawFill;
+    border: 1px solid $pointRawStroke;
+}
+
+.legendCtrl {
+    background-color: $pointCtrlFill;
+    border: 1px solid $pointCtrlStroke;
+}
+
+.legendStep {
+    background-color: $pointStepFill;
+    border: 1px solid $pointStepStroke;
+}
+

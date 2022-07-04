@@ -7,8 +7,6 @@ import { pointer } from "@/utils/pointer";
 import { ControlPoint, CpType, XY } from "@/utils/svg-path-cpts";
 import { useDrag } from "@use-gesture/react";
 import styles from './Editor1_Canvas.module.scss';
-console.log('styles',styles);
-
 
 const enum SIZES {
     rawRadius = 12,                  // raw point radius
