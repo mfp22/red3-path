@@ -1,6 +1,6 @@
-import { createCss, StitchesCss } from "@stitches/react";
+import { createStitches, CSS as StitchesCss } from "@stitches/react";
 
-const stitchesConfig = createCss({
+const stitchesConfig = createStitches({
     // theme: {
     //     colors: {
     //         primaryHSL: "40deg 100% 66%",
@@ -107,6 +107,6 @@ const stitchesConfig = createCss({
     // },
 });
 
-export const { styled, css, keyframes, getCssString, theme } = stitchesConfig;
+export const { styled, css, keyframes, getCssText, theme } = stitchesConfig;
 
 export type CSS = StitchesCss<typeof stitchesConfig>;
