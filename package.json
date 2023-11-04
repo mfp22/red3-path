@@ -16,12 +16,16 @@
         "@pqina/flip": "^1.7.7",
         "@radix-ui/react-slider": "0.1.4",
         "@react-spring/web": "9.5.0",
+        "@state-adapt/core": "^2.0.3",
+        "@state-adapt/react": "^2.0.3",
+        "@state-adapt/rxjs": "^2.0.3",
         "@stitches/react": "1.2.8",
         "@svgdotjs/svg.js": "3.1.2",
         "@use-gesture/react": "^10.2.16",
         "jotai": "1.7.4",
         "react": "^17.0.2",
-        "react-dom": "^17.0.2"
+        "react-dom": "^17.0.2",
+        "rxjs": "^7.8.1"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
