@@ -700,24 +700,24 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@state-adapt/core@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@state-adapt/core/-/core-2.0.3.tgz#b2e4aab57a0c6a35beeee077f1fc6ffafcc3f308"
-  integrity sha512-a8o6glc4I6uS8eiH/95Rb73oPFV6bOWy8nP+q+xG86Fg1kDfyGi8TUhrvAJUBr/oHrkjEKsfsU0hQGEOmkzV4Q==
+"@state-adapt/core@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@state-adapt/core/-/core-2.0.4.tgz#addfdf8512ff947d31fc5c8d4bf29fc5058b2c36"
+  integrity sha512-MQZ0ERZJ0QZ2XJwrQSZ8sZAtbRcUHWNuKtj0FAPV8zYJlfWCUl0ikBzZwZ9t2WsertUXWZ1qOUiW2vejtJ8RAg==
   dependencies:
     tslib "^2.0.0"
 
-"@state-adapt/react@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@state-adapt/react/-/react-2.0.3.tgz#a2a23632ca737b0d6a51db4583d0db3b3b3807be"
-  integrity sha512-ZL/rR9OHQy1PruiY6hvQYeqP6/8kn30XjfqWlvNlYkYMz+GtgF8O44FIWXCiYvKmay4FmwMgkQMjCv+M8Q1tBQ==
+"@state-adapt/react@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@state-adapt/react/-/react-2.0.4.tgz#51c4f418c4f40d310589b3d11cc22f4265d33db9"
+  integrity sha512-nXL94Bf+KWCAj1EzcOZ6Jzqi/Fyl+J+/9BPPpiRBBpQHj69kaa1XlE/WrP0m1XrJeeEYI3rpp59zNia1KVa7Rg==
   dependencies:
     tslib "^2.0.0"
 
-"@state-adapt/rxjs@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@state-adapt/rxjs/-/rxjs-2.0.3.tgz#0f8ecf5f90581c96e91617845c1f52756f5f45c0"
-  integrity sha512-INZQAGzGjeZXTOXPnkp01odwa59guGLhOHidTw+MXuf7iYZjC6c7jFtmRPHAZCswNN+Az90M/OAzQEFOLMdD0g==
+"@state-adapt/rxjs@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@state-adapt/rxjs/-/rxjs-2.0.4.tgz#9baf1d822d5b63147659c4aa795171720e202951"
+  integrity sha512-oI+4PkVwbtPopdDkkq7DuwT5t0BpGHucNb6te48xlEmL62h9eyHkguCnJVHgbAuujR1c7CEF+I2qkMiOa0w45A==
   dependencies:
     tslib "^2.0.0"
 
