@@ -1,17 +1,17 @@
 import React, { ReactNode } from 'react';
-import { PrimitiveAtom, useAtom } from 'jotai';
-import { showOptions } from '@/store/store';
+import { showOptionStores } from '@/store/store';
+import { useStore } from '@state-adapt/react';
 
 function ToogleButton({
   children,
-  toggleAtom,
+  toggleStore,
   title,
 }: {
   children: ReactNode;
-  toggleAtom: PrimitiveAtom<boolean>;
+  toggleStore: (typeof showOptionStores)[keyof typeof showOptionStores];
   title: string;
 }) {
-  const [pressed, setPressed] = useAtom(toggleAtom);
+  const pressed = useStore(toggleStore).state;
   return (
     <div
       className={`w-8 h-8 active:scale-[.97] border rounded ${
@@ -24,7 +24,7 @@ function ToogleButton({
           ? '#00000010 1px 1px 2px 2px inset, #ffffff10 -2px -2px 2px 2px inset'
           : '#00000018 1px 1px 0px 1px',
       }}
-      onClick={() => setPressed(p => !p)}
+      onClick={() => toggleStore.set(!pressed)}
       title={title}
     >
       {children}
@@ -36,7 +36,7 @@ export function ToggleButtons() {
   return (
     <div className="flex space-x-1">
       <ToogleButton
-        toggleAtom={showOptions.showRawAtom}
+        toggleStore={showOptionStores.showRaw}
         title="Show raw points"
       >
         <svg
@@ -51,7 +51,7 @@ export function ToggleButtons() {
         </svg>
       </ToogleButton>
       <ToogleButton
-        toggleAtom={showOptions.showLineAtom}
+        toggleStore={showOptionStores.showLine}
         title="Show curve"
       >
         <svg
@@ -63,7 +63,7 @@ export function ToggleButtons() {
         </svg>
       </ToogleButton>
       <ToogleButton
-        toggleAtom={showOptions.showPtsAtom}
+        toggleStore={showOptionStores.showPts}
         title="Show smooth curve points"
       >
         <svg
@@ -76,7 +76,7 @@ export function ToggleButtons() {
         </svg>
       </ToogleButton>
       <ToogleButton
-        toggleAtom={showOptions.showCtrAtom}
+        toggleStore={showOptionStores.showCtr}
         title="Show smooth curve point handles"
       >
         <svg

@@ -1,12 +1,11 @@
 import React from 'react';
-import { useAtomValue } from 'jotai';
-import { buildResultAtom, curveParams } from '@/store/store';
+import { useStore } from '@state-adapt/react';
+import { curveParamStore } from '@/store/store';
 //import Result from './ResultDisplay';
 import { ResultDisplayProduction } from './ResultDisplayProduction';
 
 export function Editor3_Results() {
-  const points = useAtomValue(curveParams.pointsAtom);
-  const { controlPoints } = useAtomValue(buildResultAtom);
+  const { points, controlPoints } = useStore(curveParamStore);
   return (
     <div className="col-span-full">
       {/* In and out points stats */}

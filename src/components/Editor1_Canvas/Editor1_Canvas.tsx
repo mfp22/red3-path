@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+import React from 'react';
+import { useStore } from '@state-adapt/react';
 import {
-  buildResultAtom,
-  curveParams,
-  showOptions,
+  curveParamStore,
+  curveParamStores,
+  newPoint$,
+  showOptionStores,
   svgHeight,
   svgWidth,
 } from '@/store/store';
-import { debounce } from '@/utils/debounce';
 import { clamp, withDigits } from '@/utils/numbers';
 import { pointer } from '@/utils/pointer';
 import { ControlPoint, CpType, XY } from '@/utils/svg-path-cpts';
@@ -148,20 +148,12 @@ function RenderStepRawPoints({
 export function Editor1_Canvas() {
   const svgRef = React.useRef<SVGSVGElement>(null);
 
-  const [points, setPoints] = useAtom(curveParams.pointsAtom);
+  const points = useStore(curveParamStores.points).state;
 
-  const showLine = useAtomValue(showOptions.showLineAtom);
-  const showRaw = useAtomValue(showOptions.showRawAtom);
-  const showPts = useAtomValue(showOptions.showPtsAtom);
-  const showCtr = useAtomValue(showOptions.showCtrAtom);
-
-  const addPoint = useCallback(
-    debounce(
-      (pt: [number, number]) => setPoints(prev => [...prev, pt]),
-      50,
-    ),
-    [],
-  );
+  const showLine = useStore(showOptionStores.showLine).state;
+  const showRaw = useStore(showOptionStores.showRaw).state;
+  const showPts = useStore(showOptionStores.showPts).state;
+  const showCtr = useStore(showOptionStores.showCtr).state;
 
   const bind = useDrag(({ event, dragging, buttons }) => {
     //if (event.event.type === 'pointerdown') {}
@@ -179,7 +171,7 @@ export function Editor1_Canvas() {
         SIZES.cptRadius,
         svgHeight - SIZES.cptRadius,
       );
-      addPoint(pt);
+      newPoint$.next(pt);
     }
 
     // if (event.event.type === 'pointerup') {
@@ -190,7 +182,7 @@ export function Editor1_Canvas() {
   });
 
   const { path, controlPoints, stepPoints } =
-    useAtomValue(buildResultAtom);
+    useStore(curveParamStore);
 
   return (
     <div className="col-span-1 lg:col-span-2">

@@ -1,6 +1,3 @@
-import { atom, Getter } from 'jotai';
-import { Atomize, atomWithCallback } from '../hooks/atomsX';
-import { debounce } from '../utils/debounce';
 import {
   ControlPoint,
   getControlPoints,
@@ -12,6 +9,9 @@ import {
 import simplifyPath from '@luncheon/simplify-svg-path';
 import { SVG } from '@svgdotjs/svg.js';
 import { withDigits } from '@/utils/numbers';
+import { adapt } from '@/stateadapt';
+import { joinStores, Source } from '@state-adapt/rxjs';
+import { debounceTime } from 'rxjs';
 
 //#region LocalStorage
 
@@ -61,7 +61,7 @@ const initialPoints: [number, number][] = [
 namespace Storage {
   const KEY = 'react-d3-path';
 
-  type Store = {
+  export type Store = {
     curveParams: CurveParams;
     showOptions: ShowOptions;
   };
@@ -95,29 +95,8 @@ namespace Storage {
   }
   load();
 
-  export const saveDebounced = debounce(function _save(
-    get: Getter,
-  ) {
-    let newStore: Store = {
-      curveParams: {
-        points: get(curveParams.pointsAtom),
-        tolerance: get(curveParams.toleranceAtom),
-        precision: get(curveParams.precisionAtom),
-        nStepPoints: get(curveParams.nStepPointsAtom),
-      },
-      showOptions: {
-        showLine: get(showOptions.showLineAtom),
-        showRaw: get(showOptions.showRawAtom),
-        showPts: get(showOptions.showPtsAtom),
-        showCtr: get(showOptions.showCtrAtom),
-      },
-    };
-    localStorage.setItem(KEY, JSON.stringify(newStore));
-  },
-  1000);
-
-  export const save = ({ get }: { get: Getter }) =>
-    Storage.saveDebounced(get);
+  export const save = (state: Store) =>
+    localStorage.setItem(KEY, JSON.stringify(state));
 }
 
 //#endregion LocalStorage
@@ -131,24 +110,52 @@ type CurveParams = {
   nStepPoints: number;
 };
 
-export const curveParams: Atomize<CurveParams> = {
-  pointsAtom: atomWithCallback<Point[]>(
-    Storage.initialData.curveParams.points,
-    Storage.save,
-  ),
-  toleranceAtom: atomWithCallback<number>(
-    Storage.initialData.curveParams.tolerance,
-    Storage.save,
-  ),
-  precisionAtom: atomWithCallback<number>(
-    Storage.initialData.curveParams.precision,
-    Storage.save,
-  ),
-  nStepPointsAtom: atomWithCallback<number>(
+export const newPoint$ = new Source<Point>('newPoint$');
+export const newTolerance$ = new Source<number>('newTolerance$');
+export const newPrecision$ = new Source<number>('newPrecision$');
+export const newNStepPoints$ = new Source<number>(
+  'newNStepPoints$',
+);
+
+export const curveParamStores = {
+  points: adapt(Storage.initialData.curveParams.points, {
+    adapter: {
+      add: (state, point: Point) => [...state, point],
+    },
+    sources: {
+      add: newPoint$.pipe(debounceTime(50)),
+    },
+    path: 'points',
+  }),
+  tolerance: adapt(Storage.initialData.curveParams.tolerance, {
+    sources: newTolerance$.pipe(debounceTime(100)),
+    path: 'tolerance',
+  }),
+  precision: adapt(Storage.initialData.curveParams.precision, {
+    sources: newPrecision$.pipe(debounceTime(100)),
+    path: 'precision',
+  }),
+  nStepPoints: adapt(
     Storage.initialData.curveParams.nStepPoints,
-    Storage.save,
+    {
+      sources: newNStepPoints$.pipe(debounceTime(100)),
+      path: 'nStepPoints',
+    },
   ),
 };
+export const curveParamStore = joinStores(curveParamStores)({
+  path: s => Calc.getPath(s.points, s.tolerance, s.precision),
+})({
+  controlPoints: s => Calc.getPathPoints(s.path),
+})({
+  stepPoints: s =>
+    Calc.svgCalcStepPoints(
+      s.path,
+      s.nStepPoints,
+      svgWidth,
+      svgHeight,
+    ),
+})();
 
 type ShowOptions = {
   showLine: boolean;
@@ -157,26 +164,22 @@ type ShowOptions = {
   showCtr: boolean;
 };
 
-export const showOptions: Atomize<ShowOptions> = {
-  showLineAtom: atomWithCallback<boolean>(
-    Storage.initialData.showOptions.showLine,
-    Storage.save,
-  ),
-  showRawAtom: atomWithCallback<boolean>(
-    Storage.initialData.showOptions.showRaw,
-    Storage.save,
-  ),
-  showPtsAtom: atomWithCallback<boolean>(
-    Storage.initialData.showOptions.showPts,
-    Storage.save,
-  ),
-  showCtrAtom: atomWithCallback<boolean>(
-    Storage.initialData.showOptions.showCtr,
-    Storage.save,
-  ),
+export const showOptionStores = {
+  showLine: adapt(Storage.initialData.showOptions.showLine),
+  showRaw: adapt(Storage.initialData.showOptions.showRaw),
+  showPts: adapt(Storage.initialData.showOptions.showPts),
+  showCtr: adapt(Storage.initialData.showOptions.showCtr),
 };
+const showOptionStore = joinStores(showOptionStores)();
 
 // Derived
+export const combinedStore = joinStores({
+  curveParams: curveParamStore,
+  showOptions: showOptionStore,
+})();
+combinedStore.state$
+  .pipe(debounceTime(1000))
+  .subscribe(Storage.save);
 
 export const svgWidth = 500;
 export const svgHeight = 500;
@@ -241,24 +244,3 @@ namespace Calc {
     return res;
   }
 } //namespace Calc
-
-export const buildResultAtom = atom<BuildResult>(get => {
-  const points = get(curveParams.pointsAtom);
-  const tolerance = get(curveParams.toleranceAtom);
-  const precision = get(curveParams.precisionAtom);
-  const nStepPoints = get(curveParams.nStepPointsAtom);
-
-  const path = Calc.getPath(points, tolerance, precision);
-  const controlPoints = Calc.getPathPoints(path);
-  const stepPoints = Calc.svgCalcStepPoints(
-    path,
-    nStepPoints,
-    svgWidth,
-    svgHeight,
-  );
-  return {
-    path,
-    controlPoints,
-    stepPoints,
-  };
-});

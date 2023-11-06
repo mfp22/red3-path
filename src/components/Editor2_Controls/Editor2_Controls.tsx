@@ -1,20 +1,18 @@
-import React, { useCallback } from 'react';
-import { useAtom, useSetAtom } from 'jotai';
-import { curveParams } from '@/store/store';
-import { debounce } from '@/utils/debounce';
+import React from 'react';
+import { useStore } from '@state-adapt/react';
+import {
+  curveParamStores,
+  newNStepPoints$,
+  newPrecision$,
+  newTolerance$,
+} from '@/store/store';
 import { withDigits } from '@/utils/numbers';
 import Slider from '../UI/Slider';
 import { ToggleButtons } from './ToggleButtons';
 import { Legend } from './Legend';
 
 function SliderTolerance() {
-  const [tolerance, setTolerance] = useAtom(
-    curveParams.toleranceAtom
-  );
-  const setToleranceDebounced = useCallback(
-    debounce((v: number) => setTolerance(v)),
-    []
-  );
+  const tolerance = useStore(curveParamStores.tolerance).state;
   return (
     <div className="flex items-center space-x-2">
       <div className="min-w-[3.7rem]" title="Path tolerance">
@@ -27,7 +25,7 @@ function SliderTolerance() {
           step={0.1}
           value={[tolerance]}
           onValueChange={(value: number[]) =>
-            setToleranceDebounced(+withDigits(value[0], 0))
+            newTolerance$.next(+withDigits(value[0], 0))
           }
           ariaLabel="Tolerance control"
         />
@@ -38,13 +36,9 @@ function SliderTolerance() {
 }
 
 function SliderStepPoints() {
-  const [nStepPoints, setNStepPoints] = useAtom(
-    curveParams.nStepPointsAtom
-  );
-  const setNSetPointsDebounced = useCallback(
-    debounce((cnt: number) => setNStepPoints(cnt)),
-    []
-  );
+  const nStepPoints = useStore(
+    curveParamStores.nStepPoints,
+  ).state;
   return (
     <div className="flex items-center space-x-2">
       <div
@@ -60,7 +54,7 @@ function SliderStepPoints() {
           step={1}
           value={[nStepPoints]}
           onValueChange={(value: number[]) =>
-            setNSetPointsDebounced(value[0])
+            newNStepPoints$.next(value[0])
           }
           ariaLabel="Number of step points"
         />
@@ -73,9 +67,7 @@ function SliderStepPoints() {
 function SliderPrecision() {
   // Precision of output path numbers.
   // Precision range control has effect only on the output, so we don't need it.
-  const [precision, setPrecision] = useAtom(
-    curveParams.precisionAtom
-  );
+  const precision = useStore(curveParamStores.precision).state;
   return (
     <div className="flex items-center space-x-2">
       <div
@@ -91,7 +83,7 @@ function SliderPrecision() {
           step={1}
           value={[precision]}
           onValueChange={(value: number[]) =>
-            setPrecision(+withDigits(value[0], 0))
+            newPrecision$.next(+withDigits(value[0], 0))
           }
           ariaLabel="Precision control"
         />
@@ -102,7 +94,6 @@ function SliderPrecision() {
 }
 
 export function Editor2_Controls() {
-  const setPoints = useSetAtom(curveParams.pointsAtom);
   return (
     <div className="lg:min-w-[20rem] p-4 space-y-4 bg-primary-300 text-sm border-primary-600 border-8 border-opacity-50">
       <SliderTolerance />
@@ -114,7 +105,7 @@ export function Editor2_Controls() {
 
         <button
           className="p-1 border border-primary-700 rounded shadow active:scale-[.97]"
-          onClick={() => setPoints([])}
+          onClick={() => curveParamStores.points.set([])}
           title="Clear canvas points"
         >
           Clear
